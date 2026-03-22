@@ -109,7 +109,7 @@ function buildSlugMap<T extends { slug: string }>(records: T[], label: string): 
   return map;
 }
 
-function assertSortedPositions(entries: Array<{ position: number }>, label: string) {
+function assertUniquePositions(entries: Array<{ position: number }>, label: string) {
   const positions = entries.map((entry) => entry.position);
   const uniquePositions = new Set(positions);
 
@@ -119,6 +119,19 @@ function assertSortedPositions(entries: Array<{ position: number }>, label: stri
 }
 
 function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAliasRecord[]) {
+  const lookupTerms = new Map<string, string>();
+
+  for (const tune of tunes.values()) {
+    const normalizedTuneName = normalizeSearchTerm(tune.name);
+    const existingTuneId = lookupTerms.get(normalizedTuneName);
+
+    if (existingTuneId && existingTuneId !== tune.id) {
+      throw new Error(`Lookup term ${normalizedTuneName} resolves to multiple tunes`);
+    }
+
+    lookupTerms.set(normalizedTuneName, tune.id);
+  }
+
   for (const alias of aliases) {
     if (!tunes.has(alias.tuneId)) {
       throw new Error(`Alias ${alias.id} references unknown tune ${alias.tuneId}`);
@@ -127,6 +140,14 @@ function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAlia
     if (alias.normalizedName !== normalizeSearchTerm(alias.name)) {
       throw new Error(`Alias ${alias.id} does not match its normalizedName`);
     }
+
+    const existingTuneId = lookupTerms.get(alias.normalizedName);
+
+    if (existingTuneId && existingTuneId !== alias.tuneId) {
+      throw new Error(`Lookup term ${alias.normalizedName} resolves to multiple tunes`);
+    }
+
+    lookupTerms.set(alias.normalizedName, alias.tuneId);
   }
 }
 
@@ -138,8 +159,10 @@ function assertChartInvariants(tunes: Map<string, TuneRecord>, charts: ChartReco
       throw new Error(`Chart ${chart.id} references unknown tune ${chart.tuneId}`);
     }
 
-    if (chart.visibility === "private") {
-      throw new Error(`Catalog charts must not be private (${chart.id})`);
+    // The wider enum reserves room for future unlisted support, but issue #3
+    // only admits public catalog content plus private gig sheets.
+    if (chart.visibility !== "public") {
+      throw new Error(`Release 1 catalog charts must stay public (${chart.id})`);
     }
 
     chartCountByTuneId.set(chart.tuneId, (chartCountByTuneId.get(chart.tuneId) ?? 0) + 1);
@@ -158,11 +181,11 @@ function assertSetInvariants(
   sets: SetRecord[],
 ) {
   for (const setRecord of sets) {
-    if (setRecord.visibility === "private") {
-      throw new Error(`Catalog sets must not be private (${setRecord.id})`);
+    if (setRecord.visibility !== "public") {
+      throw new Error(`Release 1 catalog sets must stay public (${setRecord.id})`);
     }
 
-    assertSortedPositions(setRecord.entries, `Set ${setRecord.id}`);
+    assertUniquePositions(setRecord.entries, `Set ${setRecord.id}`);
 
     for (const entry of setRecord.entries) {
       const tune = tunes.get(entry.tuneId);
@@ -189,7 +212,7 @@ function assertGigSheetInvariants(store: Release1Store, sets: Map<string, SetRec
       throw new Error(`Gig sheets must stay private (${gigSheet.id})`);
     }
 
-    assertSortedPositions(gigSheet.entries, `Gig sheet ${gigSheet.id}`);
+    assertUniquePositions(gigSheet.entries, `Gig sheet ${gigSheet.id}`);
 
     for (const entry of gigSheet.entries) {
       if (!sets.has(entry.setId)) {
@@ -247,8 +270,12 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
   const store = release1StoreSchema.parse(input);
 
   const tunesById = buildIdMap(store.tunes, "tune");
+  buildSlugMap(store.tunes, "tune");
+  buildIdMap(store.tuneAliases, "tune alias");
   const chartsById = buildIdMap(store.charts, "chart");
+  buildSlugMap(store.charts, "chart");
   const setsById = buildIdMap(store.sets, "set");
+  buildSlugMap(store.sets, "set");
   const gigSheetsBySlug = buildSlugMap(store.gigSheets, "gig sheet");
   const aliasesByTuneId = new Map<string, string[]>();
 
@@ -323,9 +350,7 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
     findPublicTuneByAlias(term: string) {
       const normalizedTerm = normalizeSearchTerm(term);
       const directTune = publicTunes.find(
-        (tune) =>
-          tune.slug === normalizedTerm.replace(/\s+/g, "-") ||
-          normalizeSearchTerm(tune.name) === normalizedTerm,
+        (tune) => normalizeSearchTerm(tune.name) === normalizedTerm,
       );
 
       if (directTune) {
