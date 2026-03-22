@@ -1,0 +1,191 @@
+import type { Release1Store } from "@/lib/release-1/schema";
+
+export const release1FixtureStore = {
+  tunes: [
+    {
+      id: "lantern-reel",
+      slug: "lantern-reel",
+      name: "The Lantern Reel",
+      tuneType: "Reel",
+      summary: "A bright opener used to prove the Release 1 tune and chart contract.",
+    },
+    {
+      id: "market-house-reel",
+      slug: "market-house-reel",
+      name: "Market House Reel",
+      tuneType: "Reel",
+      summary: "A second reel fixture that shares a set with the Lantern Reel.",
+    },
+    {
+      id: "harbour-lilt-jig",
+      slug: "harbour-lilt-jig",
+      name: "Harbour Lilt Jig",
+      tuneType: "Jig",
+      summary: "A jig fixture that demonstrates alias lookup and set ordering.",
+    },
+    {
+      id: "winter-elm-jig",
+      slug: "winter-elm-jig",
+      name: "Winter Elm Jig",
+      tuneType: "Jig",
+      summary: "A closing jig used to prove multi-set gig-sheet composition.",
+    },
+  ],
+  tuneAliases: [
+    {
+      id: "lantern-reel-lanterns-at-dawn",
+      tuneId: "lantern-reel",
+      name: "Lanterns at Dawn",
+      normalizedName: "lanterns at dawn",
+    },
+    {
+      id: "lantern-reel-lantern-tune",
+      tuneId: "lantern-reel",
+      name: "Lantern Tune",
+      normalizedName: "lantern tune",
+    },
+    {
+      id: "market-house-reel-market-arch",
+      tuneId: "market-house-reel",
+      name: "Market Arch Reel",
+      normalizedName: "market arch reel",
+    },
+    {
+      id: "market-house-reel-market-house",
+      tuneId: "market-house-reel",
+      name: "Market House",
+      normalizedName: "market house",
+    },
+    {
+      id: "harbour-lilt-jig-harbour-lilt",
+      tuneId: "harbour-lilt-jig",
+      name: "Harbour Lilt",
+      normalizedName: "harbour lilt",
+    },
+    {
+      id: "harbour-lilt-jig-lilt-by-the-quay",
+      tuneId: "harbour-lilt-jig",
+      name: "Lilt by the Quay",
+      normalizedName: "lilt by the quay",
+    },
+    {
+      id: "winter-elm-jig-elm-tree-jig",
+      tuneId: "winter-elm-jig",
+      name: "Elm Tree Jig",
+      normalizedName: "elm tree jig",
+    },
+    {
+      id: "winter-elm-jig-winter-elm",
+      tuneId: "winter-elm-jig",
+      name: "Winter Elm",
+      normalizedName: "winter elm",
+    },
+  ],
+  charts: [
+    {
+      id: "lantern-reel-chart",
+      slug: "lantern-reel-chart",
+      tuneId: "lantern-reel",
+      title: "The Lantern Reel",
+      key: "D",
+      mode: "Mixolydian",
+      meter: "4/4",
+      contentMarkdown: "| D | G | D | A |\n| D | G | Em A | D |",
+      visibility: "public",
+    },
+    {
+      id: "market-house-reel-chart",
+      slug: "market-house-reel-chart",
+      tuneId: "market-house-reel",
+      title: "Market House Reel",
+      key: "G",
+      mode: "Ionian",
+      meter: "4/4",
+      contentMarkdown: "| G | D | Em | C |\n| G | D | C D | G |",
+      visibility: "public",
+    },
+    {
+      id: "harbour-lilt-jig-chart",
+      slug: "harbour-lilt-jig-chart",
+      tuneId: "harbour-lilt-jig",
+      title: "Harbour Lilt Jig",
+      key: "D",
+      mode: "Dorian",
+      meter: "6/8",
+      contentMarkdown: "| Dm | G | Dm | A |\n| Dm | G | A | Dm |",
+      visibility: "public",
+    },
+    {
+      id: "winter-elm-jig-chart",
+      slug: "winter-elm-jig-chart",
+      tuneId: "winter-elm-jig",
+      title: "Winter Elm Jig",
+      key: "A",
+      mode: "Aeolian",
+      meter: "6/8",
+      contentMarkdown: "| Am | G | Am | Em |\n| Am | G | Em | Am |",
+      visibility: "public",
+    },
+  ],
+  sets: [
+    {
+      id: "lantern-opening-pair",
+      slug: "lantern-opening-pair",
+      name: "Lantern Opening Pair",
+      summary: "Two reels that prove set ordering and chart references.",
+      visibility: "public",
+      entries: [
+        {
+          position: 1,
+          tuneId: "lantern-reel",
+          chartId: "lantern-reel-chart",
+        },
+        {
+          position: 2,
+          tuneId: "market-house-reel",
+          chartId: "market-house-reel-chart",
+        },
+      ],
+    },
+    {
+      id: "jigs-for-last-orders",
+      slug: "jigs-for-last-orders",
+      name: "Jigs for Last Orders",
+      summary: "A pair of jigs that feeds the private gig-sheet fixture.",
+      visibility: "public",
+      entries: [
+        {
+          position: 1,
+          tuneId: "harbour-lilt-jig",
+          chartId: "harbour-lilt-jig-chart",
+        },
+        {
+          position: 2,
+          tuneId: "winter-elm-jig",
+          chartId: "winter-elm-jig-chart",
+        },
+      ],
+    },
+  ],
+  gigSheets: [
+    {
+      id: "st-paddys-day",
+      slug: "st-paddys-day",
+      name: "St. Paddy's Day Warm-Up",
+      summary: "A private owner fixture that links ordered public sets into one gig sheet.",
+      visibility: "private",
+      entries: [
+        {
+          position: 1,
+          setId: "lantern-opening-pair",
+          transitionNotes: "Hold the final D for two extra beats before the count-in.",
+        },
+        {
+          position: 2,
+          setId: "jigs-for-last-orders",
+          transitionNotes: "Use a spoken cue, then drop straight into the jig pulse.",
+        },
+      ],
+    },
+  ],
+} satisfies Release1Store;

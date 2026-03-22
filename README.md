@@ -52,9 +52,10 @@ needs clean chord charts for sessions and gigs.
 ## Project Status
 
 Early development — the repo now includes a Next.js app scaffold, local
-tooling, and Firebase deployment hooks for the first Release 1 implementation
-work. The real catalog, auth, import, and private gig behavior still lands in
-later issues.
+tooling, Firebase deployment hooks, and a validated fixture-backed Release 1
+schema/persistence layer for tunes, charts, public sets, and private gig
+sheets. Real external seed import, auth enforcement, and richer catalog/search
+behavior still land in later issues.
 
 ## Local Development
 
@@ -86,6 +87,10 @@ variables yet.
 
 - The app currently builds in Next.js static-export mode, so it does **not**
   support API routes, middleware, or other server-only Next.js features yet.
+- The catalog currently reads from checked-in fixture modules under
+  `src/data/release-1/`, validated with runtime schemas during build and test.
+- Real external chart/set/gig import is still deferred to the later import
+  issue.
 - Firebase Hosting now deploys the generated `out/` directory, not source files.
 - The repository `public/` directory is reserved for standard Next.js static
   assets, not hand-authored deploy pages.

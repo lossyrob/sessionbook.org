@@ -171,6 +171,13 @@ li {
   font-style: italic;
 }
 
+.section-card__metric {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0.5rem 0 0.75rem;
+}
+
 .section-block {
   display: grid;
   gap: 1rem;
@@ -190,6 +197,34 @@ li {
 .checklist {
   margin: 1rem 0 0;
   padding-left: 1.15rem;
+}
+
+.meta-list,
+.entry-list {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.meta-list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.chart-preview {
+  margin: 1rem 0 0;
+  padding: 1rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.data-note {
+  color: var(--muted);
+  margin-top: 1.5rem;
 }
 
 .back-link {
