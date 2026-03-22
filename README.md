@@ -62,4 +62,4 @@ workflow tool, with a path toward a community library of additive chart
 
 ## License
 
-All rights reserved.
+[MIT](LICENSE)
