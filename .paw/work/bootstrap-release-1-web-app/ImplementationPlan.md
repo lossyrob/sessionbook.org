@@ -33,9 +33,9 @@ This plan intentionally treats issue `#2` as a bootstrap issue, not a full runti
 
 ## Phase Status
 
-- [ ] **Phase 1: Scaffold the app shell** - Create the Next.js baseline, shared layout, and placeholder routes that later Release 1 issues can extend.
-- [ ] **Phase 2: Wire build and deploy tooling** - Add scripts, ignore rules, Firebase output configuration, and GitHub Actions build steps for the new app.
-- [ ] **Phase 3: Document and verify the bootstrap** - Capture the as-built notes, update contributor docs, and verify the new baseline end to end.
+- [x] **Phase 1: Scaffold the app shell** - Create the Next.js baseline, shared layout, and placeholder routes that later Release 1 issues can extend.
+- [x] **Phase 2: Wire build and deploy tooling** - Add scripts, ignore rules, Firebase output configuration, and GitHub Actions build steps for the new app.
+- [x] **Phase 3: Document and verify the bootstrap** - Capture the as-built notes, update contributor docs, and verify the new baseline end to end.
 
 ## Phase Candidates
 
@@ -123,4 +123,5 @@ This plan intentionally treats issue `#2` as a bootstrap issue, not a full runti
 - Issue: `https://github.com/lossyrob/sessionbook.org/issues/2`
 - Product planning: `docs/planning/sessionbook-product.md`
 - Stack planning: `docs/planning/sessionbook-tech-stack.md`
+- Code research: `.paw/work/bootstrap-release-1-web-app/CodeResearch.md`
 - Release milestone context used for validation: local planning notes and prior session context
