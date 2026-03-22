@@ -1,13 +1,9 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import type { Sql } from "postgres";
 
-const migrationsDirectory = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "migrations",
-);
+const migrationsDirectory = path.join(process.cwd(), "src", "lib", "db", "migrations");
 
 export async function runDatabaseMigrations(sql: Sql): Promise<string[]> {
   await sql`
@@ -31,11 +27,17 @@ export async function runDatabaseMigrations(sql: Sql): Promise<string[]> {
     }
 
     const migrationSql = await readFile(path.join(migrationsDirectory, fileName), "utf8");
-    await sql.unsafe(migrationSql);
-    await sql`
-      insert into schema_migrations (name)
-      values (${fileName})
-    `;
+    await sql.begin(async (transaction) => {
+      await transaction.unsafe(migrationSql);
+      await transaction.unsafe(
+        `
+          insert into schema_migrations (name)
+          values ($1)
+        `,
+        [fileName],
+      );
+    });
+    appliedNames.add(fileName);
     executedMigrations.push(fileName);
   }
 

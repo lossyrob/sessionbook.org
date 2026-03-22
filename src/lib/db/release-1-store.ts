@@ -15,6 +15,19 @@ type GigSheetEntryRow = {
   transitionNotes: string | null;
 };
 
+function assertRecordsHaveEntries(
+  records: ReadonlyArray<{ id: string; entries: unknown[] }>,
+  recordType: string,
+) {
+  for (const record of records) {
+    if (record.entries.length === 0) {
+      throw new Error(
+        `Database ${recordType} "${record.id}" has no entries. Each ${recordType} must include at least one entry.`,
+      );
+    }
+  }
+}
+
 async function hasRequiredTables(): Promise<boolean> {
   const sql = getDatabaseClient();
   const requiredTables = [
@@ -128,9 +141,10 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     slug: String(row.slug),
     name: String(row.name),
     summary: String(row.summary),
-    visibility: row.visibility,
-    entries: setEntriesBySetId.get(String(row.id)) ?? [],
-  }));
+      visibility: row.visibility,
+      entries: setEntriesBySetId.get(String(row.id)) ?? [],
+    }));
+  assertRecordsHaveEntries(sets, "set");
 
   const gigSheetEntryRows = (await sql`
     select
@@ -168,9 +182,10 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     slug: String(row.slug),
     name: String(row.name),
     summary: String(row.summary),
-    visibility: row.visibility,
-    entries: gigSheetEntriesById.get(String(row.id)) ?? [],
-  }));
+      visibility: row.visibility,
+      entries: gigSheetEntriesById.get(String(row.id)) ?? [],
+    }));
+  assertRecordsHaveEntries(gigSheets, "gig sheet");
 
   return release1StoreSchema.parse({
     tunes,

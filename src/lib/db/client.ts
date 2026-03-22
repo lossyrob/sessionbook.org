@@ -10,6 +10,7 @@ export function createDatabaseClient(databaseUrl = getDatabaseUrl()): Sql {
   }
 
   return postgres(databaseUrl, {
+    idle_timeout: 5,
     max: 1,
     onnotice: () => undefined,
   });

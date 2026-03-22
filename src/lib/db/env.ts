@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
+const databaseUrlPrefix = "DATABASE_URL=";
+
 function stripWrappingQuotes(value: string): string {
   if (
     (value.startsWith('"') && value.endsWith('"')) ||
@@ -12,7 +14,9 @@ function stripWrappingQuotes(value: string): string {
   return value;
 }
 
-function loadDatabaseUrlFromEnvFile(envPath = path.join(process.cwd(), ".env")): string | undefined {
+export function loadDatabaseUrlFromEnvFile(
+  envPath = path.join(process.cwd(), ".env"),
+): string | undefined {
   if (!existsSync(envPath)) {
     return undefined;
   }
@@ -26,8 +30,8 @@ function loadDatabaseUrlFromEnvFile(envPath = path.join(process.cwd(), ".env")):
       continue;
     }
 
-    if (line.startsWith("DATABASE_URL=")) {
-      return stripWrappingQuotes(line.split("=", 2)[1] ?? "");
+    if (line.startsWith(databaseUrlPrefix)) {
+      return stripWrappingQuotes(line.slice(databaseUrlPrefix.length));
     }
   }
 
