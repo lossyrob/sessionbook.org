@@ -52,10 +52,10 @@ needs clean chord charts for sessions and gigs.
 ## Project Status
 
 Early development — the repo now includes a Next.js app scaffold, local
-tooling, Firebase deployment hooks, and a validated fixture-backed Release 1
-schema/persistence layer for tunes, charts, public sets, and private gig
-sheets. Real external seed import, auth enforcement, and richer catalog/search
-behavior still land in later issues.
+tooling, Firebase deployment hooks, a validated Release 1 schema, and the first
+real Postgres-backed persistence path for tunes, charts, public sets, and
+private gig sheets. Real external seed import, auth enforcement, and richer
+catalog/search behavior still land in later issues.
 
 ## Local Development
 
@@ -64,31 +64,36 @@ Use the pinned Node.js version from `.nvmrc` before installing dependencies:
 ```bash
 nvm use
 npm install
+npm run db:setup
 npm run dev
 ```
 
 The app runs at `http://localhost:3000`.
 
 If you need local project or deploy configuration, copy `.env.template` to
-`.env`. The current bootstrap app does not require any additional runtime
-variables yet.
+`.env`. When `DATABASE_URL` is configured, `npm run db:setup` creates the
+Release 1 schema and seeds it from the checked-in fixture store. Without
+`DATABASE_URL`, the app can still fall back to the fixture-backed repository for
+local UI work.
 
 ### Available Commands
 
 | Command | Purpose |
 |---------|---------|
 | `npm run dev` | Start the local Next.js development server |
+| `npm run db:setup` | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set |
 | `npm run lint` | Run the flat ESLint config used in CI |
 | `npm run test` | Run the Vitest smoke tests |
 | `npm run typecheck` | Run `tsc --noEmit` |
-| `npm run build` | Build the static export deployed by Firebase Hosting |
+| `npm run build` | Seed Postgres when configured, then build the static export deployed by Firebase Hosting |
 
 ## Current Bootstrap Constraints
 
 - The app currently builds in Next.js static-export mode, so it does **not**
   support API routes, middleware, or other server-only Next.js features yet.
-- The catalog currently reads from checked-in fixture modules under
-  `src/data/release-1/`, validated with runtime schemas during build and test.
+- The Release 1 repository prefers Postgres when `DATABASE_URL` is configured
+  and seeded, but it still falls back to the checked-in fixture store when no
+  database is available.
 - Real external chart/set/gig import is still deferred to the later import
   issue.
 - Firebase Hosting now deploys the generated `out/` directory, not source files.
@@ -107,6 +112,8 @@ the `sessionbook-491003` project.
 - Each workflow uses `.nvmrc`, runs `npm ci`, executes
   `npm run lint && npm run test && npm run typecheck && npm run build`, and
   then deploys the generated `out/` directory.
+- Preview and staging builds can use `DATABASE_URL_STAGING`; production tag
+  builds can use `DATABASE_URL_PROD`.
 
 Current Hosting sites:
 

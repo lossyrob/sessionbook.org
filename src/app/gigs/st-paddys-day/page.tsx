@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { release1Repository } from "@/lib/release-1/repository";
+import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { getSectionByPath } from "@/lib/site-navigation";
 
-export default function StPaddysDayGigPage() {
+export default async function StPaddysDayGigPage() {
   const section = getSectionByPath("/gigs/st-paddys-day");
-  const gigSheet = release1Repository.getPrivateGigSheetBySlug("st-paddys-day");
+  const { repository } = await loadRelease1Repository();
+  const gigSheet = repository.getPrivateGigSheetBySlug("st-paddys-day");
 
   if (!gigSheet) {
     notFound();
@@ -23,7 +24,10 @@ export default function StPaddysDayGigPage() {
         <ul className="checklist">
           <li>The stored gig-sheet record is marked <code>private</code> in the repository.</li>
           <li>Its ordered entries point back to public sets by stable IDs instead of copying tune data into a one-off page.</li>
-          <li>Auth can enforce access later without replacing the storage contract introduced in issue #3.</li>
+          <li>
+            Auth can enforce access later without replacing the Postgres-backed
+            storage contract introduced in issue #3.
+          </li>
         </ul>
       </section>
 

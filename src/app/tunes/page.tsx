@@ -1,11 +1,12 @@
 import Link from "next/link";
 
-import { release1Repository } from "@/lib/release-1/repository";
+import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { getSectionByPath } from "@/lib/site-navigation";
 
-export default function TunesPage() {
+export default async function TunesPage() {
   const section = getSectionByPath("/tunes");
-  const tunes = release1Repository.listPublicTunes();
+  const { repository } = await loadRelease1Repository();
+  const tunes = repository.listPublicTunes();
 
   return (
     <div className="placeholder-page">
@@ -18,7 +19,11 @@ export default function TunesPage() {
         <ul className="checklist">
           <li>Each public tune now loads from the validated Release 1 repository.</li>
           <li>Aliases stay separate from tune records but are resolved back into the tune view.</li>
-          <li>Each tune proves the one-chart-per-tune Release 1 assumption without baking charts into the tune schema.</li>
+          <li>
+            The repository can read from Postgres when <code>DATABASE_URL</code>
+            is configured, while preserving the same view model when it falls
+            back to fixtures.
+          </li>
         </ul>
       </section>
 

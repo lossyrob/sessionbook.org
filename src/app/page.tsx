@@ -1,9 +1,11 @@
 import { SectionCard } from "@/components/section-card";
-import { release1Repository } from "@/lib/release-1/repository";
+import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { ownerSections, publicSections } from "@/lib/site-navigation";
 
-export default function HomePage() {
-  const summary = release1Repository.getCatalogSummary();
+export default async function HomePage() {
+  const { repository, source } = await loadRelease1Repository();
+  const summary = repository.getCatalogSummary();
+  const storageSourceLabel = source === "database" ? "Postgres" : "checked-in fixtures";
   const metricCards = [
     {
       label: "Public tunes",
@@ -29,14 +31,15 @@ export default function HomePage() {
         <h1>SessionBook now has a concrete storage contract behind the bootstrap app.</h1>
         <div className="hero__summary">
           <p>
-            The app still builds as a static export, but it now validates a typed
-            Release 1 store for tunes, aliases, charts, public sets, and private
-            gig sheets during build and test.
+            The app still builds as a static export, but it now owns a real
+            Release 1 Postgres persistence path for tunes, aliases, charts,
+            public sets, and private gig sheets.
           </p>
           <p>
-            The data is deliberately fixture-backed for now. Issue #4 can swap in
-            real imported chart/set/gig content later without rewriting the app-
-            facing repository layer introduced here.
+            When <code>DATABASE_URL</code> is configured and seeded, the build
+            reads from Postgres. When no database is configured yet, local work
+            can still fall back to the checked-in fixture store without changing
+            the app-facing repository contract.
           </p>
         </div>
       </section>
@@ -57,9 +60,13 @@ export default function HomePage() {
       <section className="callout">
         <h2>Storage choices for this issue</h2>
         <ul className="checklist">
+          <li>Current build source: {storageSourceLabel}.</li>
           <li>The store is validated with Zod during build and test.</li>
-          <li>Catalog fixtures load from checked-in TypeScript modules, not external seed files.</li>
-          <li>Charts stay separate from tunes even though the Release 1 fixtures use one chart per tune.</li>
+          <li>
+            <code>npm run db:setup</code> creates the Release 1 schema and seeds
+            it from the checked-in fixture store when a Postgres connection is available.
+          </li>
+          <li>Charts stay separate from tunes even though the Release 1 seed data uses one chart per tune.</li>
           <li>Gig sheets remain explicitly private records so auth can layer on later.</li>
         </ul>
       </section>

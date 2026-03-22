@@ -1,11 +1,12 @@
 import Link from "next/link";
 
-import { release1Repository } from "@/lib/release-1/repository";
+import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { getSectionByPath } from "@/lib/site-navigation";
 
-export default function SetsPage() {
+export default async function SetsPage() {
   const section = getSectionByPath("/sets");
-  const sets = release1Repository.listPublicSets();
+  const { repository } = await loadRelease1Repository();
+  const sets = repository.listPublicSets();
 
   return (
     <div className="placeholder-page">
@@ -18,7 +19,11 @@ export default function SetsPage() {
         <ul className="checklist">
           <li>Sets are now first-class stored records instead of route placeholders.</li>
           <li>Each set entry preserves tune order while pointing at explicit chart IDs.</li>
-          <li>The public set catalog stays separate from the private gig-sheet layer that reuses it.</li>
+          <li>
+            The public set catalog stays separate from the private gig-sheet
+            layer that reuses it, regardless of whether the repository source is
+            Postgres or fixture fallback.
+          </li>
         </ul>
       </section>
 
