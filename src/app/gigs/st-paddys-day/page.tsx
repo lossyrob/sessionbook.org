@@ -25,14 +25,14 @@ export default async function StPaddysDayGigPage() {
           <li>The stored gig-sheet record is marked <code>private</code> in the repository.</li>
           <li>Its ordered entries point back to public sets by stable IDs instead of copying tune data into a one-off page.</li>
           <li>
-            Auth can enforce access later without replacing the Postgres-backed
-            storage contract introduced in issue #3.
+            Auth can enforce access later without replacing the imported
+            Release 1 storage contract or the Postgres seed path behind it.
           </li>
         </ul>
       </section>
 
       <section className="section-block">
-        <h2>Fixture-backed gig-sheet structure</h2>
+        <h2>Imported gig-sheet structure</h2>
         <div className="section-grid">
           {gigSheet.entries.map((entry) => (
             <article className="section-card" key={`${gigSheet.id}-${entry.position}`}>
