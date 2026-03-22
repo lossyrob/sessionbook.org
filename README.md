@@ -99,8 +99,9 @@ the `sessionbook-491003` project.
   site.
 - Pushes to `main` deploy the live staging site.
 - Tags matching `v*` deploy the live production site.
-- Each workflow uses `.nvmrc`, runs `npm ci`, builds the app with
-  `npm run build`, and then deploys the generated `out/` directory.
+- Each workflow uses `.nvmrc`, runs `npm ci`, executes
+  `npm run lint && npm run test && npm run typecheck && npm run build`, and
+  then deploys the generated `out/` directory.
 
 Current Hosting sites:
 

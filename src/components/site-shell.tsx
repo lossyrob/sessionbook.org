@@ -7,7 +7,9 @@ type SiteShellProps = {
   children: ReactNode;
 };
 
-const headerLinks = [...publicSections, ownerSections[0]];
+const headerLinks = [...publicSections, ...ownerSections].filter(
+  (section) => section.showInHeader,
+);
 
 export function SiteShell({ children }: SiteShellProps) {
   return (

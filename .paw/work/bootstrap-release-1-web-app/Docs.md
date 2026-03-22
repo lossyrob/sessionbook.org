@@ -23,6 +23,7 @@ tooling contract without prematurely committing to Cloud Run runtime behavior.
 - **Type checking**: `tsc --noEmit`
 - **Linting**: ESLint flat config using `eslint-config-next/core-web-vitals`
 - **Tests**: Vitest smoke tests around shared route metadata
+- **Generated files**: `next-env.d.ts` is committed in its build-generated form so `npm run build` and CI agree on its contents
 
 ## App Structure
 
@@ -44,7 +45,8 @@ Bootstrap routes reserved for later feature work:
 - `public/` is no longer the deploy root; it is reserved for normal Next.js
   static assets
 - GitHub workflow steps now follow the same contract as local development:
-  `npm ci` → `npm run build` → Firebase deploy
+  `npm ci` → `npm run lint` → `npm run test` → `npm run typecheck` →
+  `npm run build` → Firebase deploy
 
 ## Known Constraints
 
