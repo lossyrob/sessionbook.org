@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "sessionbook-491003"
-  }
+  },
+  "targets": {
+    "sessionbook-491003": {
+      "hosting": {
+        "prod": [
+          "sessionbook-491003"
+        ],
+        "staging": [
+          "sessionbook-491003-staging"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

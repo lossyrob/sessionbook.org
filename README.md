@@ -55,6 +55,21 @@ Early development — building the foundation for a personal chart library and
 workflow tool, with a path toward a community library of additive chart
 "settings" for accompanists.
 
+## Deployment Workflow
+
+Firebase Hosting is configured with separate `staging` and `prod` targets in
+the `sessionbook-491003` project.
+
+- Pull requests deploy to a Firebase Hosting preview channel on the staging
+  site.
+- Pushes to `main` deploy the live staging site.
+- Tags matching `v*` deploy the live production site.
+
+Current Hosting sites:
+
+- Production: `sessionbook-491003` → `sessionbook.org`
+- Staging: `sessionbook-491003-staging` → `staging.sessionbook.org`
+
 ## Planning Documents
 
 - [`docs/planning/sessionbook-product.md`](docs/planning/sessionbook-product.md) — product vision, core concepts, feature roadmap, and design principles
