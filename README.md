@@ -51,9 +51,44 @@ needs clean chord charts for sessions and gigs.
 
 ## Project Status
 
-Early development — building the foundation for a personal chart library and
-workflow tool, with a path toward a community library of additive chart
-"settings" for accompanists.
+Early development — the repo now includes a Next.js app scaffold, local
+tooling, and Firebase deployment hooks for the first Release 1 implementation
+work. The real catalog, auth, import, and private gig behavior still lands in
+later issues.
+
+## Local Development
+
+Use the pinned Node.js version from `.nvmrc` before installing dependencies:
+
+```bash
+nvm use
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:3000`.
+
+If you need local project or deploy configuration, copy `.env.template` to
+`.env`. The current bootstrap app does not require any additional runtime
+variables yet.
+
+### Available Commands
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Start the local Next.js development server |
+| `npm run lint` | Run the flat ESLint config used in CI |
+| `npm run test` | Run the Vitest smoke tests |
+| `npm run typecheck` | Run `tsc --noEmit` |
+| `npm run build` | Build the static export deployed by Firebase Hosting |
+
+## Current Bootstrap Constraints
+
+- The app currently builds in Next.js static-export mode, so it does **not**
+  support API routes, middleware, or other server-only Next.js features yet.
+- Firebase Hosting now deploys the generated `out/` directory, not source files.
+- The repository `public/` directory is reserved for standard Next.js static
+  assets, not hand-authored deploy pages.
 
 ## Deployment Workflow
 
@@ -64,6 +99,8 @@ the `sessionbook-491003` project.
   site.
 - Pushes to `main` deploy the live staging site.
 - Tags matching `v*` deploy the live production site.
+- Each workflow uses `.nvmrc`, runs `npm ci`, builds the app with
+  `npm run build`, and then deploys the generated `out/` directory.
 
 Current Hosting sites:
 
