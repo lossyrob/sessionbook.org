@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SessionBook — Irish Trad Chord Charts</title>
+    <meta name="description" content="A home for Irish trad chord charts. Browse tunes, author charts, build sets, and print gig sheets that work on a music stand.">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: Georgia, 'Times New Roman', serif;
+        background: #faf8f5;
+        color: #2c2c2c;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .page {
+        max-width: 540px;
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        margin-bottom: 0.3rem;
+      }
+
+      .tagline {
+        font-size: 1.1rem;
+        color: #6b6b6b;
+        font-style: italic;
+        margin-bottom: 2.5rem;
+      }
+
+      .divider {
+        width: 60px;
+        height: 1px;
+        background: #c8c0b4;
+        margin: 0 auto 2.5rem;
+      }
+
+      .description {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #4a4a4a;
+        margin-bottom: 2rem;
+      }
+
+      .features {
+        list-style: none;
+        font-size: 0.95rem;
+        color: #5a5a5a;
+        line-height: 2;
+        margin-bottom: 2.5rem;
+      }
+
+      .features li::before {
+        content: '♪ ';
+        color: #a89882;
+      }
+
+      .status {
+        font-size: 0.9rem;
+        color: #8a8278;
+        border-top: 1px solid #e0dbd4;
+        padding-top: 1.5rem;
+      }
+
+      .status a {
+        color: #6b6050;
+      }
+
+      @media (max-width: 480px) {
+        .page { padding: 2rem 1.5rem; }
+        h1 { font-size: 1.8rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>SessionBook</h1>
+      <p class="tagline">Irish trad chord charts, done right.</p>
+      <div class="divider"></div>
+      <p class="description">
+        A home for accompanists. Author chord charts, organize them into sets,
+        assemble session sheets, and print them in a format that works on a
+        music stand.
+      </p>
+      <ul class="features">
+        <li>Chord charts you can write by hand and print cleanly</li>
+        <li>Sets and gig sheets as first-class objects</li>
+        <li>Pinned revisions — your gig sheet never changes under you</li>
+        <li>Built for guitar, bouzouki, piano, and keys</li>
+      </ul>
+      <p class="status">
+        Coming soon. Follow the build on
+        <a href="https://github.com/lossyrob/sessionbook.org">GitHub</a>.
+      </p>
+    </div>
+  </body>
+</html>
