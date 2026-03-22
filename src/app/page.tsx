@@ -1,24 +1,74 @@
 import { SectionCard } from "@/components/section-card";
+import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { ownerSections, publicSections } from "@/lib/site-navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { repository, source } = await loadRelease1Repository();
+  const summary = repository.getCatalogSummary();
+  const storageSourceLabel = source === "database" ? "Postgres" : "checked-in fixtures";
+  const metricCards = [
+    {
+      label: "Public tunes",
+      value: summary.publicTuneCount,
+      description: `${summary.aliasCount} aliases and ${summary.chartCount} validated charts sit behind the tune index.`,
+    },
+    {
+      label: "Public sets",
+      value: summary.publicSetCount,
+      description: "Each set stores ordered tune-to-chart references instead of flattening the catalog.",
+    },
+    {
+      label: "Private gig sheets",
+      value: summary.privateGigSheetCount,
+      description: "Private gig data stays distinct from the public catalog even before auth enforcement lands.",
+    },
+  ];
+
   return (
     <div className="hero">
       <section className="hero__panel">
-        <p className="eyebrow">Release 1 bootstrap</p>
-        <h1>SessionBook is now an app scaffold instead of a hand-built static page.</h1>
+        <p className="eyebrow">Release 1 catalog schema</p>
+        <h1>SessionBook now has a concrete storage contract behind the bootstrap app.</h1>
         <div className="hero__summary">
           <p>
-            This baseline introduces the Next.js app shell, shared route metadata,
-            local scripts, and deployment contract that later Release 1 issues
-            will extend.
+            The app still builds as a static export, but it now owns a real
+            Release 1 Postgres persistence path for tunes, aliases, charts,
+            public sets, and private gig sheets.
           </p>
           <p>
-            The public catalog, owner auth, private gig sheet, seeded content, and
-            search behavior are still future issue work. For now, this page shows
-            the routes and responsibilities the repo is ready to grow into.
+            When <code>DATABASE_URL</code> is configured and seeded, the build
+            reads from Postgres. When no database is configured yet, local work
+            can still fall back to the checked-in fixture store without changing
+            the app-facing repository contract.
           </p>
         </div>
+      </section>
+
+      <section className="section-block">
+        <h2>What the persistence layer proves</h2>
+        <div className="section-grid">
+          {metricCards.map((card) => (
+            <article className="section-card" key={card.label}>
+              <p className="section-card__status">{card.label}</p>
+              <p className="section-card__metric">{card.value}</p>
+              <p>{card.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="callout">
+        <h2>Storage choices for this issue</h2>
+        <ul className="checklist">
+          <li>Current build source: {storageSourceLabel}.</li>
+          <li>The store is validated with Zod during build and test.</li>
+          <li>
+            <code>npm run db:setup</code> creates the Release 1 schema and seeds
+            it from the checked-in fixture store when a Postgres connection is available.
+          </li>
+          <li>Charts stay separate from tunes even though the Release 1 seed data uses one chart per tune.</li>
+          <li>Gig sheets remain explicitly private records so auth can layer on later.</li>
+        </ul>
       </section>
 
       <section className="section-block">

@@ -40,7 +40,11 @@ export function SiteShell({ children }: SiteShellProps) {
       <main className="site-main">{children}</main>
 
       <footer className="site-footer">
-        <p>Release 1 bootstrap in progress. The catalog, search, auth, and private gig flows arrive in later issues.</p>
+        <p>
+          Release 1 bootstrap in progress. The schema-backed catalog now lives in
+          the app, while search UX, auth enforcement, real imports, and richer
+          private gig flows remain later issues.
+        </p>
       </footer>
     </div>
   );

@@ -11,25 +11,25 @@ export const publicSections: SiteSection[] = [
   {
     href: "/tunes",
     label: "Tunes",
-    summary: "Browse the chord-chart catalog and land on the tune pages that anchor Release 1.",
+    summary: "Browse the first schema-backed tune index, complete with aliases, chart metadata, and set links.",
     nextIssue: "#5 and #7",
-    status: "Planned public catalog surface",
+    status: "Schema-backed public catalog surface",
     showInHeader: true,
   },
   {
     href: "/sets",
     label: "Sets",
-    summary: "Surface browseable sets as first-class objects before gig-specific views arrive.",
+    summary: "Browse public sets as ordered, chart-linked records instead of placeholder route shells.",
     nextIssue: "#5 and #8",
-    status: "Planned public catalog surface",
+    status: "Schema-backed public catalog surface",
     showInHeader: true,
   },
   {
     href: "/search",
     label: "Search",
-    summary: "Provide the tune search entry point that later hooks into seeded names and aliases.",
+    summary: "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
     nextIssue: "#5 and #9",
-    status: "Planned public catalog surface",
+    status: "Planned search surface",
     showInHeader: true,
   },
 ];
@@ -46,9 +46,9 @@ export const ownerSections: SiteSection[] = [
   {
     href: "/gigs/st-paddys-day",
     label: "St. Paddy's Day gig",
-    summary: "Hold the private gig-sheet route that later becomes the first protected owner page.",
+    summary: "Prove the private gig-sheet storage contract before later issues add auth enforcement and richer owner flows.",
     nextIssue: "#11",
-    status: "Planned private content surface",
+    status: "Schema-backed private content surface",
     showInHeader: false,
   },
 ];
