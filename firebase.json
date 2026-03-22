@@ -2,7 +2,8 @@
   "hosting": [
     {
       "target": "prod",
-      "public": "public",
+      "public": "out",
+      "cleanUrls": true,
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -11,7 +12,8 @@
     },
     {
       "target": "staging",
-      "public": "public",
+      "public": "out",
+      "cleanUrls": true,
       "ignore": [
         "firebase.json",
         "**/.*",
