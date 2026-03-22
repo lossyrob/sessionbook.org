@@ -15,20 +15,20 @@ export default async function TunesPage() {
       <p className="lead">{section.summary}</p>
 
       <section className="callout">
-        <h2>What issue #3 wires up here</h2>
+        <h2>What issue #4 changes here</h2>
         <ul className="checklist">
-          <li>Each public tune now loads from the validated Release 1 repository.</li>
+          <li>Each public tune now loads from the imported Release 1 repository.</li>
           <li>Aliases stay separate from tune records but are resolved back into the tune view.</li>
           <li>
             The repository can read from Postgres when <code>DATABASE_URL</code>
             is configured, while preserving the same view model when it falls
-            back to fixtures.
+            back to the checked-in imported catalog.
           </li>
         </ul>
       </section>
 
       <section className="section-block">
-        <h2>Fixture-backed tune index</h2>
+        <h2>Imported tune index</h2>
         <div className="section-grid">
           {tunes.map((tune) => (
             <article className="section-card" key={tune.id}>

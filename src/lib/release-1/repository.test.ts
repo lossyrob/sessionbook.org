@@ -8,10 +8,10 @@ describe("release1Repository", () => {
     const repository = createRelease1Repository(release1FixtureStore);
 
     expect(repository.getCatalogSummary()).toEqual({
-      publicTuneCount: 4,
-      aliasCount: 8,
-      chartCount: 4,
-      publicSetCount: 2,
+      publicTuneCount: 35,
+      aliasCount: 2,
+      chartCount: 35,
+      publicSetCount: 14,
       privateGigSheetCount: 1,
     });
   });
@@ -19,9 +19,16 @@ describe("release1Repository", () => {
   it("resolves public tunes by alias", () => {
     const repository = createRelease1Repository(release1FixtureStore);
 
-    expect(repository.findPublicTuneByAlias("The Lantern Reel")?.slug).toBe("lantern-reel");
-    expect(repository.findPublicTuneByAlias("Market House")?.name).toBe("Market House Reel");
-    expect(repository.findPublicTuneByAlias("winter elm")?.slug).toBe("winter-elm-jig");
+    expect(repository.findPublicTuneByAlias("Green Mountain")?.slug).toBe("the-green-mountain");
+    expect(repository.findPublicTuneByAlias("Swinging on a Gate")?.slug).toBe(
+      "swinging-on-the-gate",
+    );
+    expect(repository.findPublicTuneByAlias("Tabhair Dom Do Lámh")?.slug).toBe(
+      "tabhair-dom-do-lamh",
+    );
+    expect(repository.findPublicTuneByAlias("Tabhair Dom Do Lamh")?.slug).toBe(
+      "tabhair-dom-do-lamh",
+    );
     expect(repository.findPublicTuneByAlias("missing tune")).toBeUndefined();
   });
 
@@ -31,12 +38,23 @@ describe("release1Repository", () => {
     const gigSheet = repository.getPrivateGigSheetBySlug("st-paddys-day");
 
     expect(sets[0]?.entries.map((entry) => entry.tuneName)).toEqual([
-      "The Lantern Reel",
-      "Market House Reel",
+      "Morrison's Jig",
+      "The Butterfly",
+      "Swallowtail Jig",
     ]);
     expect(gigSheet?.entries.map((entry) => entry.setName)).toEqual([
-      "Lantern Opening Pair",
-      "Jigs for Last Orders",
+      "Morrison's Jig / The Butterfly / Swallowtail Jig",
+      "Saddle the Pony / Lilting Banshee / Tom Billy's",
+      "Connaughtman's Rambles",
+      "The Green Mountain / Wind that Shakes the Barley",
+      "Swinging on the Gate / Man of the House / Jackie Coleman's",
+      "Congress Reel / Mason's Apron",
+      "The Silver Spear / The Earl's Chair / The Musical Priest",
+      "Warlock's / Bog an Lochan / Keep it Up / Prince Charlie's / Hull's Reel",
+      "The Rights of Man / Merrily Kiss the Quaker / The Kesh Jig",
+      "Off to California / Temperance Reel / Wissahickon Drive",
+      "Fisher's Hornpipe / The Fairies' Hornpipe",
+      "Tabhair Dom Do Lámh",
     ]);
   });
 
@@ -127,10 +145,10 @@ describe("release1Repository", () => {
       tuneAliases: [
         ...release1FixtureStore.tuneAliases,
         {
-          id: "winter-elm-jig-lantern-tune",
-          tuneId: "winter-elm-jig",
-          name: "Lantern Tune",
-          normalizedName: "lantern tune",
+          id: "tabhair-dom-do-lamh-green-mountain",
+          tuneId: "tabhair-dom-do-lamh",
+          name: "Green Mountain",
+          normalizedName: "green mountain",
         },
       ],
     };

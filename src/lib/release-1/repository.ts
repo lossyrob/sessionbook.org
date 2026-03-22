@@ -1,4 +1,5 @@
 import { release1FixtureStore } from "@/data/release-1/fixture-store";
+import { normalizeSearchTerm } from "@/lib/release-1/normalize-search-term";
 import {
   type ChartRecord,
   type Release1Store,
@@ -71,15 +72,6 @@ export type Release1Repository = {
   findPublicTuneByAlias: (term: string) => PublicTuneView | undefined;
   getPrivateGigSheetBySlug: (slug: string) => PrivateGigSheetView | undefined;
 };
-
-function normalizeSearchTerm(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function buildIdMap<T extends { id: string }>(records: T[], label: string): Map<string, T> {
   const map = new Map<string, T>();

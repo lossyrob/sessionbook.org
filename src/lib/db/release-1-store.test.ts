@@ -26,10 +26,10 @@ describeIfDatabase("loadRelease1StoreFromDatabase", () => {
     const store = await loadRelease1StoreFromDatabase();
 
     expect(store).not.toBeNull();
-    expect(store?.tunes).toHaveLength(4);
-    expect(store?.tuneAliases).toHaveLength(8);
-    expect(store?.charts).toHaveLength(4);
-    expect(store?.sets).toHaveLength(2);
+    expect(store?.tunes).toHaveLength(35);
+    expect(store?.tuneAliases).toHaveLength(2);
+    expect(store?.charts).toHaveLength(35);
+    expect(store?.sets).toHaveLength(14);
     expect(store?.gigSheets).toHaveLength(1);
   });
 });

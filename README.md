@@ -54,8 +54,9 @@ needs clean chord charts for sessions and gigs.
 Early development — the repo now includes a Next.js app scaffold, local
 tooling, Firebase deployment hooks, a validated Release 1 schema, and the first
 real Postgres-backed persistence path for tunes, charts, public sets, and
-private gig sheets. Real external seed import, auth enforcement, and richer
-catalog/search behavior still land in later issues.
+private gig sheets. The checked-in Release 1 catalog is now imported from the
+canonical `Sessions/*` source assets; auth enforcement and richer catalog/search
+behavior still land in later issues.
 
 ## Local Development
 
@@ -72,9 +73,9 @@ The app runs at `http://localhost:3000`.
 
 If you need local project or deploy configuration, copy `.env.template` to
 `.env`. When `DATABASE_URL` is configured, `npm run db:setup` creates the
-Release 1 schema and seeds it from the checked-in fixture store. Without
-`DATABASE_URL`, the app can still fall back to the fixture-backed repository for
-local UI work.
+Release 1 schema and seeds it from the checked-in imported store. Without
+`DATABASE_URL`, the app can still fall back to the same imported catalog through
+the fixture-backed repository path for local UI work.
 
 ### Available Commands
 
@@ -82,6 +83,7 @@ local UI work.
 |---------|---------|
 | `npm run dev` | Start the local Next.js development server |
 | `npm run db:setup` | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set |
+| `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
 | `npm run lint` | Run the flat ESLint config used in CI |
 | `npm run test` | Run the Vitest smoke tests |
 | `npm run typecheck` | Run `tsc --noEmit` |
@@ -94,8 +96,8 @@ local UI work.
 - The Release 1 repository prefers Postgres when `DATABASE_URL` is configured
   and seeded, but it still falls back to the checked-in fixture store when no
   database is available.
-- Real external chart/set/gig import is still deferred to the later import
-  issue.
+- The checked-in Release 1 fixture store is generated from the canonical
+  `Sessions/*` source assets rather than hand-authored demo data.
 - Firebase Hosting now deploys the generated `out/` directory, not source files.
 - The repository `public/` directory is reserved for standard Next.js static
   assets, not hand-authored deploy pages.
