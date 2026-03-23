@@ -21,7 +21,12 @@ html {
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top, #fcfbf8 0%, var(--background) 55%, #efe7dd 100%);
+  background: radial-gradient(
+    circle at top,
+    #fcfbf8 0%,
+    var(--background) 55%,
+    #efe7dd 100%
+  );
   color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
   min-height: 100vh;
@@ -216,7 +221,9 @@ li {
   background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
   font-size: 0.92rem;
   line-height: 1.55;
   white-space: pre-wrap;
@@ -234,6 +241,36 @@ li {
 .back-link a {
   color: var(--accent-strong);
   font-weight: 700;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.action-button,
+.action-link {
+  appearance: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.75rem 1.1rem;
+}
+
+.action-button {
+  background: var(--accent);
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+.action-link {
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  display: inline-flex;
+  align-items: center;
 }
 
 .not-found {

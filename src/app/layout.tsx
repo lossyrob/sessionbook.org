@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     default: "SessionBook",
     template: "%s | SessionBook",
   },
-  description: "SessionBook is a home for Irish trad chord charts, sets, and gig sheets.",
+  description:
+    "SessionBook is a home for Irish trad chord charts, sets, and gig sheets.",
 };
 
 type RootLayoutProps = Readonly<{

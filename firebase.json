@@ -2,22 +2,34 @@
   "hosting": [
     {
       "target": "prod",
-      "public": "out",
+      "public": "public",
       "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "sessionbook-web-prod",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
       ]
     },
     {
       "target": "staging",
-      "public": "out",
+      "public": "public",
       "cleanUrls": true,
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "sessionbook-web-staging",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
       ]
     }
   ]

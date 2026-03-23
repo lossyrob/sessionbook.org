@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { allSections, ownerSections, publicSections } from "@/lib/site-navigation";
+import {
+  allSections,
+  ownerSections,
+  publicSections,
+} from "@/lib/site-navigation";
 
 describe("site navigation", () => {
-  it("covers the expected public bootstrap surfaces", () => {
+  it("covers the expected public browse and search surfaces", () => {
     expect(publicSections.map((section) => section.href)).toEqual([
       "/tunes",
       "/sets",
@@ -11,7 +15,7 @@ describe("site navigation", () => {
     ]);
   });
 
-  it("covers the expected owner bootstrap surfaces", () => {
+  it("covers the expected owner access surfaces", () => {
     expect(ownerSections.map((section) => section.href)).toEqual([
       "/login",
       "/gigs/st-paddys-day",
@@ -22,5 +26,16 @@ describe("site navigation", () => {
     const hrefs = allSections.map((section) => section.href);
 
     expect(new Set(hrefs).size).toBe(hrefs.length);
+  });
+
+  it("marks tune and set browse routes as the live public surfaces", () => {
+    expect(
+      publicSections.slice(0, 2).map((section) => section.nextIssue),
+    ).toEqual(["#7", "#8"]);
+    expect(
+      publicSections
+        .slice(0, 2)
+        .every((section) => section.status === "Live public browse surface"),
+    ).toBe(true);
   });
 });

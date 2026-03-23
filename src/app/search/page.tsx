@@ -8,5 +8,7 @@ const bullets = [
 ];
 
 export default function SearchPage() {
-  return <PlaceholderPage bullets={bullets} section={getSectionByPath("/search")} />;
+  return (
+    <PlaceholderPage bullets={bullets} section={getSectionByPath("/search")} />
+  );
 }

@@ -9,7 +9,11 @@ describe("normalizeSearchTerm", () => {
   });
 
   it("folds accented characters to their ASCII search form", () => {
-    expect(normalizeSearchTerm("Tabhair Dom Do Lámh")).toBe("tabhair dom do lamh");
-    expect(normalizeSearchTerm("Tabhair Dom Do Lamh")).toBe("tabhair dom do lamh");
+    expect(normalizeSearchTerm("Tabhair Dom Do Lámh")).toBe(
+      "tabhair dom do lamh",
+    );
+    expect(normalizeSearchTerm("Tabhair Dom Do Lamh")).toBe(
+      "tabhair dom do lamh",
+    );
   });
 });

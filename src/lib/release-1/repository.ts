@@ -73,7 +73,10 @@ export type Release1Repository = {
   getPrivateGigSheetBySlug: (slug: string) => PrivateGigSheetView | undefined;
 };
 
-function buildIdMap<T extends { id: string }>(records: T[], label: string): Map<string, T> {
+function buildIdMap<T extends { id: string }>(
+  records: T[],
+  label: string,
+): Map<string, T> {
   const map = new Map<string, T>();
 
   for (const record of records) {
@@ -87,7 +90,10 @@ function buildIdMap<T extends { id: string }>(records: T[], label: string): Map<
   return map;
 }
 
-function buildSlugMap<T extends { slug: string }>(records: T[], label: string): Map<string, T> {
+function buildSlugMap<T extends { slug: string }>(
+  records: T[],
+  label: string,
+): Map<string, T> {
   const map = new Map<string, T>();
 
   for (const record of records) {
@@ -101,7 +107,10 @@ function buildSlugMap<T extends { slug: string }>(records: T[], label: string): 
   return map;
 }
 
-function assertUniquePositions(entries: Array<{ position: number }>, label: string) {
+function assertUniquePositions(
+  entries: Array<{ position: number }>,
+  label: string,
+) {
   const positions = entries.map((entry) => entry.position);
   const uniquePositions = new Set(positions);
 
@@ -110,7 +119,10 @@ function assertUniquePositions(entries: Array<{ position: number }>, label: stri
   }
 }
 
-function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAliasRecord[]) {
+function assertAliasInvariants(
+  tunes: Map<string, TuneRecord>,
+  aliases: TuneAliasRecord[],
+) {
   const lookupTerms = new Map<string, string>();
 
   for (const tune of tunes.values()) {
@@ -118,7 +130,9 @@ function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAlia
     const existingTuneId = lookupTerms.get(normalizedTuneName);
 
     if (existingTuneId && existingTuneId !== tune.id) {
-      throw new Error(`Lookup term ${normalizedTuneName} resolves to multiple tunes`);
+      throw new Error(
+        `Lookup term ${normalizedTuneName} resolves to multiple tunes`,
+      );
     }
 
     lookupTerms.set(normalizedTuneName, tune.id);
@@ -126,7 +140,9 @@ function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAlia
 
   for (const alias of aliases) {
     if (!tunes.has(alias.tuneId)) {
-      throw new Error(`Alias ${alias.id} references unknown tune ${alias.tuneId}`);
+      throw new Error(
+        `Alias ${alias.id} references unknown tune ${alias.tuneId}`,
+      );
     }
 
     if (alias.normalizedName !== normalizeSearchTerm(alias.name)) {
@@ -136,33 +152,47 @@ function assertAliasInvariants(tunes: Map<string, TuneRecord>, aliases: TuneAlia
     const existingTuneId = lookupTerms.get(alias.normalizedName);
 
     if (existingTuneId && existingTuneId !== alias.tuneId) {
-      throw new Error(`Lookup term ${alias.normalizedName} resolves to multiple tunes`);
+      throw new Error(
+        `Lookup term ${alias.normalizedName} resolves to multiple tunes`,
+      );
     }
 
     lookupTerms.set(alias.normalizedName, alias.tuneId);
   }
 }
 
-function assertChartInvariants(tunes: Map<string, TuneRecord>, charts: ChartRecord[]) {
+function assertChartInvariants(
+  tunes: Map<string, TuneRecord>,
+  charts: ChartRecord[],
+) {
   const chartCountByTuneId = new Map<string, number>();
 
   for (const chart of charts) {
     if (!tunes.has(chart.tuneId)) {
-      throw new Error(`Chart ${chart.id} references unknown tune ${chart.tuneId}`);
+      throw new Error(
+        `Chart ${chart.id} references unknown tune ${chart.tuneId}`,
+      );
     }
 
     // The wider enum reserves room for future unlisted support, but issue #3
     // only admits public catalog content plus private gig sheets.
     if (chart.visibility !== "public") {
-      throw new Error(`Release 1 catalog charts must stay public (${chart.id})`);
+      throw new Error(
+        `Release 1 catalog charts must stay public (${chart.id})`,
+      );
     }
 
-    chartCountByTuneId.set(chart.tuneId, (chartCountByTuneId.get(chart.tuneId) ?? 0) + 1);
+    chartCountByTuneId.set(
+      chart.tuneId,
+      (chartCountByTuneId.get(chart.tuneId) ?? 0) + 1,
+    );
   }
 
   for (const tune of tunes.values()) {
     if (chartCountByTuneId.get(tune.id) !== 1) {
-      throw new Error(`Release 1 fixtures must provide exactly one chart for tune ${tune.id}`);
+      throw new Error(
+        `Release 1 fixtures must provide exactly one chart for tune ${tune.id}`,
+      );
     }
   }
 }
@@ -174,7 +204,9 @@ function assertSetInvariants(
 ) {
   for (const setRecord of sets) {
     if (setRecord.visibility !== "public") {
-      throw new Error(`Release 1 catalog sets must stay public (${setRecord.id})`);
+      throw new Error(
+        `Release 1 catalog sets must stay public (${setRecord.id})`,
+      );
     }
 
     assertUniquePositions(setRecord.entries, `Set ${setRecord.id}`);
@@ -184,21 +216,30 @@ function assertSetInvariants(
       const chart = charts.get(entry.chartId);
 
       if (!tune) {
-        throw new Error(`Set ${setRecord.id} references unknown tune ${entry.tuneId}`);
+        throw new Error(
+          `Set ${setRecord.id} references unknown tune ${entry.tuneId}`,
+        );
       }
 
       if (!chart) {
-        throw new Error(`Set ${setRecord.id} references unknown chart ${entry.chartId}`);
+        throw new Error(
+          `Set ${setRecord.id} references unknown chart ${entry.chartId}`,
+        );
       }
 
       if (chart.tuneId !== tune.id) {
-        throw new Error(`Set ${setRecord.id} mismatches tune ${tune.id} and chart ${chart.id}`);
+        throw new Error(
+          `Set ${setRecord.id} mismatches tune ${tune.id} and chart ${chart.id}`,
+        );
       }
     }
   }
 }
 
-function assertGigSheetInvariants(store: Release1Store, sets: Map<string, SetRecord>) {
+function assertGigSheetInvariants(
+  store: Release1Store,
+  sets: Map<string, SetRecord>,
+) {
   for (const gigSheet of store.gigSheets) {
     if (gigSheet.visibility !== "private") {
       throw new Error(`Gig sheets must stay private (${gigSheet.id})`);
@@ -208,7 +249,9 @@ function assertGigSheetInvariants(store: Release1Store, sets: Map<string, SetRec
 
     for (const entry of gigSheet.entries) {
       if (!sets.has(entry.setId)) {
-        throw new Error(`Gig sheet ${gigSheet.id} references unknown set ${entry.setId}`);
+        throw new Error(
+          `Gig sheet ${gigSheet.id} references unknown set ${entry.setId}`,
+        );
       }
     }
   }
@@ -218,7 +261,10 @@ function sortEntries<T extends { position: number }>(entries: T[]): T[] {
   return [...entries].sort((left, right) => left.position - right.position);
 }
 
-function createSetNamesByTune(entriesBySet: SetRecord[], chartsById: Map<string, ChartRecord>) {
+function createSetNamesByTune(
+  entriesBySet: SetRecord[],
+  chartsById: Map<string, ChartRecord>,
+) {
   const namesByTuneId = new Map<string, string[]>();
 
   for (const setRecord of entriesBySet) {
@@ -258,7 +304,9 @@ function resolveSetEntry(
   };
 }
 
-export function createRelease1Repository(input: unknown = release1FixtureStore): Release1Repository {
+export function createRelease1Repository(
+  input: unknown = release1FixtureStore,
+): Release1Repository {
   const store = release1StoreSchema.parse(input);
 
   const tunesById = buildIdMap(store.tunes, "tune");
@@ -286,7 +334,9 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
 
   const publicTunes = store.tunes
     .map((tune) => {
-      const chart = store.charts.find((candidate) => candidate.tuneId === tune.id);
+      const chart = store.charts.find(
+        (candidate) => candidate.tuneId === tune.id,
+      );
 
       if (!chart) {
         throw new Error(`Missing chart for tune ${tune.id}`);
@@ -376,7 +426,9 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
           const setRecord = setsById.get(entry.setId);
 
           if (!setRecord) {
-            throw new Error(`Missing set ${entry.setId} for gig sheet ${gigSheet.id}`);
+            throw new Error(
+              `Missing set ${entry.setId} for gig sheet ${gigSheet.id}`,
+            );
           }
 
           return {
@@ -384,7 +436,8 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
             setName: setRecord.name,
             setSummary: setRecord.summary,
             tuneNames: sortEntries(setRecord.entries).map(
-              (setEntry) => tunesById.get(setEntry.tuneId)?.name ?? setEntry.tuneId,
+              (setEntry) =>
+                tunesById.get(setEntry.tuneId)?.name ?? setEntry.tuneId,
             ),
             transitionNotes: entry.transitionNotes,
           };
@@ -394,4 +447,5 @@ export function createRelease1Repository(input: unknown = release1FixtureStore):
   };
 }
 
-export const release1Repository = createRelease1Repository(release1FixtureStore);
+export const release1Repository =
+  createRelease1Repository(release1FixtureStore);

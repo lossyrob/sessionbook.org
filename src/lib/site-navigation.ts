@@ -11,25 +11,28 @@ export const publicSections: SiteSection[] = [
   {
     href: "/tunes",
     label: "Tunes",
-    summary: "Browse the first schema-backed tune index, complete with aliases, chart metadata, and set links.",
-    nextIssue: "#5 and #7",
-    status: "Schema-backed public catalog surface",
+    summary:
+      "Browse the live public tune index, complete with aliases, chart metadata, and set membership.",
+    nextIssue: "#7",
+    status: "Live public browse surface",
     showInHeader: true,
   },
   {
     href: "/sets",
     label: "Sets",
-    summary: "Browse public sets as ordered, chart-linked records instead of placeholder route shells.",
-    nextIssue: "#5 and #8",
-    status: "Schema-backed public catalog surface",
+    summary:
+      "Browse public sets as ordered tune groups with chart-linked entries and catalog context.",
+    nextIssue: "#8",
+    status: "Live public browse surface",
     showInHeader: true,
   },
   {
     href: "/search",
     label: "Search",
-    summary: "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
-    nextIssue: "#5 and #9",
-    status: "Planned search surface",
+    summary:
+      "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
+    nextIssue: "#9",
+    status: "Upcoming public search surface",
     showInHeader: true,
   },
 ];
@@ -38,17 +41,19 @@ export const ownerSections: SiteSection[] = [
   {
     href: "/login",
     label: "Owner sign in",
-    summary: "Reserve the auth entry point for owner-only flows without implementing auth yet.",
+    summary:
+      "Reserve the auth entry point for owner-only flows without implementing auth yet.",
     nextIssue: "#6",
-    status: "Planned owner access surface",
+    status: "Upcoming owner access surface",
     showInHeader: true,
   },
   {
     href: "/gigs/st-paddys-day",
     label: "St. Paddy's Day gig",
-    summary: "Prove the private gig-sheet storage contract before later issues add auth enforcement and richer owner flows.",
+    summary:
+      "Hold the private gig-sheet route while later issues add auth enforcement and the owner workflow.",
     nextIssue: "#11",
-    status: "Schema-backed private content surface",
+    status: "Upcoming private gig surface",
     showInHeader: false,
   },
 ];

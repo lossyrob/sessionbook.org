@@ -19,7 +19,9 @@ describe("release1Repository", () => {
   it("resolves public tunes by alias", () => {
     const repository = createRelease1Repository(release1FixtureStore);
 
-    expect(repository.findPublicTuneByAlias("Green Mountain")?.slug).toBe("the-green-mountain");
+    expect(repository.findPublicTuneByAlias("Green Mountain")?.slug).toBe(
+      "the-green-mountain",
+    );
     expect(repository.findPublicTuneByAlias("Swinging on a Gate")?.slug).toBe(
       "swinging-on-the-gate",
     );
@@ -105,7 +107,9 @@ describe("release1Repository", () => {
       ],
     };
 
-    expect(() => createRelease1Repository(publicGigStore)).toThrow(/gig sheets must stay private/i);
+    expect(() => createRelease1Repository(publicGigStore)).toThrow(
+      /gig sheets must stay private/i,
+    );
   });
 
   it("rejects unlisted catalog records until browse semantics exist", () => {
@@ -120,7 +124,9 @@ describe("release1Repository", () => {
       ],
     };
 
-    expect(() => createRelease1Repository(unlistedSetStore)).toThrow(/must stay public/i);
+    expect(() => createRelease1Repository(unlistedSetStore)).toThrow(
+      /must stay public/i,
+    );
   });
 
   it("rejects duplicate slugs", () => {
@@ -136,7 +142,9 @@ describe("release1Repository", () => {
       ],
     };
 
-    expect(() => createRelease1Repository(duplicateSlugStore)).toThrow(/duplicate tune slug/i);
+    expect(() => createRelease1Repository(duplicateSlugStore)).toThrow(
+      /duplicate tune slug/i,
+    );
   });
 
   it("rejects ambiguous lookup terms across tunes", () => {
@@ -175,6 +183,8 @@ describe("release1Repository", () => {
       ],
     };
 
-    expect(() => createRelease1Repository(danglingSetStore)).toThrow(/unknown set/i);
+    expect(() => createRelease1Repository(danglingSetStore)).toThrow(
+      /unknown set/i,
+    );
   });
 });

@@ -6,6 +6,13 @@ on:
   push:
     branches:
       - main
+env:
+  CLOUD_RUN_REGION: us-central1
+  GCP_PROJECT_ID: sessionbook-491003
+  GCP_DEPLOY_SERVICE_ACCOUNT_EMAIL: github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
+  GCP_DEPLOY_SERVICE_ACCOUNT: projects/sessionbook-491003/serviceAccounts/github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
+  CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT_EMAIL: sessionbook-web-runtime@sessionbook-491003.iam.gserviceaccount.com
+  STAGING_CLOUD_RUN_SERVICE: sessionbook-web-staging
 jobs:
   deploy_staging:
     runs-on: ubuntu-latest
@@ -16,12 +23,38 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm run format:check
       - run: npm run lint
       - run: npm run test
       - run: npm run typecheck
       - run: npm run build
+      - name: Validate staging runtime secret
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL_STAGING is required for the staging runtime deploy." >&2
+            exit 1
+          fi
+      - run: npm run db:setup
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+      - uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SESSIONBOOK_491003 }}
+      - uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: ${{ env.STAGING_CLOUD_RUN_SERVICE }}
+          source: .
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          region: ${{ env.CLOUD_RUN_REGION }}
+          env_vars: |-
+            DATABASE_URL=${{ secrets.DATABASE_URL_STAGING }}
+          flags: >-
+            --allow-unauthenticated
+            --concurrency=1
+            --service-account=${{ env.CLOUD_RUN_RUNTIME_SERVICE_ACCOUNT_EMAIL }}
+            --build-service-account=${{ env.GCP_DEPLOY_SERVICE_ACCOUNT }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

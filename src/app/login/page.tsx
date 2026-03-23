@@ -8,5 +8,7 @@ const bullets = [
 ];
 
 export default function LoginPage() {
-  return <PlaceholderPage bullets={bullets} section={getSectionByPath("/login")} />;
+  return (
+    <PlaceholderPage bullets={bullets} section={getSectionByPath("/login")} />
+  );
 }

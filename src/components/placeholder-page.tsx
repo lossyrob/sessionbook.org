@@ -25,7 +25,10 @@ export function PlaceholderPage({ section, bullets }: PlaceholderPageProps) {
 
       <section className="callout">
         <h2>Next planned issue</h2>
-        <p>This route is reserved for future implementation in issue {section.nextIssue}.</p>
+        <p>
+          This route is reserved for future implementation in issue{" "}
+          {section.nextIssue}.
+        </p>
       </section>
 
       <p className="back-link">

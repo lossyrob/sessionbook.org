@@ -2,7 +2,11 @@ import { z } from "zod";
 
 const kebabCaseSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
-export const contentVisibilitySchema = z.enum(["public", "unlisted", "private"]);
+export const contentVisibilitySchema = z.enum([
+  "public",
+  "unlisted",
+  "private",
+]);
 
 export const tuneRecordSchema = z.object({
   id: kebabCaseSchema,
