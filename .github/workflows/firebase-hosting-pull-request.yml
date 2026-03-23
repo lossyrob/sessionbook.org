@@ -43,7 +43,6 @@ jobs:
           source: .
           project_id: ${{ env.GCP_PROJECT_ID }}
           region: ${{ env.CLOUD_RUN_REGION }}
-          no_traffic: true
           env_vars: |-
             DATABASE_URL=${{ secrets.DATABASE_URL_STAGING }}
           flags: "--allow-unauthenticated --concurrency=1"

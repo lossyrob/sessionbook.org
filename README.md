@@ -113,9 +113,9 @@ catalog from Postgres instead of silently falling back to fixtures.
 Firebase Hosting is configured with separate `staging` and `prod` targets in
 the `sessionbook-491003` project.
 
-- Pull requests build the app, deploy a no-traffic revision of
-  `sessionbook-web-staging`, then deploy a Firebase Hosting preview channel on
-  the staging site pinned to that Cloud Run revision.
+- Pull requests build the app, deploy a staging Cloud Run revision, then deploy
+  a Firebase Hosting preview channel on the staging site pinned to that Cloud
+  Run revision.
 - Pushes to `main` run `npm run db:setup`, deploy `sessionbook-web-staging`, and
   then deploy the live staging Hosting target pinned to that revision.
 - Tags matching `v*` run `npm run db:setup`, deploy `sessionbook-web-prod`, and
