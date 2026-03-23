@@ -140,7 +140,9 @@ the `sessionbook-491003` project.
 - Cloud Run source deploys pin both `--service-account` and
   `--build-service-account` to the GitHub Actions deploy service account so the
   workflows do not depend on the project's default compute service account
-  having separate `iam.serviceAccounts.actAs` grants.
+  having separate `iam.serviceAccounts.actAs` grants. The workflows also run an
+  explicit IAM policy binding step so that deploy service account can act as the
+  pinned runtime/build service account before Cloud Run deploys.
 - Each workflow uses `.nvmrc`, runs `npm ci`, executes
   `npm run format:check && npm run lint && npm run test && npm run typecheck && npm run build`,
   and then publishes the Hosting config after the Cloud Run deploy step.

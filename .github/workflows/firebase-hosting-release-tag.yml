@@ -8,6 +8,7 @@ on:
 env:
   CLOUD_RUN_REGION: us-central1
   GCP_PROJECT_ID: sessionbook-491003
+  GCP_DEPLOY_SERVICE_ACCOUNT_EMAIL: github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
   GCP_DEPLOY_SERVICE_ACCOUNT: projects/sessionbook-491003/serviceAccounts/github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
   PROD_CLOUD_RUN_SERVICE: sessionbook-web-prod
 jobs:
@@ -39,6 +40,16 @@ jobs:
       - uses: google-github-actions/auth@v3
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SESSIONBOOK_491003 }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+      - name: Allow deploy service account to act as itself
+        run: >-
+          gcloud iam service-accounts add-iam-policy-binding
+          "${{ env.GCP_DEPLOY_SERVICE_ACCOUNT_EMAIL }}"
+          --project="${{ env.GCP_PROJECT_ID }}"
+          --member="serviceAccount:${{ env.GCP_DEPLOY_SERVICE_ACCOUNT_EMAIL }}"
+          --role="roles/iam.serviceAccountUser"
       - uses: google-github-actions/deploy-cloudrun@v3
         with:
           service: ${{ env.PROD_CLOUD_RUN_SERVICE }}
@@ -50,7 +61,7 @@ jobs:
           flags: >-
             --allow-unauthenticated
             --concurrency=1
-            --service-account=github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
+            --service-account=${{ env.GCP_DEPLOY_SERVICE_ACCOUNT_EMAIL }}
             --build-service-account=${{ env.GCP_DEPLOY_SERVICE_ACCOUNT }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
