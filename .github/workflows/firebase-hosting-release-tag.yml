@@ -50,6 +50,7 @@ jobs:
           flags: >-
             --allow-unauthenticated
             --concurrency=1
+            --service-account=github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
             --build-service-account=${{ env.GCP_DEPLOY_SERVICE_ACCOUNT }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
