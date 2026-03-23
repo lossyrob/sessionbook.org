@@ -21,7 +21,12 @@ html {
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top, #fcfbf8 0%, var(--background) 55%, #efe7dd 100%);
+  background: radial-gradient(
+    circle at top,
+    #fcfbf8 0%,
+    var(--background) 55%,
+    #efe7dd 100%
+  );
   color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
   min-height: 100vh;
@@ -216,7 +221,9 @@ li {
   background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
   font-size: 0.92rem;
   line-height: 1.55;
   white-space: pre-wrap;

@@ -21,24 +21,34 @@ describe("buildRelease1Import", () => {
 
     expect(result.store).toEqual(release1FixtureStore);
     expect(result.excludedSourceTitles).toEqual(
-      [...expectedExcludedSourceTitles].sort((left, right) => left.localeCompare(right)),
+      [...expectedExcludedSourceTitles].sort((left, right) =>
+        left.localeCompare(right),
+      ),
     );
   });
 
   it("recovers Willie Coleman's from the fallback source chain", () => {
     const result = buildRelease1Import();
-    const willieChart = result.store.charts.find((chart) => chart.tuneId === "willie-colemans");
+    const willieChart = result.store.charts.find(
+      (chart) => chart.tuneId === "willie-colemans",
+    );
 
-    expect(willieChart?.contentMarkdown).toContain("G - C D | or | G - Am D | or build G A B C D");
+    expect(willieChart?.contentMarkdown).toContain(
+      "G - C D | or | G - Am D | or build G A B C D",
+    );
     expect(willieChart?.contentMarkdown).toContain("{varation}");
   });
 
   it("keeps excluded titles documented and out of the imported store", () => {
     const result = buildRelease1Import();
-    const importedTuneNames = new Set(result.store.tunes.map((tune) => tune.name));
+    const importedTuneNames = new Set(
+      result.store.tunes.map((tune) => tune.name),
+    );
 
     expect(result.excludedSourceTitles).toEqual(
-      [...expectedExcludedSourceTitles].sort((left, right) => left.localeCompare(right)),
+      [...expectedExcludedSourceTitles].sort((left, right) =>
+        left.localeCompare(right),
+      ),
     );
     expect(importedTuneNames.has("Josefin's Waltz")).toBe(false);
     expect(importedTuneNames.has("Kitty Lie Over")).toBe(false);
@@ -46,7 +56,9 @@ describe("buildRelease1Import", () => {
 
   it("derives the private gig from non-drop public source groups", () => {
     const repository = createRelease1Repository(buildRelease1Import().store);
-    const gigSheet = repository.getPrivateGigSheetBySlug(stPaddysDayGigMetadata.slug);
+    const gigSheet = repository.getPrivateGigSheetBySlug(
+      stPaddysDayGigMetadata.slug,
+    );
 
     expect(gigSheet?.name).toBe(stPaddysDayGigMetadata.name);
     expect(gigSheet?.entries.map((entry) => entry.setName)).toEqual([
@@ -68,12 +80,16 @@ describe("buildRelease1Import", () => {
   it("covers the helper rules behind the generated catalog", () => {
     expect(slugify("Willie Coleman's")).toBe("willie-colemans");
     expect(parseKeyAndMode("Ador")).toEqual({ key: "A", mode: "Dorian" });
-    expect(inferTuneType("Bog an Lochan", "STRATHSPEYS → REELS", "Edor strathspey")).toBe(
-      "Strathspey",
+    expect(
+      inferTuneType("Bog an Lochan", "STRATHSPEYS → REELS", "Edor strathspey"),
+    ).toBe("Strathspey");
+    expect(inferTuneType("Keep it Up", "STRATHSPEYS → REELS", "Emix")).toBe(
+      "Reel",
     );
-    expect(inferTuneType("Keep it Up", "STRATHSPEYS → REELS", "Emix")).toBe("Reel");
     expect(inferTuneType("Sample Fling", "REELS")).toBe("Fling");
-    expect(allocateSetId("repeat-id", "JIGS", 3, new Set(["repeat-id"]))).toBe("jigs-3");
+    expect(allocateSetId("repeat-id", "JIGS", 3, new Set(["repeat-id"]))).toBe(
+      "jigs-3",
+    );
   });
 
   it("fails fast on primary and alias lookup collisions", () => {

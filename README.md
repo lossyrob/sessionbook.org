@@ -28,26 +28,26 @@ needs clean chord charts for sessions and gigs.
 
 ## Core Concepts
 
-| Concept | Description |
-|---------|-------------|
-| **Tune** | A tune identity: name, aliases, type, external references |
-| **Chart** | A chord chart for a tune in a given key/mode, by a given author |
-| **ChartRevision** | An immutable snapshot of a chart |
-| **Set** | An ordered group of tunes with chosen chart revisions |
-| **Session / Gig Sheet** | An ordered list of sets prepared for a specific event — the printable "book" |
-| **SessionChart** | Gig-specific overrides (repeats, cues, transitions) layered on a pinned chart revision |
+| Concept                 | Description                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| **Tune**                | A tune identity: name, aliases, type, external references                              |
+| **Chart**               | A chord chart for a tune in a given key/mode, by a given author                        |
+| **ChartRevision**       | An immutable snapshot of a chart                                                       |
+| **Set**                 | An ordered group of tunes with chosen chart revisions                                  |
+| **Session / Gig Sheet** | An ordered list of sets prepared for a specific event — the printable "book"           |
+| **SessionChart**        | Gig-specific overrides (repeats, cues, transitions) layered on a pinned chart revision |
 
 ## Tech Stack
 
-| Layer | Choice |
-|-------|--------|
-| Frontend | Next.js / React |
-| Database | Neon Postgres |
-| Hosting | Firebase Hosting → Google Cloud Run |
-| PDF Generation | Python renderer in a separate Cloud Run service |
-| DNS / Domain | Cloudflare Registrar + DNS |
-| CI/CD | GitHub Actions with Google and Firebase deploy actions |
-| File Storage | Google Cloud Storage (future) |
+| Layer          | Choice                                                 |
+| -------------- | ------------------------------------------------------ |
+| Frontend       | Next.js / React                                        |
+| Database       | Neon Postgres                                          |
+| Hosting        | Firebase Hosting → Google Cloud Run                    |
+| PDF Generation | Python renderer in a separate Cloud Run service        |
+| DNS / Domain   | Cloudflare Registrar + DNS                             |
+| CI/CD          | GitHub Actions with Google and Firebase deploy actions |
+| File Storage   | Google Cloud Storage (future)                          |
 
 ## Project Status
 
@@ -81,15 +81,17 @@ catalog from Postgres instead of silently falling back to fixtures.
 
 ### Available Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start the local Next.js development server |
-| `npm run db:setup` | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set |
+| Command                           | Purpose                                                                                      |
+| --------------------------------- | -------------------------------------------------------------------------------------------- |
+| `npm run dev`                     | Start the local Next.js development server                                                   |
+| `npm run db:setup`                | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set    |
+| `npm run format`                  | Apply the repository Prettier formatting rules                                               |
+| `npm run format:check`            | Check the repository against the configured Prettier rules                                   |
 | `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
-| `npm run lint` | Run the flat ESLint config used in CI |
-| `npm run test` | Run the Vitest smoke tests |
-| `npm run typecheck` | Run `tsc --noEmit` |
-| `npm run build` | Build the Next.js runtime app (including the standalone Cloud Run bundle) |
+| `npm run lint`                    | Run the flat ESLint config used in CI                                                        |
+| `npm run test`                    | Run the Vitest smoke tests                                                                   |
+| `npm run typecheck`               | Run `tsc --noEmit`                                                                           |
+| `npm run build`                   | Build the Next.js runtime app (including the standalone Cloud Run bundle)                    |
 
 ## Current Runtime Notes
 
@@ -108,6 +110,21 @@ catalog from Postgres instead of silently falling back to fixtures.
 - The repository `public/` directory is reserved for standard Next.js static
   assets, not hand-authored deploy pages.
 
+## CI Workflow
+
+GitHub Actions now also runs a standalone `CI` workflow on pull requests and
+pushes to `main`. That workflow installs dependencies and runs:
+
+- `npm run format:check`
+- `npm run lint`
+- `npm run test`
+- `npm run typecheck`
+- `npm run build`
+
+The deploy workflows still run their own verification before deployment, but the
+standalone CI workflow gives faster feedback on format, lint, test, and build
+health even when no deploy should happen.
+
 ## Deployment Workflow
 
 Firebase Hosting is configured with separate `staging` and `prod` targets in
@@ -121,8 +138,8 @@ the `sessionbook-491003` project.
 - Tags matching `v*` run `npm run db:setup`, deploy `sessionbook-web-prod`, and
   then deploy the live production Hosting target pinned to that revision.
 - Each workflow uses `.nvmrc`, runs `npm ci`, executes
-  `npm run lint && npm run test && npm run typecheck && npm run build`, and
-  then publishes the Hosting config after the Cloud Run deploy step.
+  `npm run format:check && npm run lint && npm run test && npm run typecheck && npm run build`,
+  and then publishes the Hosting config after the Cloud Run deploy step.
 - Preview and staging runtime deploys use `DATABASE_URL_STAGING`; production tag
   deploys use `DATABASE_URL_PROD`.
 

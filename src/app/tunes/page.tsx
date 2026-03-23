@@ -10,7 +10,9 @@ export default async function TunesPage() {
   const { repository, source } = await loadRelease1Repository();
   const tunes = repository.listPublicTunes();
   const storageSourceLabel =
-    source === "database" ? "Neon/Postgres via the live runtime" : "the checked-in imported catalog";
+    source === "database"
+      ? "Neon/Postgres via the live runtime"
+      : "the checked-in imported catalog";
 
   return (
     <div className="placeholder-page">
@@ -22,8 +24,14 @@ export default async function TunesPage() {
         <h2>What this tune index surfaces</h2>
         <ul className="checklist">
           <li>Current response source: {storageSourceLabel}.</li>
-          <li>Each public tune loads through the Release 1 repository instead of a placeholder route shell.</li>
-          <li>Aliases stay separate from tune records but resolve back into the visible tune view.</li>
+          <li>
+            Each public tune loads through the Release 1 repository instead of a
+            placeholder route shell.
+          </li>
+          <li>
+            Aliases stay separate from tune records but resolve back into the
+            visible tune view.
+          </li>
           <li>
             The runtime uses the same tune view model whether local development
             falls back to fixtures or deployed environments read from Postgres.
@@ -54,14 +62,16 @@ export default async function TunesPage() {
                     <strong>Aliases:</strong> {tune.aliases.join(", ")}
                   </li>
                   <li>
-                    <strong>Chart:</strong> {tune.chart.title} in {tune.chart.key}{" "}
-                    {tune.chart.mode} ({tune.chart.meter})
+                    <strong>Chart:</strong> {tune.chart.title} in{" "}
+                    {tune.chart.key} {tune.chart.mode} ({tune.chart.meter})
                   </li>
                   <li>
                     <strong>Used in sets:</strong> {tune.setNames.join(", ")}
                   </li>
                 </ul>
-                <pre className="chart-preview">{tune.chart.contentMarkdown}</pre>
+                <pre className="chart-preview">
+                  {tune.chart.contentMarkdown}
+                </pre>
               </article>
             ))
           )}

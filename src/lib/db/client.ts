@@ -13,10 +13,9 @@ function registerDatabaseShutdownHandlers() {
   shutdownHandlersRegistered = true;
 
   const shutdown = (signal: NodeJS.Signals) => {
-    void closeDatabaseClient()
-      .catch((error) => {
-        console.error(`Failed to close Postgres client on ${signal}.`, error);
-      });
+    void closeDatabaseClient().catch((error) => {
+      console.error(`Failed to close Postgres client on ${signal}.`, error);
+    });
   };
 
   process.once("SIGTERM", () => shutdown("SIGTERM"));

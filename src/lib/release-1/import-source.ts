@@ -132,7 +132,11 @@ function inferDefaultFamily(sectionHeading: string): string {
   return "Reel";
 }
 
-export function inferTuneType(title: string, sectionHeading: string, keyDescriptor?: string): string {
+export function inferTuneType(
+  title: string,
+  sectionHeading: string,
+  keyDescriptor?: string,
+): string {
   const descriptorWords = toWordSet(keyDescriptor ?? "");
   const titleWords = toWordSet(title);
 
@@ -191,7 +195,10 @@ function inferMeter(tuneType: string): string {
   }
 }
 
-export function parseKeyAndMode(keyDescriptor?: string): { key: string; mode: string } {
+export function parseKeyAndMode(keyDescriptor?: string): {
+  key: string;
+  mode: string;
+} {
   const descriptor = toAscii(keyDescriptor ?? "").trim();
 
   if (!descriptor) {
@@ -223,7 +230,10 @@ export function parseKeyAndMode(keyDescriptor?: string): { key: string; mode: st
   return { key, mode: "Major" };
 }
 
-function parseStructuredSource(content: string, sourceFile: string): ParsedGroup[] {
+function parseStructuredSource(
+  content: string,
+  sourceFile: string,
+): ParsedGroup[] {
   const lines = content.split(/\r?\n/);
   const groups: ParsedGroup[] = [];
   let currentSectionHeading = "Imported source";
@@ -338,7 +348,10 @@ function parseStructuredSource(content: string, sourceFile: string): ParsedGroup
   return groups;
 }
 
-function parseInlineFallbackSource(content: string, sourceFile: string): ParsedTune[] {
+function parseInlineFallbackSource(
+  content: string,
+  sourceFile: string,
+): ParsedTune[] {
   const lines = content.split(/\r?\n/);
   const tunes: ParsedTune[] = [];
   let currentSectionHeading = "Imported source";
@@ -431,7 +444,10 @@ function buildFallbackChartMap(repoRoot: string): Map<string, ParsedTune[]> {
   return fallbackMap;
 }
 
-function buildTuneSummary(tune: ParsedTune, fallbackSourceFile?: string): string {
+function buildTuneSummary(
+  tune: ParsedTune,
+  fallbackSourceFile?: string,
+): string {
   const parts = [`Imported from ${canonicalSourcePath}.`];
 
   if (fallbackSourceFile) {
@@ -445,7 +461,10 @@ function buildTuneSummary(tune: ParsedTune, fallbackSourceFile?: string): string
   return parts.join(" ");
 }
 
-function buildSetSummary(group: ParsedGroup, omittedTitleCount: number): string {
+function buildSetSummary(
+  group: ParsedGroup,
+  omittedTitleCount: number,
+): string {
   const parts = [
     `Imported from the ${group.sectionHeading} section of ${canonicalSourcePath}.`,
   ];
@@ -498,7 +517,9 @@ export function buildAliasRecords(
   const tuneIdByLookupTerm = new Map<string, string>();
   const aliases: TuneAliasRecord[] = [];
   const usedAliasIds = new Set<string>();
-  const importedByIdentity = new Map(importedTunes.map((tune) => [toIdentityKey(tune.name), tune]));
+  const importedByIdentity = new Map(
+    importedTunes.map((tune) => [toIdentityKey(tune.name), tune]),
+  );
 
   for (const tune of importedTunes) {
     const lookupTerm = normalizeSearchTerm(tune.name);
@@ -556,12 +577,16 @@ export function buildAliasRecords(
     }
   }
 
-  return aliases.sort((left, right) =>
-    left.normalizedName.localeCompare(right.normalizedName) || left.tuneId.localeCompare(right.tuneId),
+  return aliases.sort(
+    (left, right) =>
+      left.normalizedName.localeCompare(right.normalizedName) ||
+      left.tuneId.localeCompare(right.tuneId),
   );
 }
 
-export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1ImportResult {
+export function buildRelease1Import(
+  repoRoot = process.cwd(),
+): BuildRelease1ImportResult {
   const canonicalGroups = parseStructuredSource(
     readSourceFile(repoRoot, canonicalSourcePath),
     canonicalSourcePath,
@@ -583,7 +608,8 @@ export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1Impo
       }
 
       const fallbackTune = fallbackChartsByIdentity.get(identityKey)?.[0];
-      const chartMarkdown = sourceTune.chartMarkdown ?? fallbackTune?.chartMarkdown;
+      const chartMarkdown =
+        sourceTune.chartMarkdown ?? fallbackTune?.chartMarkdown;
 
       if (!chartMarkdown) {
         excludedSourceTitles.push(sourceTune.title);
@@ -592,9 +618,15 @@ export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1Impo
 
       const tuneId = slugify(sourceTune.title);
       const chartId = `${tuneId}-chart`;
-      const tuneType = inferTuneType(sourceTune.title, sourceTune.sectionHeading, sourceTune.keyDescriptor);
+      const tuneType = inferTuneType(
+        sourceTune.title,
+        sourceTune.sectionHeading,
+        sourceTune.keyDescriptor,
+      );
       const meter = inferMeter(tuneType);
-      const keyMode = parseKeyAndMode(sourceTune.keyDescriptor ?? fallbackTune?.keyDescriptor);
+      const keyMode = parseKeyAndMode(
+        sourceTune.keyDescriptor ?? fallbackTune?.keyDescriptor,
+      );
 
       importedTunes.push({
         id: tuneId,
@@ -622,13 +654,18 @@ export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1Impo
     }
   }
 
-  const tuneAliases = buildAliasRecords(importedTunes, fallbackChartsByIdentity);
+  const tuneAliases = buildAliasRecords(
+    importedTunes,
+    fallbackChartsByIdentity,
+  );
   const importedSets: SetRecord[] = [];
   const setIds = new Set<string>();
   const gigSheetEntries: Release1Store["gigSheets"][number]["entries"] = [];
 
   for (const group of canonicalGroups) {
-    const survivingTunes = group.tunes.filter((sourceTune) => tuneIdByIdentity.has(toIdentityKey(sourceTune.title)));
+    const survivingTunes = group.tunes.filter((sourceTune) =>
+      tuneIdByIdentity.has(toIdentityKey(sourceTune.title)),
+    );
 
     if (survivingTunes.length === 0) {
       continue;
@@ -656,19 +693,30 @@ export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1Impo
 
     const setName = survivingTunes.map((tune) => tune.title).join(" / ");
     const baseSetId = entries.map((entry) => entry.tuneId).join("-");
-    const setId = allocateSetId(baseSetId, group.sectionHeading, group.order, setIds);
+    const setId = allocateSetId(
+      baseSetId,
+      group.sectionHeading,
+      group.order,
+      setIds,
+    );
     const setRecord: SetRecord = {
       id: setId,
       slug: setId,
       name: setName,
-      summary: buildSetSummary(group, group.tunes.length - survivingTunes.length),
+      summary: buildSetSummary(
+        group,
+        group.tunes.length - survivingTunes.length,
+      ),
       visibility: "public",
       entries,
     };
 
     importedSets.push(setRecord);
 
-    if (!group.dropMarked || stPaddysDayGigMetadata.includeDropMarkedSourceGroups) {
+    if (
+      !group.dropMarked ||
+      stPaddysDayGigMetadata.includeDropMarkedSourceGroups
+    ) {
       gigSheetEntries.push({
         position: gigSheetEntries.length + 1,
         setId,
@@ -676,8 +724,12 @@ export function buildRelease1Import(repoRoot = process.cwd()): BuildRelease1Impo
     }
   }
 
-  const excludedSorted = [...excludedSourceTitles].sort((left, right) => left.localeCompare(right));
-  const expectedSorted = [...expectedExcludedSourceTitles].sort((left, right) => left.localeCompare(right));
+  const excludedSorted = [...excludedSourceTitles].sort((left, right) =>
+    left.localeCompare(right),
+  );
+  const expectedSorted = [...expectedExcludedSourceTitles].sort((left, right) =>
+    left.localeCompare(right),
+  );
 
   if (JSON.stringify(excludedSorted) !== JSON.stringify(expectedSorted)) {
     throw new Error(

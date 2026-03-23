@@ -113,7 +113,12 @@ export async function seedRelease1Catalog(sql: Sql) {
             insert into gig_sheet_entries (gig_sheet_id, position, set_id, transition_notes)
             values ($1, $2, $3, $4)
           `,
-          [gigSheet.id, entry.position, entry.setId, entry.transitionNotes ?? null],
+          [
+            gigSheet.id,
+            entry.position,
+            entry.setId,
+            entry.transitionNotes ?? null,
+          ],
         );
       }
     }

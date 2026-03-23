@@ -3,7 +3,13 @@ import path from "node:path";
 
 import type { Sql } from "postgres";
 
-const migrationsDirectory = path.join(process.cwd(), "src", "lib", "db", "migrations");
+const migrationsDirectory = path.join(
+  process.cwd(),
+  "src",
+  "lib",
+  "db",
+  "migrations",
+);
 
 export async function runDatabaseMigrations(sql: Sql): Promise<string[]> {
   await sql`
@@ -17,7 +23,8 @@ export async function runDatabaseMigrations(sql: Sql): Promise<string[]> {
     .filter((fileName) => fileName.endsWith(".sql"))
     .sort();
 
-  const appliedRows = await sql`select name from schema_migrations order by name`;
+  const appliedRows =
+    await sql`select name from schema_migrations order by name`;
   const appliedNames = new Set(appliedRows.map((row) => String(row.name)));
   const executedMigrations: string[] = [];
 
@@ -26,7 +33,10 @@ export async function runDatabaseMigrations(sql: Sql): Promise<string[]> {
       continue;
     }
 
-    const migrationSql = await readFile(path.join(migrationsDirectory, fileName), "utf8");
+    const migrationSql = await readFile(
+      path.join(migrationsDirectory, fileName),
+      "utf8",
+    );
     await sql.begin(async (transaction) => {
       await transaction.unsafe(migrationSql);
       await transaction.unsafe(

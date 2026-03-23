@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { allSections, ownerSections, publicSections } from "@/lib/site-navigation";
+import {
+  allSections,
+  ownerSections,
+  publicSections,
+} from "@/lib/site-navigation";
 
 describe("site navigation", () => {
   it("covers the expected public browse and search surfaces", () => {
@@ -25,7 +29,13 @@ describe("site navigation", () => {
   });
 
   it("marks tune and set browse routes as the live public surfaces", () => {
-    expect(publicSections.slice(0, 2).map((section) => section.nextIssue)).toEqual(["#7", "#8"]);
-    expect(publicSections.slice(0, 2).every((section) => section.status === "Live public browse surface")).toBe(true);
+    expect(
+      publicSections.slice(0, 2).map((section) => section.nextIssue),
+    ).toEqual(["#7", "#8"]);
+    expect(
+      publicSections
+        .slice(0, 2)
+        .every((section) => section.status === "Live public browse surface"),
+    ).toBe(true);
   });
 });

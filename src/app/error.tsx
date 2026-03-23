@@ -17,9 +17,7 @@ export default function AppError({ error, reset }: AppErrorProps) {
         available from the configured runtime source. Please try again or return
         to the homepage once the catalog connection is healthy.
       </p>
-      <p className="data-note">
-        {error.message}
-      </p>
+      <p className="data-note">{error.message}</p>
       <div className="action-row">
         <button className="action-button" onClick={() => reset()} type="button">
           Try again

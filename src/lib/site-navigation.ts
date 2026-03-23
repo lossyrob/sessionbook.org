@@ -11,7 +11,8 @@ export const publicSections: SiteSection[] = [
   {
     href: "/tunes",
     label: "Tunes",
-    summary: "Browse the live public tune index, complete with aliases, chart metadata, and set membership.",
+    summary:
+      "Browse the live public tune index, complete with aliases, chart metadata, and set membership.",
     nextIssue: "#7",
     status: "Live public browse surface",
     showInHeader: true,
@@ -19,7 +20,8 @@ export const publicSections: SiteSection[] = [
   {
     href: "/sets",
     label: "Sets",
-    summary: "Browse public sets as ordered tune groups with chart-linked entries and catalog context.",
+    summary:
+      "Browse public sets as ordered tune groups with chart-linked entries and catalog context.",
     nextIssue: "#8",
     status: "Live public browse surface",
     showInHeader: true,
@@ -27,7 +29,8 @@ export const publicSections: SiteSection[] = [
   {
     href: "/search",
     label: "Search",
-    summary: "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
+    summary:
+      "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
     nextIssue: "#9",
     status: "Upcoming public search surface",
     showInHeader: true,
@@ -38,7 +41,8 @@ export const ownerSections: SiteSection[] = [
   {
     href: "/login",
     label: "Owner sign in",
-    summary: "Reserve the auth entry point for owner-only flows without implementing auth yet.",
+    summary:
+      "Reserve the auth entry point for owner-only flows without implementing auth yet.",
     nextIssue: "#6",
     status: "Upcoming owner access surface",
     showInHeader: true,
@@ -46,7 +50,8 @@ export const ownerSections: SiteSection[] = [
   {
     href: "/gigs/st-paddys-day",
     label: "St. Paddy's Day gig",
-    summary: "Hold the private gig-sheet route while later issues add auth enforcement and the owner workflow.",
+    summary:
+      "Hold the private gig-sheet route while later issues add auth enforcement and the owner workflow.",
     nextIssue: "#11",
     status: "Upcoming private gig surface",
     showInHeader: false,

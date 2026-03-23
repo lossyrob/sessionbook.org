@@ -10,7 +10,9 @@ export default async function SetsPage() {
   const { repository, source } = await loadRelease1Repository();
   const sets = repository.listPublicSets();
   const storageSourceLabel =
-    source === "database" ? "Neon/Postgres via the live runtime" : "the checked-in imported catalog";
+    source === "database"
+      ? "Neon/Postgres via the live runtime"
+      : "the checked-in imported catalog";
 
   return (
     <div className="placeholder-page">
@@ -22,8 +24,14 @@ export default async function SetsPage() {
         <h2>What this set index surfaces</h2>
         <ul className="checklist">
           <li>Current response source: {storageSourceLabel}.</li>
-          <li>Sets load from the imported Release 1 source groups instead of placeholder route content.</li>
-          <li>Each set entry preserves tune order while pointing at explicit chart IDs.</li>
+          <li>
+            Sets load from the imported Release 1 source groups instead of
+            placeholder route content.
+          </li>
+          <li>
+            Each set entry preserves tune order while pointing at explicit chart
+            IDs.
+          </li>
           <li>
             The public set catalog stays separate from the private gig-sheet
             layer that reuses it, whether the repository source is Postgres or
@@ -47,14 +55,16 @@ export default async function SetsPage() {
           ) : (
             sets.map((setRecord) => (
               <article className="section-card" key={setRecord.id}>
-                <p className="section-card__status">{setRecord.entries.length} tune set</p>
+                <p className="section-card__status">
+                  {setRecord.entries.length} tune set
+                </p>
                 <h3>{setRecord.name}</h3>
                 <p>{setRecord.summary}</p>
                 <ol className="entry-list">
                   {setRecord.entries.map((entry) => (
                     <li key={`${setRecord.id}-${entry.position}`}>
-                      <strong>{entry.tuneName}</strong> - {entry.chartTitle} in {entry.key}{" "}
-                      {entry.mode} ({entry.meter})
+                      <strong>{entry.tuneName}</strong> - {entry.chartTitle} in{" "}
+                      {entry.key} {entry.mode} ({entry.meter})
                     </li>
                   ))}
                 </ol>

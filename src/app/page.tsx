@@ -8,7 +8,9 @@ export default async function HomePage() {
   const { repository, source } = await loadRelease1Repository();
   const summary = repository.getCatalogSummary();
   const storageSourceLabel =
-    source === "database" ? "Neon/Postgres via the live runtime" : "the checked-in imported catalog";
+    source === "database"
+      ? "Neon/Postgres via the live runtime"
+      : "the checked-in imported catalog";
   const metricCards = [
     {
       label: "Public tunes",
@@ -18,12 +20,14 @@ export default async function HomePage() {
     {
       label: "Public sets",
       value: summary.publicSetCount,
-      description: "Each set stores ordered tune-to-chart references instead of flattening the catalog.",
+      description:
+        "Each set stores ordered tune-to-chart references instead of flattening the catalog.",
     },
     {
       label: "Private gig sheets",
       value: summary.privateGigSheetCount,
-      description: "Private gig data stays distinct from the public catalog even before auth enforcement lands.",
+      description:
+        "Private gig data stays distinct from the public catalog even before auth enforcement lands.",
     },
   ];
 
@@ -31,7 +35,10 @@ export default async function HomePage() {
     <div className="hero">
       <section className="hero__panel">
         <p className="eyebrow">Release 1 public catalog</p>
-        <h1>SessionBook is now a public browseable catalog for Irish trad chord charts.</h1>
+        <h1>
+          SessionBook is now a public browseable catalog for Irish trad chord
+          charts.
+        </h1>
         <div className="hero__summary">
           <p>
             Anonymous visitors can now understand the site from the homepage and
@@ -64,18 +71,28 @@ export default async function HomePage() {
         <h2>How this catalog is loaded</h2>
         <ul className="checklist">
           <li>Current response source: {storageSourceLabel}.</li>
-          <li>The store is validated with Zod before the repository exposes public catalog views.</li>
+          <li>
+            The store is validated with Zod before the repository exposes public
+            catalog views.
+          </li>
           <li>
             <code>npm run db:setup</code> creates the Release 1 schema and seeds
-            it from the checked-in imported store when a Postgres connection is available.
+            it from the checked-in imported store when a Postgres connection is
+            available.
           </li>
           <li>
             Local development can still browse the catalog without Postgres, but
             configured database environments are expected to load the imported
             Release 1 store directly from Postgres.
           </li>
-          <li>Charts stay separate from tunes even though the Release 1 seed data uses one chart per tune.</li>
-          <li>Gig sheets remain explicitly private records so auth can layer on later.</li>
+          <li>
+            Charts stay separate from tunes even though the Release 1 seed data
+            uses one chart per tune.
+          </li>
+          <li>
+            Gig sheets remain explicitly private records so auth can layer on
+            later.
+          </li>
         </ul>
       </section>
 

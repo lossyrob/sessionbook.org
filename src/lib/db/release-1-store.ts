@@ -115,7 +115,10 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     order by set_id, position
   `) as SetEntryRow[];
 
-  const setEntriesBySetId = new Map<string, Release1Store["sets"][number]["entries"]>();
+  const setEntriesBySetId = new Map<
+    string,
+    Release1Store["sets"][number]["entries"]
+  >();
 
   for (const entry of setEntryRows) {
     const entries = setEntriesBySetId.get(entry.setId) ?? [];
@@ -127,7 +130,8 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     setEntriesBySetId.set(entry.setId, entries);
   }
 
-  const sets = (await sql`
+  const sets = (
+    await sql`
     select
       id,
       slug,
@@ -136,14 +140,15 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
       visibility
     from sets
     order by name
-  `).map((row) => ({
+  `
+  ).map((row) => ({
     id: String(row.id),
     slug: String(row.slug),
     name: String(row.name),
     summary: String(row.summary),
-      visibility: row.visibility,
-      entries: setEntriesBySetId.get(String(row.id)) ?? [],
-    }));
+    visibility: row.visibility,
+    entries: setEntriesBySetId.get(String(row.id)) ?? [],
+  }));
   assertRecordsHaveEntries(sets, "set");
 
   const gigSheetEntryRows = (await sql`
@@ -156,7 +161,10 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     order by gig_sheet_id, position
   `) as GigSheetEntryRow[];
 
-  const gigSheetEntriesById = new Map<string, Release1Store["gigSheets"][number]["entries"]>();
+  const gigSheetEntriesById = new Map<
+    string,
+    Release1Store["gigSheets"][number]["entries"]
+  >();
 
   for (const entry of gigSheetEntryRows) {
     const entries = gigSheetEntriesById.get(entry.gigSheetId) ?? [];
@@ -168,7 +176,8 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
     gigSheetEntriesById.set(entry.gigSheetId, entries);
   }
 
-  const gigSheets = (await sql`
+  const gigSheets = (
+    await sql`
     select
       id,
       slug,
@@ -177,14 +186,15 @@ export async function loadRelease1StoreFromDatabase(): Promise<Release1Store | n
       visibility
     from gig_sheets
     order by name
-  `).map((row) => ({
+  `
+  ).map((row) => ({
     id: String(row.id),
     slug: String(row.slug),
     name: String(row.name),
     summary: String(row.summary),
-      visibility: row.visibility,
-      entries: gigSheetEntriesById.get(String(row.id)) ?? [],
-    }));
+    visibility: row.visibility,
+    entries: gigSheetEntriesById.get(String(row.id)) ?? [],
+  }));
   assertRecordsHaveEntries(gigSheets, "gig sheet");
 
   return release1StoreSchema.parse({
