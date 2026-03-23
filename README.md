@@ -137,12 +137,14 @@ the `sessionbook-491003` project.
   then deploy the live staging Hosting target pinned to that revision.
 - Tags matching `v*` run `npm run db:setup`, deploy `sessionbook-web-prod`, and
   then deploy the live production Hosting target pinned to that revision.
-- Cloud Run source deploys pin both `--service-account` and
-  `--build-service-account` to the GitHub Actions deploy service account so the
-  workflows do not depend on the project's default compute service account
-  having separate `iam.serviceAccounts.actAs` grants. The workflows also run an
-  explicit IAM policy binding step so that deploy service account can act as the
-  pinned runtime/build service account before Cloud Run deploys.
+- Cloud Run source deploys pin `--build-service-account` to the GitHub Actions
+  deploy service account and `--service-account` to a dedicated runtime service
+  account (`sessionbook-web-runtime@sessionbook-491003.iam.gserviceaccount.com`).
+- One-time GCP setup is required: create that runtime service account and grant
+  `roles/iam.serviceAccountUser` on it to
+  `github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com`. That
+  manual IAM grant is preferred over trying to mutate IAM policy inside the
+  deploy workflow itself.
 - Each workflow uses `.nvmrc`, runs `npm ci`, executes
   `npm run format:check && npm run lint && npm run test && npm run typecheck && npm run build`,
   and then publishes the Hosting config after the Cloud Run deploy step.
