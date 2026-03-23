@@ -2,10 +2,13 @@ import { SectionCard } from "@/components/section-card";
 import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import { ownerSections, publicSections } from "@/lib/site-navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const { repository, source } = await loadRelease1Repository();
   const summary = repository.getCatalogSummary();
-  const storageSourceLabel = source === "database" ? "Postgres" : "checked-in imported catalog";
+  const storageSourceLabel =
+    source === "database" ? "Neon/Postgres via the live runtime" : "the checked-in imported catalog";
   const metricCards = [
     {
       label: "Public tunes",
@@ -27,20 +30,19 @@ export default async function HomePage() {
   return (
     <div className="hero">
       <section className="hero__panel">
-        <p className="eyebrow">Release 1 catalog import</p>
-        <h1>SessionBook now ships a real imported Release 1 catalog behind the bootstrap app.</h1>
+        <p className="eyebrow">Release 1 public catalog</p>
+        <h1>SessionBook is now a public browseable catalog for Irish trad chord charts.</h1>
         <div className="hero__summary">
           <p>
-            The app still builds as a static export, but it now carries real
-            Release 1 source material through the checked-in catalog, the
-            repository layer, and the Postgres seed path for tunes, aliases,
-            charts, public sets, and private gig sheets.
+            Anonymous visitors can now understand the site from the homepage and
+            browse imported public tunes and sets through the shared app shell.
+            The public catalog is backed by the same Release 1 repository that
+            assembles tunes, aliases, charts, sets, and private gig-sheet data.
           </p>
           <p>
-            When <code>DATABASE_URL</code> is configured and seeded, the build
-            reads from Postgres. When no database is configured yet, local work
-            can still fall back to the checked-in imported store without
-            changing the app-facing repository contract.
+            When <code>DATABASE_URL</code> is configured, the live runtime reads
+            directly from Neon/Postgres. Local work can still browse the same
+            catalog from the checked-in import when no database is configured.
           </p>
         </div>
       </section>
@@ -59,13 +61,18 @@ export default async function HomePage() {
       </section>
 
       <section className="callout">
-        <h2>Storage choices for this build</h2>
+        <h2>How this catalog is loaded</h2>
         <ul className="checklist">
-          <li>Current build source: {storageSourceLabel}.</li>
-          <li>The store is validated with Zod during build and test.</li>
+          <li>Current response source: {storageSourceLabel}.</li>
+          <li>The store is validated with Zod before the repository exposes public catalog views.</li>
           <li>
             <code>npm run db:setup</code> creates the Release 1 schema and seeds
             it from the checked-in imported store when a Postgres connection is available.
+          </li>
+          <li>
+            Local development can still browse the catalog without Postgres, but
+            configured database environments are expected to load the imported
+            Release 1 store directly from Postgres.
           </li>
           <li>Charts stay separate from tunes even though the Release 1 seed data uses one chart per tune.</li>
           <li>Gig sheets remain explicitly private records so auth can layer on later.</li>

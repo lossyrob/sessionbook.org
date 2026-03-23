@@ -3,6 +3,25 @@ import postgres, { type Sql } from "postgres";
 import { getDatabaseUrl } from "./env";
 
 let cachedDatabaseClient: Sql | undefined;
+let shutdownHandlersRegistered = false;
+
+function registerDatabaseShutdownHandlers() {
+  if (shutdownHandlersRegistered || typeof process === "undefined") {
+    return;
+  }
+
+  shutdownHandlersRegistered = true;
+
+  const shutdown = (signal: NodeJS.Signals) => {
+    void closeDatabaseClient()
+      .catch((error) => {
+        console.error(`Failed to close Postgres client on ${signal}.`, error);
+      });
+  };
+
+  process.once("SIGTERM", () => shutdown("SIGTERM"));
+  process.once("SIGINT", () => shutdown("SIGINT"));
+}
 
 export function createDatabaseClient(databaseUrl = getDatabaseUrl()): Sql {
   if (!databaseUrl) {
@@ -11,6 +30,8 @@ export function createDatabaseClient(databaseUrl = getDatabaseUrl()): Sql {
 
   return postgres(databaseUrl, {
     idle_timeout: 5,
+    // Keep the first Cloud Run rollout conservative so one instance does not
+    // claim a large share of a small Neon connection budget.
     max: 1,
     onnotice: () => undefined,
   });
@@ -18,6 +39,7 @@ export function createDatabaseClient(databaseUrl = getDatabaseUrl()): Sql {
 
 export function getDatabaseClient(): Sql {
   if (!cachedDatabaseClient) {
+    registerDatabaseShutdownHandlers();
     cachedDatabaseClient = createDatabaseClient();
   }
 

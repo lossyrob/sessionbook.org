@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "npm run db:setup && next build",
+    "build": "next build",
     "db:setup": "tsx scripts/db-setup.ts",
     "generate:release-1-data": "tsx scripts/generate-release-1-data.ts",
     "lint": "eslint . --max-warnings=0",

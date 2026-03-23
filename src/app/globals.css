@@ -236,6 +236,36 @@ li {
   font-weight: 700;
 }
 
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.action-button,
+.action-link {
+  appearance: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.75rem 1.1rem;
+}
+
+.action-button {
+  background: var(--accent);
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+.action-link {
+  border: 1px solid var(--border);
+  color: var(--accent-strong);
+  display: inline-flex;
+  align-items: center;
+}
+
 .not-found {
   padding: 3rem 0 0;
 }
