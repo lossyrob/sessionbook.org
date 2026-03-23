@@ -8,7 +8,7 @@ on:
 env:
   CLOUD_RUN_REGION: us-central1
   GCP_PROJECT_ID: sessionbook-491003
-  GCP_DEPLOY_SERVICE_ACCOUNT: github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
+  GCP_DEPLOY_SERVICE_ACCOUNT: projects/sessionbook-491003/serviceAccounts/github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
   PROD_CLOUD_RUN_SERVICE: sessionbook-web-prod
 jobs:
   deploy_production:
