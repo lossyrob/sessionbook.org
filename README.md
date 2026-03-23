@@ -137,6 +137,10 @@ the `sessionbook-491003` project.
   then deploy the live staging Hosting target pinned to that revision.
 - Tags matching `v*` run `npm run db:setup`, deploy `sessionbook-web-prod`, and
   then deploy the live production Hosting target pinned to that revision.
+- Cloud Run source deploys pin `--build-service-account` to the GitHub Actions
+  deploy service account so the workflows do not depend on the project's
+  default compute service account having separate `iam.serviceAccounts.actAs`
+  grants.
 - Each workflow uses `.nvmrc`, runs `npm ci`, executes
   `npm run format:check && npm run lint && npm run test && npm run typecheck && npm run build`,
   and then publishes the Hosting config after the Cloud Run deploy step.

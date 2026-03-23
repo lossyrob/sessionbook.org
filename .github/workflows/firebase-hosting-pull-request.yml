@@ -10,6 +10,7 @@ permissions:
 env:
   CLOUD_RUN_REGION: us-central1
   GCP_PROJECT_ID: sessionbook-491003
+  GCP_DEPLOY_SERVICE_ACCOUNT: github-action-1188413025@sessionbook-491003.iam.gserviceaccount.com
   STAGING_CLOUD_RUN_SERVICE: sessionbook-web-staging
 jobs:
   build_and_preview:
@@ -46,7 +47,10 @@ jobs:
           region: ${{ env.CLOUD_RUN_REGION }}
           env_vars: |-
             DATABASE_URL=${{ secrets.DATABASE_URL_STAGING }}
-          flags: "--allow-unauthenticated --concurrency=1"
+          flags: >-
+            --allow-unauthenticated
+            --concurrency=1
+            --build-service-account=${{ env.GCP_DEPLOY_SERVICE_ACCOUNT }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
