@@ -39,7 +39,7 @@ Implement public tune and set detail routes on top of the existing browse indexe
 
 ## Phase Candidates
 
-- [ ] Refine remaining homepage `nextIssue` roadmap labels if those cards should stop pointing at completed issues.
+- [x] Remove stale homepage `nextIssue` roadmap labels from the live Tunes and Sets cards.
 
 ---
 

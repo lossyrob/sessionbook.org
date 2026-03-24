@@ -2,7 +2,7 @@ export type SiteSection = {
   href: string;
   label: string;
   summary: string;
-  nextIssue: string;
+  nextIssue?: string;
   status: string;
   showInHeader: boolean;
 };
@@ -13,7 +13,6 @@ export const publicSections: SiteSection[] = [
     label: "Tunes",
     summary:
       "Browse the live public tune catalog, open tune detail pages, and follow linked sets from each chart entry.",
-    nextIssue: "#7",
     status: "Live public catalog surface",
     showInHeader: true,
   },
@@ -22,7 +21,6 @@ export const publicSections: SiteSection[] = [
     label: "Sets",
     summary:
       "Browse public sets, open ordered set detail pages, and jump straight to the tunes they contain.",
-    nextIssue: "#8",
     status: "Live public catalog surface",
     showInHeader: true,
   },
