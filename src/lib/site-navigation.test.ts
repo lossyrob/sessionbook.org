@@ -28,14 +28,14 @@ describe("site navigation", () => {
     expect(new Set(hrefs).size).toBe(hrefs.length);
   });
 
-  it("marks tune and set browse routes as the live public surfaces", () => {
+  it("marks tune and set routes as the live public catalog surfaces", () => {
     expect(
       publicSections.slice(0, 2).map((section) => section.nextIssue),
     ).toEqual(["#7", "#8"]);
     expect(
       publicSections
         .slice(0, 2)
-        .every((section) => section.status === "Live public browse surface"),
+        .every((section) => section.status === "Live public catalog surface"),
     ).toBe(true);
   });
 });

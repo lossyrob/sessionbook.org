@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 import type { PublicTuneView } from "@/lib/release-1/repository";
+import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
 
 export const dynamic = "force-dynamic";
 
@@ -12,15 +13,6 @@ type TuneDetailPageProps = {
     slug: string;
   }>;
 };
-
-function tuneTypeBadgeClass(tuneType: string): string {
-  const normalized = tuneType.toLowerCase();
-  if (normalized === "jig") return "type-badge type-badge--jig";
-  if (normalized === "reel") return "type-badge type-badge--reel";
-  if (normalized === "hornpipe") return "type-badge type-badge--hornpipe";
-  if (normalized === "polka") return "type-badge type-badge--polka";
-  return "type-badge type-badge--jig";
-}
 
 function buildTuneDescription({
   name,
@@ -140,14 +132,14 @@ export default async function TuneDetailPage({ params }: TuneDetailPageProps) {
       <div className="callout">
         <h2>Sets</h2>
         {tune.setMemberships.length > 0 ? (
-          <ul className="checklist">
-            {tune.setMemberships.map((setMembership) => (
-              <li key={setMembership.slug}>
-                <Link href={`/sets/${setMembership.slug}`}>
-                  {setMembership.name}
-                </Link>
-              </li>
-            ))}
+            <ul className="checklist">
+              {tune.setMemberships.map((setMembership) => (
+                <li key={setMembership.slug}>
+                  <Link className="catalog-link" href={`/sets/${setMembership.slug}`}>
+                    {setMembership.name}
+                  </Link>
+                </li>
+              ))}
           </ul>
         ) : (
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>

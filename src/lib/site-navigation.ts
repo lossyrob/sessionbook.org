@@ -12,18 +12,18 @@ export const publicSections: SiteSection[] = [
     href: "/tunes",
     label: "Tunes",
     summary:
-      "Browse the live public tune index, complete with aliases, chart metadata, and set membership.",
+      "Browse the live public tune catalog, open tune detail pages, and follow linked sets from each chart entry.",
     nextIssue: "#7",
-    status: "Live public browse surface",
+    status: "Live public catalog surface",
     showInHeader: true,
   },
   {
     href: "/sets",
     label: "Sets",
     summary:
-      "Browse public sets as ordered tune groups with chart-linked entries and catalog context.",
+      "Browse public sets, open ordered set detail pages, and jump straight to the tunes they contain.",
     nextIssue: "#8",
-    status: "Live public browse surface",
+    status: "Live public catalog surface",
     showInHeader: true,
   },
   {

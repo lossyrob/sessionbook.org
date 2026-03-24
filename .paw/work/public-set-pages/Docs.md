@@ -95,6 +95,6 @@ Manual:
 ## Limitations and Future Work
 
 - Set entry badges still use the existing placeholder styling because set entries do not yet expose tune type.
-- The home-page section metadata still reflects the prior browse-surface wording; the plan kept that as a follow-up candidate rather than expanding issue #8 further.
+- The homepage still shows legacy `nextIssue` roadmap labels for the Tunes and Sets cards; this branch updated the live-surface copy and status but did not redefine that planning metadata.
 - Search still targets tunes only and does not yet surface set detail routes.
 - Metadata is intentionally lightweight (title and description only); richer social metadata can be added later if needed.

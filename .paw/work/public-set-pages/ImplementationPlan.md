@@ -39,7 +39,7 @@ Implement public tune and set detail routes on top of the existing browse indexe
 
 ## Phase Candidates
 
-- [ ] Update catalog copy and section-card issue/status metadata only if the finished detail routes make the existing `/tunes` or `/sets` messaging materially inaccurate.
+- [ ] Refine remaining homepage `nextIssue` roadmap labels if those cards should stop pointing at completed issues.
 
 ---
 

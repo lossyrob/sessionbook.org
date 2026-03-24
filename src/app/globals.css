@@ -362,6 +362,18 @@ a {
   line-height: 1.3;
 }
 
+.catalog-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.catalog-link:hover,
+.catalog-link:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .tune-sub {
   font-size: 0.75rem;
   color: var(--faint);
@@ -439,6 +451,19 @@ a {
 
 .set-row__header:hover {
   background: var(--border-light);
+}
+
+.set-row__header--link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.set-row__header--static {
+  cursor: default;
+}
+
+.set-row__header--static:hover {
+  background: var(--surface);
 }
 
 .set-row__name {

@@ -1,22 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { type MouseEvent, useState } from "react";
+import { Fragment, type MouseEvent, useState } from "react";
 
 import type { PublicTuneView } from "@/lib/release-1/repository";
+import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
 
 type TuneListProps = {
   tunes: PublicTuneView[];
 };
-
-function tuneTypeBadgeClass(tuneType: string): string {
-  const normalized = tuneType.toLowerCase();
-  if (normalized === "jig") return "type-badge type-badge--jig";
-  if (normalized === "reel") return "type-badge type-badge--reel";
-  if (normalized === "hornpipe") return "type-badge type-badge--hornpipe";
-  if (normalized === "polka") return "type-badge type-badge--polka";
-  return "type-badge type-badge--jig";
-}
 
 export function TuneList({ tunes }: TuneListProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -47,31 +39,33 @@ export function TuneList({ tunes }: TuneListProps) {
             </div>
             <div>
               <Link
-                className="tune-name"
+                className="tune-name catalog-link"
                 href={`/tunes/${tune.slug}`}
                 onClick={stopRowToggle}
               >
                 {tune.name}
               </Link>
               <div className="tune-sub">
-                {tune.aliases.length > 0 ? (
-                  <div>Aliases: {tune.aliases.join(", ")}</div>
-                ) : null}
+                {tune.aliases.length > 0 ? tune.aliases.join(", ") : null}
+                {tune.aliases.length > 0 && tune.setMemberships.length > 0
+                  ? " · "
+                  : null}
                 {tune.setMemberships.length > 0 ? (
-                  <div>
+                  <>
                     Sets:{" "}
                     {tune.setMemberships.map((setMembership, index) => (
-                      <span key={`${tune.id}-${setMembership.slug}`}>
+                      <Fragment key={`${tune.id}-${setMembership.slug}`}>
                         {index > 0 ? ", " : null}
                         <Link
+                          className="catalog-link"
                           href={`/sets/${setMembership.slug}`}
                           onClick={stopRowToggle}
                         >
                           {setMembership.name}
                         </Link>
-                      </span>
+                      </Fragment>
                     ))}
-                  </div>
+                  </>
                 ) : null}
               </div>
             </div>

@@ -15,8 +15,8 @@ export default async function TunesPage() {
         <h1>Tunes</h1>
       </div>
       <p className="index-subtitle">
-        {tunes.length} tunes in the public catalog. Click a row to view its
-        chord chart.
+        {tunes.length} tunes in the public catalog. Click a row to expand its
+        chord chart, or follow tune and set links for detail pages.
       </p>
 
       {tunes.length === 0 ? (

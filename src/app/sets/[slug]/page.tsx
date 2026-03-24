@@ -12,11 +12,6 @@ type SetDetailPageProps = {
   }>;
 };
 
-const plainLinkStyle = {
-  color: "inherit",
-  textDecoration: "none",
-};
-
 async function getSetRecord(slug: string) {
   const { repository } = await loadRelease1Repository();
   const setRecord = repository.getPublicSetBySlug(slug);
@@ -62,7 +57,7 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
       {setRecord.summary ? <p className="lead">{setRecord.summary}</p> : null}
 
       <div className="set-row">
-        <div className="set-row__header">
+        <div className="set-row__header set-row__header--static">
           <span className="set-row__name">Tune order</span>
           <span className="set-row__count">
             {setRecord.entries.length} tunes
@@ -77,9 +72,8 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
                 className="set-entry__badge type-badge--jig"
               />
               <Link
-                className="set-entry__name"
+                className="set-entry__name catalog-link"
                 href={`/tunes/${entry.tuneSlug}`}
-                style={plainLinkStyle}
               >
                 {entry.tuneName}
               </Link>

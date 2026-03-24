@@ -4,11 +4,6 @@ import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 
 export const dynamic = "force-dynamic";
 
-const plainLinkStyle = {
-  color: "inherit",
-  textDecoration: "none",
-};
-
 export default async function SetsPage() {
   const { repository } = await loadRelease1Repository();
   const sets = repository.listPublicSets();
@@ -35,16 +30,15 @@ export default async function SetsPage() {
           {sets.map((setRecord) => (
             <div className="set-row" key={setRecord.id}>
               <Link
-                className="set-row__header"
+                className="set-row__header set-row__header--link"
                 href={`/sets/${setRecord.slug}`}
-                style={plainLinkStyle}
               >
                 <span className="set-row__name">{setRecord.name}</span>
                 <span className="set-row__count">
                   {setRecord.entries.length} tunes
                 </span>
               </Link>
-              <ul className="set-row__entries">
+              <ol className="set-row__entries">
                 {setRecord.entries.map((entry) => (
                   <li
                     className="set-entry"
@@ -55,9 +49,8 @@ export default async function SetsPage() {
                       {/* Tune type not available on set entries; omit text */}
                     </span>
                     <Link
-                      className="set-entry__name"
+                      className="set-entry__name catalog-link"
                       href={`/tunes/${entry.tuneSlug}`}
-                      style={plainLinkStyle}
                     >
                       {entry.tuneName}
                     </Link>
@@ -66,7 +59,7 @@ export default async function SetsPage() {
                     </span>
                   </li>
                 ))}
-              </ul>
+              </ol>
             </div>
           ))}
         </div>
