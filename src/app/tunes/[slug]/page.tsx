@@ -132,14 +132,17 @@ export default async function TuneDetailPage({ params }: TuneDetailPageProps) {
       <div className="callout">
         <h2>Sets</h2>
         {tune.setMemberships.length > 0 ? (
-            <ul className="checklist">
-              {tune.setMemberships.map((setMembership) => (
-                <li key={setMembership.slug}>
-                  <Link className="catalog-link" href={`/sets/${setMembership.slug}`}>
-                    {setMembership.name}
-                  </Link>
-                </li>
-              ))}
+          <ul className="checklist">
+            {tune.setMemberships.map((setMembership) => (
+              <li key={setMembership.slug}>
+                <Link
+                  className="catalog-link"
+                  href={`/sets/${setMembership.slug}`}
+                >
+                  {setMembership.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         ) : (
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>

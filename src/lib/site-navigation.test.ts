@@ -29,9 +29,9 @@ describe("site navigation", () => {
   });
 
   it("marks tune and set routes as live catalog surfaces without stale roadmap labels", () => {
-    expect(publicSections.slice(0, 2).every((section) => !section.nextIssue)).toBe(
-      true,
-    );
+    expect(
+      publicSections.slice(0, 2).every((section) => !section.nextIssue),
+    ).toBe(true);
     expect(
       publicSections
         .slice(0, 2)
