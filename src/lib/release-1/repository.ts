@@ -29,9 +29,9 @@ export type PublicTuneView = {
     title: string;
     key: string;
     mode: string;
-      meter: string;
-      contentMarkdown: string;
-    };
+    meter: string;
+    contentMarkdown: string;
+  };
   setNames: string[];
   setMemberships: Array<{
     name: string;

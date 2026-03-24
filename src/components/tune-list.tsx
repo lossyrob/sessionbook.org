@@ -1,26 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { type MouseEvent, useState } from "react";
 
-type TuneView = {
-  id: string;
-  slug: string;
-  name: string;
-  tuneType: string;
-  summary: string;
-  aliases: string[];
-  chart: {
-    title: string;
-    key: string;
-    mode: string;
-    meter: string;
-    contentMarkdown: string;
-  };
-  setNames: string[];
-};
+import type { PublicTuneView } from "@/lib/release-1/repository";
 
 type TuneListProps = {
-  tunes: TuneView[];
+  tunes: PublicTuneView[];
 };
 
 function tuneTypeBadgeClass(tuneType: string): string {
@@ -34,6 +20,10 @@ function tuneTypeBadgeClass(tuneType: string): string {
 
 export function TuneList({ tunes }: TuneListProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  function stopRowToggle(event: MouseEvent<HTMLAnchorElement>) {
+    event.stopPropagation();
+  }
 
   function toggle(id: string) {
     setExpanded((prev) => {
@@ -56,16 +46,33 @@ export function TuneList({ tunes }: TuneListProps) {
               {tune.tuneType.slice(0, 4)}
             </div>
             <div>
-              <div className="tune-name">{tune.name}</div>
+              <Link
+                className="tune-name"
+                href={`/tunes/${tune.slug}`}
+                onClick={stopRowToggle}
+              >
+                {tune.name}
+              </Link>
               <div className="tune-sub">
-                {[
-                  tune.aliases.length > 0 ? tune.aliases.join(", ") : null,
-                  tune.setNames.length > 0
-                    ? `Sets: ${tune.setNames.join(", ")}`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
+                {tune.aliases.length > 0 ? (
+                  <div>Aliases: {tune.aliases.join(", ")}</div>
+                ) : null}
+                {tune.setMemberships.length > 0 ? (
+                  <div>
+                    Sets:{" "}
+                    {tune.setMemberships.map((setMembership, index) => (
+                      <span key={`${tune.id}-${setMembership.slug}`}>
+                        {index > 0 ? ", " : null}
+                        <Link
+                          href={`/sets/${setMembership.slug}`}
+                          onClick={stopRowToggle}
+                        >
+                          {setMembership.name}
+                        </Link>
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="tune-meta">
