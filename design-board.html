@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SessionBook — Design Board</title>
+<style>
+/* ─── Design Board Chrome ─── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#18181b;color:#e4e4e7;min-height:100vh}
+.board-header{padding:2.5rem 2rem 1.5rem;max-width:90rem;margin:0 auto}
+.board-header h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;color:#fff}
+.board-header p{color:#a1a1aa;margin-top:.5rem;max-width:56rem;line-height:1.6}
+.board-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+.board-nav a{padding:.5rem 1rem;border-radius:999px;font-size:.85rem;font-weight:600;color:#a1a1aa;background:#27272a;border:1px solid #3f3f46;text-decoration:none;transition:all .15s}
+.board-nav a:hover,.board-nav a.active{background:#3f3f46;color:#fff}
+
+.design-section{max-width:90rem;margin:0 auto;padding:2rem}
+.design-section+.design-section{border-top:1px solid #27272a}
+.section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#71717a;margin-bottom:.5rem}
+.section-title{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+.section-desc{color:#a1a1aa;max-width:48rem;line-height:1.6;margin-bottom:1.5rem}
+.section-link{display:inline-flex;align-items:center;gap:.35rem;color:#60a5fa;font-weight:600;font-size:.9rem;text-decoration:none;margin-top:.75rem;transition:color .15s}
+.section-link:hover{color:#93bbfd}
+.section-link svg{width:16px;height:16px}
+
+/* ─── Swatches ─── */
+.palette-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.swatch{width:5rem;text-align:center}
+.swatch-color{width:5rem;height:3.5rem;border-radius:.75rem;border:1px solid rgba(255,255,255,.08)}
+.swatch-label{font-size:.65rem;margin-top:.35rem;color:#a1a1aa}
+
+/* ─── Side-by-side previews ─── */
+.preview-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr));gap:1.5rem}
+
+/* ─── Tune Card Previews (all self-contained) ─── */
+.card-frame{border-radius:1rem;overflow:hidden;border:1px solid #3f3f46;background:#27272a}
+.card-frame__label{padding:.75rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#71717a;border-bottom:1px solid #3f3f46}
+.card-frame__body{padding:0}
+
+/* ─── Option A: Current (warm serif) ─── */
+.opt-a{font-family:Georgia,'Times New Roman',serif;background:#f8f5f1;color:#1f1b18;padding:1.5rem;border-radius:0 0 1rem 1rem}
+.opt-a .badge{color:#2f5d46;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.opt-a h3{font-size:1.3rem;margin:.25rem 0 .5rem}
+.opt-a .meta{color:#6f6459;font-size:.88rem;line-height:1.5}
+.opt-a .meta strong{color:#1f1b18}
+.opt-a .chart{margin-top:.75rem;padding:.75rem;background:#f2ece4;border:1px solid #ded3c5;border-radius:.75rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;font-size:.8rem;line-height:1.5;white-space:pre-wrap;color:#1f1b18}
+.opt-a .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.65rem}
+.opt-a .tag{background:#e8e0d4;color:#6f6459;padding:.2rem .55rem;border-radius:999px;font-size:.72rem;font-weight:600}
+
+/* ─── Option B: Clean modern (system sans) ─── */
+.opt-b{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#ffffff;color:#111827;padding:1.5rem;border-radius:0 0 1rem 1rem}
+.opt-b .tune-header{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.5rem}
+.opt-b .tune-type{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.2rem .55rem;border-radius:999px;background:#ecfdf5;color:#059669}
+.opt-b .tune-key{font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:999px;background:#eff6ff;color:#2563eb}
+.opt-b h3{font-size:1.15rem;font-weight:700;margin:0}
+.opt-b .summary{color:#6b7280;font-size:.88rem;line-height:1.5;margin:.35rem 0}
+.opt-b .detail-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+.opt-b .detail-chip{font-size:.75rem;color:#374151;background:#f3f4f6;padding:.25rem .6rem;border-radius:.5rem}
+.opt-b .chart{margin-top:.75rem;padding:.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;font-size:.8rem;line-height:1.5;white-space:pre-wrap;color:#1f2937}
+
+/* ─── Option C: Dark & warm ─── */
+.opt-c{font-family:Georgia,'Times New Roman',serif;background:#1c1917;color:#e7e5e4;padding:1.5rem;border-radius:0 0 1rem 1rem}
+.opt-c .badge{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#a3e635}
+.opt-c h3{font-size:1.25rem;margin:.25rem 0 .4rem;color:#fafaf9}
+.opt-c .meta{color:#a8a29e;font-size:.88rem;line-height:1.5}
+.opt-c .meta strong{color:#d6d3d1}
+.opt-c .chart{margin-top:.75rem;padding:.75rem;background:#292524;border:1px solid #44403c;border-radius:.75rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;font-size:.8rem;line-height:1.5;white-space:pre-wrap;color:#d6d3d1}
+.opt-c .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.65rem}
+.opt-c .tag{background:#292524;color:#a8a29e;padding:.2rem .55rem;border-radius:999px;font-size:.72rem;font-weight:600;border:1px solid #44403c}
+
+/* ─── Option D: Acoustic / editorial ─── */
+.opt-d{font-family:'Iowan Old Style',Palatino,'Palatino Linotype','Book Antiqua',serif;background:#fdfcfa;color:#292524;padding:1.75rem;border-radius:0 0 1rem 1rem;border-top:3px solid #b45309}
+.opt-d .tune-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#b45309;margin-bottom:.25rem}
+.opt-d h3{font-size:1.35rem;font-weight:400;font-style:italic;margin:0 0 .35rem}
+.opt-d .subtitle{font-size:.88rem;color:#78716c;margin-bottom:.5rem}
+.opt-d .divider{height:1px;background:#e7e5e4;margin:.65rem 0}
+.opt-d .chart{padding:.75rem;background:#faf5ee;border-left:3px solid #d4a854;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,monospace;font-size:.82rem;line-height:1.55;white-space:pre-wrap;color:#44403c}
+.opt-d .set-note{font-size:.8rem;color:#a8a29e;font-style:italic;margin-top:.65rem}
+
+/* ─── Option E: Compact index / table feel ─── */
+.opt-e{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#ffffff;color:#111827;padding:0;border-radius:0 0 1rem 1rem;overflow:hidden}
+.opt-e .row{display:grid;grid-template-columns:2.5rem 1fr auto;align-items:center;gap:.75rem;padding:.85rem 1rem;border-bottom:1px solid #f3f4f6;transition:background .1s}
+.opt-e .row:hover{background:#f9fafb}
+.opt-e .row:last-child{border-bottom:0}
+.opt-e .row-icon{width:2.5rem;height:2.5rem;border-radius:.5rem;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;text-transform:uppercase}
+.opt-e .row-icon.jig{background:#fef3c7;color:#92400e}
+.opt-e .row-icon.reel{background:#dbeafe;color:#1e40af}
+.opt-e .row-icon.hornpipe{background:#fce7f3;color:#9d174d}
+.opt-e .row-icon.polka{background:#d1fae5;color:#065f46}
+.opt-e .row-body h3{font-size:.95rem;font-weight:600;margin:0 0 .15rem}
+.opt-e .row-body .sub{font-size:.78rem;color:#6b7280}
+.opt-e .row-meta{font-size:.78rem;color:#9ca3af;text-align:right;white-space:nowrap}
+
+/* ─── Option F: Music-paper inspired ─── */
+.opt-f{font-family:'Courier New',Courier,monospace;background:#fffef7;color:#1a1a1a;padding:1.5rem;border-radius:0 0 1rem 1rem;background-image:repeating-linear-gradient(transparent,transparent 1.45rem,#e8e4d8 1.45rem,#e8e4d8 1.5rem)}
+.opt-f .tune-stamp{display:inline-block;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;border:2px solid #8b5e3c;color:#8b5e3c;padding:.15rem .45rem;margin-bottom:.4rem}
+.opt-f h3{font-size:1.15rem;font-weight:700;margin:0 0 .25rem}
+.opt-f .info{font-size:.82rem;color:#555;line-height:1.55}
+.opt-f .chart{margin-top:.65rem;padding:.65rem;border:1px dashed #c9b99a;font-size:.82rem;line-height:1.55;white-space:pre-wrap;background:rgba(255,255,240,.6)}
+
+/* ─── Full-page link cards ─── */
+.fullpage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem;margin-top:1.5rem}
+.fullpage-card{background:#27272a;border:1px solid #3f3f46;border-radius:1rem;padding:1.5rem;transition:all .15s;text-decoration:none;color:inherit;display:block}
+.fullpage-card:hover{background:#3f3f46;border-color:#52525b;transform:translateY(-2px)}
+.fullpage-card h3{color:#fff;font-size:1.1rem;margin-bottom:.35rem}
+.fullpage-card p{color:#a1a1aa;font-size:.88rem;line-height:1.5}
+.fullpage-card .arrow{color:#60a5fa;font-size:.85rem;font-weight:600;margin-top:.75rem;display:block}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     BOARD HEADER
+     ═══════════════════════════════════════════ -->
+<div class="board-header">
+  <h1>SessionBook — Design Board</h1>
+  <p>
+    Six design directions for SessionBook's look and feel. Each section shows a tune card treatment.
+    Below the card comparisons, click through to full-page mockups of each direction applied to the homepage and tune index.
+  </p>
+  <nav class="board-nav">
+    <a href="#cards">Tune Cards</a>
+    <a href="#palettes">Color Palettes</a>
+    <a href="#fullpages">Full Pages ↗</a>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1: TUNE CARD COMPARISON
+     ═══════════════════════════════════════════ -->
+<section class="design-section" id="cards">
+  <div class="section-label">Tune Card Treatments</div>
+  <div class="section-title">Side-by-side card designs</div>
+  <p class="section-desc">
+    Same tune data, six visual directions. Each represents a distinct personality for the site:
+    the current warm serif, a clean modern take, a dark mode, an editorial/acoustic feel,
+    a compact index row, and a music-paper aesthetic.
+  </p>
+
+  <div class="preview-row">
+
+    <!-- A: Current -->
+    <div class="card-frame">
+      <div class="card-frame__label">A — Current: Warm Serif</div>
+      <div class="card-frame__body">
+        <div class="opt-a">
+          <span class="badge">Jig</span>
+          <h3>Morrison's Jig</h3>
+          <div class="meta">
+            <p><strong>Chart:</strong> Morrison's Jig (standard) in Em Dorian (6/8)</p>
+            <p><strong>Sets:</strong> Jig Set 1, First Friday December</p>
+            <p><strong>Aliases:</strong> Morrison's</p>
+          </div>
+          <div class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</div>
+          <div class="tags">
+            <span class="tag">Em</span>
+            <span class="tag">Dorian</span>
+            <span class="tag">6/8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- B: Clean modern -->
+    <div class="card-frame">
+      <div class="card-frame__label">B — Clean Modern</div>
+      <div class="card-frame__body">
+        <div class="opt-b">
+          <div class="tune-header">
+            <h3>Morrison's Jig</h3>
+            <span class="tune-type">Jig</span>
+            <span class="tune-key">Em</span>
+          </div>
+          <p class="summary">A classic session jig in Em. Appears in Jig Set 1 and First Friday December.</p>
+          <div class="detail-row">
+            <span class="detail-chip">Dorian</span>
+            <span class="detail-chip">6/8</span>
+            <span class="detail-chip">aka Morrison's</span>
+          </div>
+          <div class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C: Dark & warm -->
+    <div class="card-frame">
+      <div class="card-frame__label">C — Dark &amp; Warm</div>
+      <div class="card-frame__body">
+        <div class="opt-c">
+          <span class="badge">Jig</span>
+          <h3>Morrison's Jig</h3>
+          <div class="meta">
+            <p><strong>Chart:</strong> Morrison's Jig (standard) · Em Dorian · 6/8</p>
+            <p><strong>Sets:</strong> Jig Set 1, First Friday December</p>
+          </div>
+          <div class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</div>
+          <div class="tags">
+            <span class="tag">Em</span>
+            <span class="tag">Dorian</span>
+            <span class="tag">6/8</span>
+            <span class="tag">Morrison's</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D: Acoustic / editorial -->
+    <div class="card-frame">
+      <div class="card-frame__label">D — Acoustic / Editorial</div>
+      <div class="card-frame__body">
+        <div class="opt-d">
+          <div class="tune-label">Jig · Em Dorian · 6/8</div>
+          <h3>Morrison's Jig</h3>
+          <div class="subtitle">Also known as Morrison's · In Jig Set 1, First Friday December</div>
+          <div class="divider"></div>
+          <div class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</div>
+          <div class="set-note">↳ Jig Set 1 · First Friday December</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E: Compact index -->
+    <div class="card-frame">
+      <div class="card-frame__label">E — Compact Index</div>
+      <div class="card-frame__body">
+        <div class="opt-e">
+          <div class="row">
+            <div class="row-icon jig">Jig</div>
+            <div class="row-body">
+              <h3>Morrison's Jig</h3>
+              <span class="sub">Morrison's · Jig Set 1, First Friday December</span>
+            </div>
+            <div class="row-meta">Em Dorian<br>6/8</div>
+          </div>
+          <div class="row">
+            <div class="row-icon jig">Jig</div>
+            <div class="row-body">
+              <h3>The Butterfly</h3>
+              <span class="sub">Jig Set 1</span>
+            </div>
+            <div class="row-meta">Em Dorian<br>6/8</div>
+          </div>
+          <div class="row">
+            <div class="row-icon jig">Jig</div>
+            <div class="row-body">
+              <h3>Swallowtail Jig</h3>
+              <span class="sub">Jig Set 1</span>
+            </div>
+            <div class="row-meta">Em Dorian<br>6/8</div>
+          </div>
+          <div class="row">
+            <div class="row-icon reel">Reel</div>
+            <div class="row-body">
+              <h3>The Green Mountain</h3>
+              <span class="sub">Reel Set 1</span>
+            </div>
+            <div class="row-meta">D Major<br>4/4</div>
+          </div>
+          <div class="row">
+            <div class="row-icon reel">Reel</div>
+            <div class="row-body">
+              <h3>Wind that Shakes the Barley</h3>
+              <span class="sub">Reel Set 1</span>
+            </div>
+            <div class="row-meta">D Major<br>4/4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- F: Music paper -->
+    <div class="card-frame">
+      <div class="card-frame__label">F — Music Paper</div>
+      <div class="card-frame__body">
+        <div class="opt-f">
+          <span class="tune-stamp">Jig — Em</span>
+          <h3>Morrison's Jig</h3>
+          <div class="info">
+            Standard chart · Dorian mode · 6/8<br>
+            Sets: Jig Set 1, First Friday December
+          </div>
+          <div class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2: SECOND TUNE — THE BUTTERFLY
+     ═══════════════════════════════════════════ -->
+<section class="design-section">
+  <div class="section-label">Second Tune Comparison</div>
+  <div class="section-title">The Butterfly — across all treatments</div>
+  <p class="section-desc">
+    Seeing a second tune helps judge consistency. The Butterfly has two parts with different chord patterns.
+  </p>
+
+  <div class="preview-row">
+
+    <div class="card-frame">
+      <div class="card-frame__label">A — Current: Warm Serif</div>
+      <div class="card-frame__body">
+        <div class="opt-a">
+          <span class="badge">Jig</span>
+          <h3>The Butterfly</h3>
+          <div class="meta">
+            <p><strong>Chart:</strong> The Butterfly (standard) in Em Dorian (6/8)</p>
+            <p><strong>Sets:</strong> Jig Set 1</p>
+          </div>
+          <div class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</div>
+          <div class="tags">
+            <span class="tag">Em</span>
+            <span class="tag">Dorian</span>
+            <span class="tag">6/8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-frame">
+      <div class="card-frame__label">B — Clean Modern</div>
+      <div class="card-frame__body">
+        <div class="opt-b">
+          <div class="tune-header">
+            <h3>The Butterfly</h3>
+            <span class="tune-type">Jig</span>
+            <span class="tune-key">Em</span>
+          </div>
+          <p class="summary">A beloved slip jig with two distinct parts. Part of Jig Set 1.</p>
+          <div class="detail-row">
+            <span class="detail-chip">Dorian</span>
+            <span class="detail-chip">6/8</span>
+          </div>
+          <div class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-frame">
+      <div class="card-frame__label">C — Dark &amp; Warm</div>
+      <div class="card-frame__body">
+        <div class="opt-c">
+          <span class="badge">Jig</span>
+          <h3>The Butterfly</h3>
+          <div class="meta">
+            <p><strong>Chart:</strong> The Butterfly (standard) · Em Dorian · 6/8</p>
+            <p><strong>Sets:</strong> Jig Set 1</p>
+          </div>
+          <div class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</div>
+          <div class="tags">
+            <span class="tag">Em</span>
+            <span class="tag">Dorian</span>
+            <span class="tag">6/8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-frame">
+      <div class="card-frame__label">D — Acoustic / Editorial</div>
+      <div class="card-frame__body">
+        <div class="opt-d">
+          <div class="tune-label">Jig · Em Dorian · 6/8</div>
+          <h3>The Butterfly</h3>
+          <div class="subtitle">In Jig Set 1</div>
+          <div class="divider"></div>
+          <div class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</div>
+          <div class="set-note">↳ Jig Set 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-frame">
+      <div class="card-frame__label">F — Music Paper</div>
+      <div class="card-frame__body">
+        <div class="opt-f">
+          <span class="tune-stamp">Jig — Em</span>
+          <h3>The Butterfly</h3>
+          <div class="info">
+            Standard chart · Dorian mode · 6/8<br>
+            Sets: Jig Set 1
+          </div>
+          <div class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3: COLOR PALETTES
+     ═══════════════════════════════════════════ -->
+<section class="design-section" id="palettes">
+  <div class="section-label">Color Palettes</div>
+  <div class="section-title">Palette directions</div>
+  <p class="section-desc">
+    The current palette (A) is warm and earthy. Here are the alternatives alongside it.
+  </p>
+
+  <!-- A -->
+  <p style="color:#fff;font-weight:700;margin-bottom:.5rem">A — Warm Parchment (Current)</p>
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#f8f5f1"></div><div class="swatch-label">Background<br>#f8f5f1</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#ffffff"></div><div class="swatch-label">Surface<br>#ffffff</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#1f1b18"></div><div class="swatch-label">Text<br>#1f1b18</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#6f6459"></div><div class="swatch-label">Muted<br>#6f6459</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#ded3c5"></div><div class="swatch-label">Border<br>#ded3c5</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#2f5d46"></div><div class="swatch-label">Accent<br>#2f5d46</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#214332"></div><div class="swatch-label">Accent Strong<br>#214332</div></div>
+  </div>
+
+  <!-- B -->
+  <p style="color:#fff;font-weight:700;margin-bottom:.5rem">B — Clean Slate</p>
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#f9fafb"></div><div class="swatch-label">Background<br>#f9fafb</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#ffffff"></div><div class="swatch-label">Surface<br>#ffffff</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#111827"></div><div class="swatch-label">Text<br>#111827</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#6b7280"></div><div class="swatch-label">Muted<br>#6b7280</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e5e7eb"></div><div class="swatch-label">Border<br>#e5e7eb</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#059669"></div><div class="swatch-label">Accent<br>#059669</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#2563eb"></div><div class="swatch-label">Key badge<br>#2563eb</div></div>
+  </div>
+
+  <!-- C -->
+  <p style="color:#fff;font-weight:700;margin-bottom:.5rem">C — Dark &amp; Warm</p>
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#1c1917"></div><div class="swatch-label">Background<br>#1c1917</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#292524"></div><div class="swatch-label">Surface<br>#292524</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e7e5e4"></div><div class="swatch-label">Text<br>#e7e5e4</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#a8a29e"></div><div class="swatch-label">Muted<br>#a8a29e</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#44403c"></div><div class="swatch-label">Border<br>#44403c</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#a3e635"></div><div class="swatch-label">Accent<br>#a3e635</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#fafaf9"></div><div class="swatch-label">Heading<br>#fafaf9</div></div>
+  </div>
+
+  <!-- D -->
+  <p style="color:#fff;font-weight:700;margin-bottom:.5rem">D — Acoustic Amber</p>
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#fdfcfa"></div><div class="swatch-label">Background<br>#fdfcfa</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#faf5ee"></div><div class="swatch-label">Chart bg<br>#faf5ee</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#292524"></div><div class="swatch-label">Text<br>#292524</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#78716c"></div><div class="swatch-label">Muted<br>#78716c</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e7e5e4"></div><div class="swatch-label">Divider<br>#e7e5e4</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#b45309"></div><div class="swatch-label">Accent<br>#b45309</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#d4a854"></div><div class="swatch-label">Gold edge<br>#d4a854</div></div>
+  </div>
+
+  <!-- F -->
+  <p style="color:#fff;font-weight:700;margin-bottom:.5rem">F — Manuscript</p>
+  <div class="palette-row">
+    <div class="swatch"><div class="swatch-color" style="background:#fffef7"></div><div class="swatch-label">Background<br>#fffef7</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#e8e4d8"></div><div class="swatch-label">Line rule<br>#e8e4d8</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#1a1a1a"></div><div class="swatch-label">Text<br>#1a1a1a</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#555555"></div><div class="swatch-label">Info<br>#555555</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#c9b99a"></div><div class="swatch-label">Dashed bdr<br>#c9b99a</div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#8b5e3c"></div><div class="swatch-label">Accent<br>#8b5e3c</div></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4: FULL-PAGE MOCKUP LINKS
+     ═══════════════════════════════════════════ -->
+<section class="design-section" id="fullpages">
+  <div class="section-label">Full-Page Mockups</div>
+  <div class="section-title">Click through to see each direction as a full homepage</div>
+  <p class="section-desc">
+    Each page shows the complete homepage and a sample tune index, so you can feel the direction at full scale.
+  </p>
+
+  <div class="fullpage-grid">
+    <a class="fullpage-card" href="design-option-a.html">
+      <h3>A — Warm Serif (Current)</h3>
+      <p>The existing design: Georgia serif, warm beige, sage green accents. Parchment & pub feel.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+    <a class="fullpage-card" href="design-option-b.html">
+      <h3>B — Clean Modern</h3>
+      <p>System sans-serif, cool grays, green & blue badges. Feels like a well-made tool.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+    <a class="fullpage-card" href="design-option-c.html">
+      <h3>C — Dark &amp; Warm</h3>
+      <p>Dark stone backgrounds, warm grays, lime accent. Night-session vibes.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+    <a class="fullpage-card" href="design-option-d.html">
+      <h3>D — Acoustic / Editorial</h3>
+      <p>Palatino serif, amber accent, gold chart borders. Reads like a music journal.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+    <a class="fullpage-card" href="design-option-e.html">
+      <h3>E — Compact Index</h3>
+      <p>Dense table-style rows with type-coded badges. Optimized for browsing large catalogs.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+    <a class="fullpage-card" href="design-option-f.html">
+      <h3>F — Music Paper</h3>
+      <p>Courier mono, lined background, stamp badges. Handwritten notebook aesthetic.</p>
+      <span class="arrow">View full page →</span>
+    </a>
+  </div>
+</section>
+
+</body>
+</html>

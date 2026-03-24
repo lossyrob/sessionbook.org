@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SessionBook — Option F: Music Paper</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --font: 'Courier New', Courier, monospace;
+    --bg: #fffef7;
+    --text: #1a1a1a;
+    --muted: #555555;
+    --accent: #8b5e3c;
+    --dashed: #c9b99a;
+    --chart-bg: rgba(255, 255, 240, 0.6);
+    --line-height: 1.5rem;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background-color: var(--bg);
+    background-image: repeating-linear-gradient(
+      transparent, transparent 1.45rem, #e8e4d8 1.45rem, #e8e4d8 1.5rem
+    );
+    line-height: var(--line-height);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 3rem;
+  }
+
+  /* ---- Back link ---- */
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* ---- Design label ---- */
+  .design-label {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.15rem 0.6rem;
+    transform: rotate(-1.5deg);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ---- Section divider ---- */
+  .section-divider {
+    border: none;
+    border-top: 2px dashed var(--dashed);
+    margin: 3rem 0;
+  }
+
+  /* ============================================
+     SECTION 1: HOMEPAGE
+     ============================================ */
+
+  /* Notebook cover header */
+  .notebook-header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--dashed);
+  }
+  .notebook-header__title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 3rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .notebook-header__subtitle {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+  .notebook-header__nav {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .notebook-header__nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .notebook-header__nav a:hover { text-decoration: underline; }
+
+  /* Hero */
+  .hero { margin-bottom: 3rem; }
+  .hero__heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 3rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero__text {
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 40rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Stats — margin notes */
+  .stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    padding-left: 0.5rem;
+  }
+  .stat {
+    position: relative;
+    padding-left: 1rem;
+  }
+  .stat::before {
+    content: '|';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--dashed);
+    font-weight: 700;
+  }
+  .stat__number {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.5rem;
+  }
+  .stat__label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Section links */
+  .section-links { margin-bottom: 3rem; }
+  .section-links__heading {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .section-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  .section-links li {
+    line-height: var(--line-height);
+  }
+  .section-links a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 0.9rem;
+  }
+  .section-links a:hover { color: var(--text); }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    color: var(--dashed);
+    font-size: 0.75rem;
+    padding-top: 1.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ============================================
+     SECTION 2: TUNE INDEX
+     ============================================ */
+
+  .tune-index__heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .tune-index__sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  /* Tune entry */
+  .tune-entry {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Rubber stamp badge */
+  .stamp {
+    display: inline-block;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.1rem 0.5rem;
+    transform: rotate(-1deg);
+    margin-bottom: 0.375rem;
+  }
+  .tune-entry:nth-child(even) .stamp { transform: rotate(0.8deg); }
+  .tune-entry:nth-child(3n) .stamp { transform: rotate(-0.5deg); }
+
+  .tune-entry__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: var(--line-height);
+    margin-bottom: 0.25rem;
+  }
+
+  .tune-entry__info {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+    line-height: var(--line-height);
+  }
+  .tune-entry__info span { margin-right: 1rem; }
+
+  .tune-entry__sets {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .tune-entry__sets strong { color: var(--text); font-weight: 700; }
+
+  .tune-entry__aliases {
+    font-size: 0.75rem;
+    color: var(--dashed);
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Chart block */
+  .chart {
+    border: 1px dashed var(--dashed);
+    background: var(--chart-bg);
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    line-height: var(--line-height);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 640px) {
+    .page { padding: 1.5rem 1rem 3rem; }
+    .notebook-header__title { font-size: 1.8rem; line-height: 3rem; }
+    .hero__heading { font-size: 1.2rem; }
+    .stats { gap: 1.5rem; }
+    .chart { font-size: 0.72rem; padding: 0.5rem 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a href="design-board.html" class="back-link">← Back to Design Board</a>
+  <div class="design-label">Option F — Music Paper</div>
+
+  <!-- ============================================
+       SECTION 1: HOMEPAGE
+       ============================================ -->
+
+  <header class="notebook-header">
+    <div class="notebook-header__title">SessionBook</div>
+    <div class="notebook-header__subtitle">Chord charts for the Irish trad session</div>
+    <nav class="notebook-header__nav">
+      <a href="#">Tunes</a>
+      <a href="#">Sets</a>
+      <a href="#">Sessions</a>
+      <a href="#">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero__heading">Your notebook for the session.</h1>
+    <p class="hero__text">
+      Chord charts, set lists, and tune notes — all in one place.
+      Built for guitarists, bouzouki players, and anyone who backs
+      tunes at the Irish trad session.
+    </p>
+    <p class="hero__text">
+      Every chart is written the way you'd scribble it in a notebook
+      before a session. Simple chords, clear changes, nothing extra.
+    </p>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat__number">48</div>
+      <div class="stat__label">Tunes</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">12</div>
+      <div class="stat__label">Sets</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">6</div>
+      <div class="stat__label">Sessions</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">3</div>
+      <div class="stat__label">Modes</div>
+    </div>
+  </div>
+
+  <div class="section-links">
+    <div class="section-links__heading">Browse</div>
+    <ul>
+      <li><a href="#">All tunes, alphabetical</a></li>
+      <li><a href="#">Tunes by type — jigs, reels, hornpipes</a></li>
+      <li><a href="#">Tunes by key and mode</a></li>
+      <li><a href="#">Set lists for upcoming sessions</a></li>
+    </ul>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       SECTION 2: TUNE INDEX
+       ============================================ -->
+
+  <section>
+    <h2 class="tune-index__heading">Tune Index</h2>
+    <p class="tune-index__sub">6 tunes — sorted as they'd appear in the notebook</p>
+
+    <!-- Tune 1 -->
+    <article class="tune-entry">
+      <div class="stamp">Jig — Em</div>
+      <h3 class="tune-entry__name">Morrison's Jig</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: Em Dorian</span>
+        <span>Meter: 6/8</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Jig Set 1, First Friday December</div>
+      <div class="tune-entry__aliases">aka Morrison's</div>
+      <pre class="chart">| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</pre>
+    </article>
+
+    <!-- Tune 2 -->
+    <article class="tune-entry">
+      <div class="stamp">Jig — Em</div>
+      <h3 class="tune-entry__name">The Butterfly</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: Em Dorian</span>
+        <span>Meter: 6/8</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Jig Set 1</div>
+      <pre class="chart">|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</pre>
+    </article>
+
+    <!-- Tune 3 -->
+    <article class="tune-entry">
+      <div class="stamp">Jig — Em</div>
+      <h3 class="tune-entry__name">Swallowtail Jig</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: Em Dorian</span>
+        <span>Meter: 6/8</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Jig Set 1</div>
+      <pre class="chart">| Em /  /  /  |  D  /  /  /  |  Em  /  /  / |  D  /  /  Em |
+| Em /  /  /  |  /  /  /  D  |  Em  /  /  / |  /  D  /  Em  |</pre>
+    </article>
+
+    <!-- Tune 4 -->
+    <article class="tune-entry">
+      <div class="stamp">Jig — G</div>
+      <h3 class="tune-entry__name">Saddle the Pony</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: G Major</span>
+        <span>Meter: 6/8</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Jig Set 2</div>
+      <pre class="chart">| G  / Am / | G / D / | G / Am / | C / D G |
+| Em / / / | /  / D / | Em / / / | C / D G |</pre>
+    </article>
+
+    <!-- Tune 5 -->
+    <article class="tune-entry">
+      <div class="stamp">Reel — D</div>
+      <h3 class="tune-entry__name">The Green Mountain</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: D Major</span>
+        <span>Meter: 4/4</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Reel Set 1</div>
+      <pre class="chart">| D / / / / | Em / G A | D / / / | Em / A D |
+| D / G / | Em / A  / | D / G / | Em  / A D |</pre>
+    </article>
+
+    <!-- Tune 6 -->
+    <article class="tune-entry">
+      <div class="stamp">Reel — D</div>
+      <h3 class="tune-entry__name">Wind that Shakes the Barley</h3>
+      <div class="tune-entry__info">
+        <span>Chart: Standard</span>
+        <span>Mode: D Major</span>
+        <span>Meter: 4/4</span>
+      </div>
+      <div class="tune-entry__sets"><strong>Sets:</strong> Reel Set 1</div>
+      <pre class="chart">{2x}| D / / / | G / / /  | Bm / / / | A / / / |
+{1x}| D G D / | D G A / | D G D / | G / A / |</pre>
+    </article>
+
+  </section>
+
+  <footer class="page-footer">— p. 1 —</footer>
+
+</div>
+</body>
+</html>

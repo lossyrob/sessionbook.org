@@ -14,60 +14,62 @@ export default async function StPaddysDayGigPage() {
   }
 
   return (
-    <div className="placeholder-page">
+    <div style={{ paddingTop: "2.5rem" }}>
       <p className="eyebrow">{section.status}</p>
-      <h1>{gigSheet.name}</h1>
+      <h1
+        style={{
+          fontSize: "1.35rem",
+          fontWeight: 700,
+          letterSpacing: "-0.015em",
+          marginBottom: "0.25rem",
+        }}
+      >
+        {gigSheet.name}
+      </h1>
       <p className="lead">{gigSheet.summary}</p>
 
-      <section className="callout">
-        <h2>Why this still counts as private content</h2>
+      <div className="callout">
+        <h2>Private content</h2>
         <ul className="checklist">
           <li>
-            The stored gig-sheet record is marked <code>private</code> in the
+            This gig-sheet record is marked <code>private</code> in the
             repository.
           </li>
           <li>
-            Its ordered entries point back to public sets by stable IDs instead
-            of copying tune data into a one-off page.
+            Entries reference public sets by stable IDs instead of copying tune
+            data.
           </li>
-          <li>
-            Auth can enforce access later without replacing the imported Release
-            1 storage contract or the Postgres seed path behind it.
-          </li>
+          <li>Auth enforcement will gate access in a later issue.</li>
         </ul>
-      </section>
+      </div>
 
-      <section className="section-block">
-        <h2>Imported gig-sheet structure</h2>
-        <div className="section-grid">
-          {gigSheet.entries.map((entry) => (
-            <article
-              className="section-card"
-              key={`${gigSheet.id}-${entry.position}`}
-            >
-              <p className="section-card__status">Set slot {entry.position}</p>
-              <h3>{entry.setName}</h3>
-              <p>{entry.setSummary}</p>
-              <p className="section-card__issue">
-                Tunes: {entry.tuneNames.join(" -> ")}
-              </p>
+      <div className="gig-entries">
+        {gigSheet.entries.map((entry) => (
+          <div className="gig-slot" key={`${gigSheet.id}-${entry.position}`}>
+            <div className="gig-slot__header">
+              <span className="gig-slot__pos">Set {entry.position}</span>
+              <span className="gig-slot__name">{entry.setName}</span>
+            </div>
+            <div className="gig-slot__body">
+              <p style={{ marginBottom: "0.25rem" }}>{entry.setSummary}</p>
+              <p className="gig-slot__tunes">{entry.tuneNames.join(" → ")}</p>
               {entry.transitionNotes ? (
-                <p>
-                  <strong>Transition note:</strong> {entry.transitionNotes}
+                <p style={{ marginTop: "0.35rem", fontStyle: "italic" }}>
+                  Note: {entry.transitionNotes}
                 </p>
               ) : null}
-            </article>
-          ))}
-        </div>
-      </section>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <p className="data-note">
-        This route is still ungated until the auth issue lands. The storage
-        contract is complete here; access control is intentionally deferred.
+        This route is ungated until auth enforcement lands. The storage contract
+        is complete; access control is deferred.
       </p>
 
       <p className="back-link">
-        <Link href="/">Back to the catalog overview</Link>
+        <Link href="/">← Back to home</Link>
       </p>
     </div>
   );

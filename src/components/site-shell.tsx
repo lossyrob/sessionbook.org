@@ -16,11 +16,11 @@ export function SiteShell({ children }: SiteShellProps) {
     <div className="site-shell">
       <header className="site-header">
         <div className="site-header__inner">
-          <div>
+          <div style={{ display: "flex", alignItems: "baseline" }}>
             <Link className="site-logo" href="/">
               SessionBook
             </Link>
-            <p className="site-tagline">A home for Irish trad chord charts.</p>
+            <span className="site-tagline">Irish trad chord charts</span>
           </div>
 
           <nav aria-label="Primary">
@@ -40,11 +40,7 @@ export function SiteShell({ children }: SiteShellProps) {
       <main className="site-main">{children}</main>
 
       <footer className="site-footer">
-        <p>
-          Release 1 public browsing now lives on the app runtime. Tune detail
-          pages, search, auth enforcement, and private gig access still land in
-          later issues.
-        </p>
+        <p>SessionBook · Release 1 public catalog</p>
       </footer>
     </div>
   );
