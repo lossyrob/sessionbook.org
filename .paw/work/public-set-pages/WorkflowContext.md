@@ -7,7 +7,7 @@ Target Branch: feature/public-set-pages
 Execution Mode: worktree
 Repository Identity: github.com/lossyrob/sessionbook.org@6ce98832ea6115c1e41fc97781af5cdea9d8bc50
 Execution Binding: worktree:public-set-pages:feature/public-set-pages
-Workflow Mode: full
+Workflow Mode: custom
 Review Strategy: local
 Review Policy: final-pr-only
 Session Policy: continuous
@@ -32,7 +32,7 @@ Planning Review Interaction Mode: parallel
 Planning Review Specialist Models: none
 Planning Review Perspectives: pre-mortem, post-mortem
 Planning Review Perspective Cap: 2
-Custom Workflow Instructions: none
+Custom Workflow Instructions: PAW Lite run without separate Spec.md or CodeResearch.md artifacts. Treat WorkShaping.md as the scoped requirements record, ImplementationPlan.md as the execution plan, Docs.md as the as-built reference, and the multi-model planning/final reviews as the formal review gates.
 Initial Prompt: Issue #8 is advisory and stale. Implement the user-approved amended scope: add individual public set detail pages, add the minimum public tune detail pages needed for links to land somewhere, and wire tune/set bidirectional navigation. Continue through implementation, review, and PR unless a serious blocker appears.
 Issue URL: https://github.com/lossyrob/sessionbook.org/issues/8
 Remote: origin
