@@ -35,7 +35,7 @@ Implement public tune and set detail routes on top of the existing browse indexe
 
 - [x] **Phase 1: Repository contracts** - Add public slug lookups and linkable view data while preserving current browse surfaces.
 - [x] **Phase 2: Public detail routes** - Render `/sets/[slug]` and `/tunes/[slug]` and wire existing public surfaces to them.
-- [ ] **Phase 3: Documentation** - Capture the as-built behavior and finish full verification.
+- [x] **Phase 3: Documentation** - Capture the as-built behavior and finish full verification.
 
 ## Phase Candidates
 
