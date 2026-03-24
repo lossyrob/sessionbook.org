@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SessionBook — Option A: Warm Serif (Current)</title>
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Design Tokens ── */
+  :root {
+    --font:        Georgia, 'Times New Roman', serif;
+    --bg:          radial-gradient(circle at top, #fcfbf8 0%, #f8f5f1 55%, #efe7dd 100%);
+    --surface:     rgba(255,255,255,0.92);
+    --surface-border: #ded3c5;
+    --surface-radius: 1.25rem;
+    --surface-shadow: 0 20px 40px rgba(31,27,24,0.08);
+    --text:        #1f1b18;
+    --muted:       #6f6459;
+    --accent:      #2f5d46;
+    --accent-strong: #214332;
+    --border:      #ded3c5;
+    --surface-muted: #f2ece4;
+  }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: var(--bg);
+    background-attachment: fixed;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    background: var(--surface-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .back-link:hover { color: var(--accent-strong); text-decoration: underline; }
+
+  /* ── Layout ── */
+  .page-section { max-width: 960px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+  /* ── Header ── */
+  .site-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1.5rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+  .site-header .logo-group { display: flex; flex-direction: column; }
+  .site-header .logo {
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .site-header .tagline {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+  .site-header nav { display: flex; gap: 1.25rem; }
+  .site-header nav a {
+    font-size: 0.95rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .site-header nav a:hover { color: var(--accent); }
+
+  /* ── Card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    box-shadow: var(--surface-shadow);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── Eyebrow ── */
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Hero ── */
+  .hero h1 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .hero .summary {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 640px;
+  }
+
+  /* ── Stats ── */
+  .stats-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    box-shadow: var(--surface-shadow);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .stat-card .stat-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    line-height: 1.1;
+  }
+  .stat-card .stat-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+  }
+  .stat-card .stat-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+  }
+
+  /* ── Surface cards (catalog, tune) ── */
+  .section-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .surface-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .surface-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    box-shadow: var(--surface-shadow);
+    padding: 1.5rem;
+  }
+  .surface-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+  .surface-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center;
+    padding: 2rem 0 1.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+
+  /* ── Section divider ── */
+  .section-divider {
+    max-width: 960px;
+    margin: 3rem auto;
+    border: none;
+    border-top: 2px dashed var(--border);
+  }
+  .section-divider-label {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: -0.6em;
+    background: #f4efe8;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    position: relative;
+    top: -0.65rem;
+  }
+
+  /* ── Tune index ── */
+  .page-title { margin-bottom: 1.5rem; }
+  .page-title h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .page-title .lead { font-size: 0.95rem; color: var(--muted); }
+
+  .tune-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .tune-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--surface-radius);
+    box-shadow: var(--surface-shadow);
+    padding: 1.5rem;
+  }
+  .tune-card .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(47,93,70,0.08);
+    padding: 0.15em 0.55em;
+    border-radius: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+  .tune-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .tune-card .tune-summary {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .tune-card .tune-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.65rem;
+  }
+  .tune-card .tune-meta span { white-space: nowrap; }
+  .tune-card .tune-meta strong { color: var(--text); font-weight: 600; }
+  .tune-card .tune-sets {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .tune-card .tune-sets strong { color: var(--text); font-weight: 600; }
+  .tune-card .tune-aliases {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    font-style: italic;
+  }
+  .tune-card pre {
+    background: var(--surface-muted);
+    border-radius: 0.6rem;
+    padding: 0.85rem 1rem;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    overflow-x: auto;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .hero h1 { font-size: 1.35rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .surface-grid { grid-template-columns: 1fr; }
+    .card { padding: 1.25rem; }
+    .tune-card { padding: 1.25rem; }
+    .tune-card pre { font-size: 0.7rem; padding: 0.65rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Back to board -->
+<a class="back-link" href="design-board.html">← Back to Design Board</a>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: HOMEPAGE                                          -->
+<!-- ============================================================ -->
+<div class="page-section">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo-group">
+      <a class="logo" href="#">SessionBook</a>
+      <span class="tagline">A home for Irish trad chord charts.</span>
+    </div>
+    <nav>
+      <a href="#">Tunes</a>
+      <a href="#">Sets</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="card hero">
+    <span class="eyebrow">Release 1 public catalog</span>
+    <h1>SessionBook is now a public browseable catalog for Irish&nbsp;trad chord charts.</h1>
+    <p class="summary">The first release opens the door to a curated collection of chord charts for traditional Irish tunes — jigs, reels, hornpipes, and more — organised by set and ready for the session.</p>
+  </div>
+
+  <!-- Stats -->
+  <h2 class="stats-heading">What the imported catalog proves</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">42</div>
+      <div class="stat-label">Public tunes</div>
+      <div class="stat-desc">Chord charts imported and verified from the original collection.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Public sets</div>
+      <div class="stat-desc">Curated groupings of tunes played together in session order.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Private gig sheets</div>
+      <div class="stat-desc">Owner-only gig sheets for real-world performance planning.</div>
+    </div>
+  </div>
+
+  <!-- Catalog surfaces -->
+  <h2 class="section-heading">Public catalog surfaces</h2>
+  <div class="surface-grid">
+    <div class="surface-card">
+      <span class="eyebrow">Live</span>
+      <h3>Tunes</h3>
+      <p>Browse the full catalog of chord charts. Filter by key, mode, or meter. Each tune shows its chart, metadata, and which sets it belongs to.</p>
+    </div>
+    <div class="surface-card">
+      <span class="eyebrow">Live</span>
+      <h3>Sets</h3>
+      <p>View curated sets of tunes as they're played in sessions. Each set lists its tunes in order with quick access to individual charts.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">SessionBook — a home for Irish trad chord charts.</footer>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- DIVIDER                                                      -->
+<!-- ============================================================ -->
+<hr class="section-divider">
+<div class="section-divider-label">Section 2 · Tune Index</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: TUNE INDEX                                        -->
+<!-- ============================================================ -->
+<div class="page-section">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo-group">
+      <a class="logo" href="#">SessionBook</a>
+      <span class="tagline">A home for Irish trad chord charts.</span>
+    </div>
+    <nav>
+      <a href="#">Tunes</a>
+      <a href="#">Sets</a>
+    </nav>
+  </header>
+
+  <!-- Page title -->
+  <div class="page-title">
+    <span class="eyebrow">Live runtime</span>
+    <h1>Tunes</h1>
+    <p class="lead">Browse the full public catalog of Irish trad chord charts.</p>
+  </div>
+
+  <!-- Tune grid -->
+  <div class="tune-grid">
+
+    <!-- 1. Morrison's Jig -->
+    <div class="tune-card">
+      <span class="badge">Jig</span>
+      <h3>Morrison's Jig</h3>
+      <p class="tune-summary">A cornerstone jig in Em Dorian — a must-know for any session.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> Em</span>
+        <span><strong>Mode:</strong> Dorian</span>
+        <span><strong>Meter:</strong> 6/8</span>
+      </div>
+      <p class="tune-aliases">Aliases: Morrison's</p>
+      <p class="tune-sets"><strong>Sets:</strong> Jig Set 1, First Friday December</p>
+<pre>| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | Em / / / | C / D / |
+| Em / / / | / / D / | C  / / / | D / / / |</pre>
+    </div>
+
+    <!-- 2. The Butterfly -->
+    <div class="tune-card">
+      <span class="badge">Jig</span>
+      <h3>The Butterfly</h3>
+      <p class="tune-summary">A beautiful slip jig in Em Dorian with a flowing, lyrical feel.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> Em</span>
+        <span><strong>Mode:</strong> Dorian</span>
+        <span><strong>Meter:</strong> 6/8</span>
+      </div>
+      <p class="tune-sets"><strong>Sets:</strong> Jig Set 1</p>
+<pre>|  Em  /  /  |  /  /  D  |  Em  /  /  |  D  /  /  |
+|  Am  /  /  |  /  /  Bm  |  Am  /  /  |  /  /  Bm |
+|  Em  /  /  |  / / / | D  /  /  |  / / / |
+|  C   /  /  |  / / / | Bm /  /  |  / / / |</pre>
+    </div>
+
+    <!-- 3. Swallowtail Jig -->
+    <div class="tune-card">
+      <span class="badge">Jig</span>
+      <h3>Swallowtail Jig</h3>
+      <p class="tune-summary">A driving Em jig that sits perfectly alongside Morrison's in a set.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> Em</span>
+        <span><strong>Mode:</strong> Dorian</span>
+        <span><strong>Meter:</strong> 6/8</span>
+      </div>
+      <p class="tune-sets"><strong>Sets:</strong> Jig Set 1</p>
+<pre>| Em /  /  /  |  D  /  /  /  |  Em  /  /  / |  D  /  /  Em |
+| Em /  /  /  |  /  /  /  D  |  Em  /  /  / |  /  D  /  Em  |</pre>
+    </div>
+
+    <!-- 4. Saddle the Pony -->
+    <div class="tune-card">
+      <span class="badge">Jig</span>
+      <h3>Saddle the Pony</h3>
+      <p class="tune-summary">A bright G major jig with a bouncy, uplifting character.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> G</span>
+        <span><strong>Mode:</strong> Major</span>
+        <span><strong>Meter:</strong> 6/8</span>
+      </div>
+      <p class="tune-sets"><strong>Sets:</strong> Jig Set 2</p>
+<pre>| G  / Am / | G / D / | G / Am / | C / D G |
+| Em / / / | /  / D / | Em / / / | C / D G |</pre>
+    </div>
+
+    <!-- 5. The Green Mountain -->
+    <div class="tune-card">
+      <span class="badge">Reel</span>
+      <h3>The Green Mountain</h3>
+      <p class="tune-summary">A solid D major reel — a reliable session staple.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> D</span>
+        <span><strong>Mode:</strong> Major</span>
+        <span><strong>Meter:</strong> 4/4</span>
+      </div>
+      <p class="tune-sets"><strong>Sets:</strong> Reel Set 1</p>
+<pre>| D / / / / | Em / G A | D / / / | Em / A D |
+| D / G / | Em / A  / | D / G / | Em  / A D |</pre>
+    </div>
+
+    <!-- 6. Wind that Shakes the Barley -->
+    <div class="tune-card">
+      <span class="badge">Reel</span>
+      <h3>Wind that Shakes the Barley</h3>
+      <p class="tune-summary">An iconic D major reel — one of the best-known tunes in the tradition.</p>
+      <div class="tune-meta">
+        <span><strong>Key:</strong> D</span>
+        <span><strong>Mode:</strong> Major</span>
+        <span><strong>Meter:</strong> 4/4</span>
+      </div>
+      <p class="tune-sets"><strong>Sets:</strong> Reel Set 1</p>
+<pre>{2x}| D / / / | G / / /  | Bm / / / | A / / / |
+{1x}| D G D / | D G A / | D G D / | G / A / |</pre>
+    </div>
+
+  </div><!-- /tune-grid -->
+
+  <!-- Footer -->
+  <footer class="site-footer">SessionBook — a home for Irish trad chord charts.</footer>
+
+</div>
+
+</body>
+</html>

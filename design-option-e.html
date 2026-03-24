@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SessionBook — Option E: Compact Index</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
+    color: #111827;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Back link */
+  .back-link {
+    display: inline-block;
+    padding: .75rem 1.25rem;
+    font-size: .8125rem;
+    color: #6b7280;
+    text-decoration: none;
+  }
+  .back-link:hover { color: #111827; }
+
+  /* ── SECTION 1 — HOMEPAGE ── */
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .875rem 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .site-header .logo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -.01em;
+  }
+  .site-header .tagline {
+    font-size: .75rem;
+    color: #9ca3af;
+    margin-left: .5rem;
+  }
+  .site-header nav a {
+    font-size: .8125rem;
+    color: #6b7280;
+    text-decoration: none;
+    margin-left: 1.25rem;
+  }
+  .site-header nav a:hover { color: #111827; }
+
+  .hero {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+  .hero p {
+    color: #6b7280;
+    font-size: .9375rem;
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-actions {
+    display: flex;
+    gap: .625rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: .5rem 1.125rem;
+    font-size: .8125rem;
+    font-weight: 600;
+    border-radius: .375rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: background .15s;
+  }
+  .btn-primary {
+    background: #111827;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1f2937; }
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+  }
+  .btn-secondary:hover { background: #e5e7eb; }
+
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: .75rem 1.5rem 1.75rem;
+    font-size: .8125rem;
+    color: #9ca3af;
+  }
+  .stats-bar strong {
+    color: #111827;
+    font-weight: 600;
+  }
+
+  .quick-links {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .quick-link {
+    font-size: .8125rem;
+    color: #6b7280;
+    text-decoration: none;
+    padding: .375rem .875rem;
+    border: 1px solid #e5e7eb;
+    border-radius: .375rem;
+    transition: all .15s;
+  }
+  .quick-link:hover {
+    border-color: #d1d5db;
+    color: #111827;
+    background: #f9fafb;
+  }
+
+  /* ── SECTION 2 — TUNE INDEX ── */
+
+  .index-section {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .index-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: .25rem;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+  .index-header h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+  }
+  .index-header .filter-hint {
+    font-size: .75rem;
+    color: #9ca3af;
+  }
+  .index-subtitle {
+    font-size: .8125rem;
+    color: #6b7280;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Tune rows */
+  .tune-list {
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .tune-row {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: .875rem;
+    align-items: center;
+    padding: .625rem 0;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .tune-row:hover {
+    background: #f9fafb;
+    margin: 0 -.75rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  /* Type badge */
+  .type-badge {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .type-jig      { background: #fef3c7; color: #92400e; }
+  .type-reel     { background: #dbeafe; color: #1e40af; }
+  .type-hornpipe { background: #fce7f3; color: #9d174d; }
+  .type-polka    { background: #d1fae5; color: #065f46; }
+
+  /* Tune info */
+  .tune-info .tune-name {
+    font-size: .9375rem;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.3;
+  }
+  .tune-info .tune-sub {
+    font-size: .75rem;
+    color: #9ca3af;
+    line-height: 1.35;
+  }
+
+  /* Tune meta (right) */
+  .tune-meta {
+    text-align: right;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .tune-meta .key-mode {
+    font-size: .8125rem;
+    font-weight: 500;
+    color: #374151;
+  }
+  .tune-meta .meter {
+    font-size: .6875rem;
+    color: #9ca3af;
+  }
+
+  /* Expanded chart */
+  .tune-chart {
+    display: none;
+    padding: .875rem 1rem;
+    margin: 0 0 .125rem 0;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: .375rem;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+    font-size: .75rem;
+    line-height: 1.7;
+    color: #374151;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .tune-chart.expanded {
+    display: block;
+  }
+  .tune-chart .chart-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: .6875rem;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: .375rem;
+    display: block;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .site-header { padding: .75rem 1rem; }
+    .site-header .tagline { display: none; }
+    .hero { padding: 2rem 1rem 1.5rem; }
+    .hero h1 { font-size: 1.375rem; }
+    .stats-bar { gap: 1rem; font-size: .75rem; }
+    .index-section { padding: 1.5rem 1rem 3rem; }
+    .tune-row { gap: .625rem; }
+    .tune-meta .key-mode { font-size: .75rem; }
+  }
+</style>
+</head>
+<body>
+
+<a href="design-board.html" class="back-link">← Back to Design Board</a>
+
+<!-- ════════════════════════════════════════════
+     SECTION 1 — HOMEPAGE
+     ════════════════════════════════════════════ -->
+
+<header class="site-header">
+  <div style="display:flex;align-items:baseline;">
+    <span class="logo">SessionBook</span>
+    <span class="tagline">Irish trad chord charts</span>
+  </div>
+  <nav>
+    <a href="#tunes">Tunes</a>
+    <a href="#sets">Sets</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Chord charts for the session</h1>
+  <p>Quick-reference chord progressions for Irish traditional tunes. Built for guitarists, bouzouki players, and anyone comping at the session.</p>
+  <div class="hero-actions">
+    <a href="#tune-index" class="btn btn-primary">Browse Tunes</a>
+    <a href="#sets" class="btn btn-secondary">View Sets</a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <span><strong>12</strong> tunes</span>
+  <span><strong>4</strong> sets</span>
+  <span><strong>2</strong> types</span>
+</div>
+
+<div class="quick-links">
+  <a href="#tune-index" class="quick-link">All Tunes</a>
+  <a href="#jigs" class="quick-link">Jigs</a>
+  <a href="#reels" class="quick-link">Reels</a>
+  <a href="#sets" class="quick-link">Sets</a>
+</div>
+
+<hr class="section-divider">
+
+<!-- ════════════════════════════════════════════
+     SECTION 2 — TUNE INDEX
+     ════════════════════════════════════════════ -->
+
+<section class="index-section" id="tune-index">
+
+  <div class="index-header">
+    <h1>Tunes</h1>
+    <span class="filter-hint">Sort by name · Filter by type</span>
+  </div>
+  <p class="index-subtitle">12 tunes across jigs, reels, and more. Click a row to view its chord chart.</p>
+
+  <div class="tune-list">
+
+    <!-- 1. Morrison's Jig — EXPANDED -->
+    <div class="tune-row" onclick="toggle('chart-morrisons')" style="background:#f9fafb;margin:0 -.75rem;padding-left:.75rem;padding-right:.75rem;">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name"><a href="design-option-e-tune.html" style="color:inherit;text-decoration:none;border-bottom:1px solid #e5e7eb">Morrison's Jig</a></div>
+        <div class="tune-sub">Morrison's · Sets: Jig Set 1, First Friday December</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">Em Dorian</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+    <div class="tune-chart expanded" id="chart-morrisons"><span class="chart-label">Chord Chart</span>
+| Em  /  /  / | /  /  D  / | Em  /  /  / | C  /  D  / |
+| Em  /  /  / | /  /  D  / | Em  /  /  / | C  /  D  / |
+| Em  /  /  / | /  /  D  / | C   /  /  / | D  /  /  / |</div>
+
+    <!-- 2. The Butterfly -->
+    <div class="tune-row" onclick="toggle('chart-butterfly')">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name">The Butterfly</div>
+        <div class="tune-sub">Sets: Jig Set 1</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">Em Dorian</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+    <div class="tune-chart" id="chart-butterfly"><span class="chart-label">Chord Chart</span>
+| Em  /  /  | /  /  D  | Em  /  /  | D  /  /  |
+| Am  /  /  | /  /  Bm | Am  /  /  | /  /  Bm |
+| Em  /  /  | /  /  /  | D   /  /  | /  /  /  |
+| C   /  /  | /  /  /  | Bm  /  /  | /  /  /  |</div>
+
+    <!-- 3. Swallowtail Jig -->
+    <div class="tune-row" onclick="toggle('chart-swallowtail')">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name">Swallowtail Jig</div>
+        <div class="tune-sub">Sets: Jig Set 1</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">Em Dorian</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+    <div class="tune-chart" id="chart-swallowtail"><span class="chart-label">Chord Chart</span>
+| Em  /  /  / | D   /  /  / | Em  /  /  / | D  /  /  Em |
+| Em  /  /  / | /   /  /  D | Em  /  /  / | /  D  /  Em |</div>
+
+    <!-- 4. Saddle the Pony -->
+    <div class="tune-row" onclick="toggle('chart-saddle')">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name">Saddle the Pony</div>
+        <div class="tune-sub">Sets: Jig Set 2</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">G Major</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+    <div class="tune-chart" id="chart-saddle"><span class="chart-label">Chord Chart</span>
+| G  /  Am  / | G  /  D  / | G  /  Am  / | C  /  D  G |
+| Em /  /   / | /  /  D  / | Em /  /   / | C  /  D  G |</div>
+
+    <!-- 5. The Green Mountain -->
+    <div class="tune-row" onclick="toggle('chart-greenmtn')">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">The Green Mountain</div>
+        <div class="tune-sub">Sets: Reel Set 1</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">D Major</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+    <div class="tune-chart" id="chart-greenmtn"><span class="chart-label">Chord Chart</span>
+| D  /  /  / | Em  /  G  A | D  /  /  / | Em  /  A  D |
+| D  /  G  / | Em  /  A  / | D  /  G  / | Em  /  A  D |</div>
+
+    <!-- 6. Wind that Shakes the Barley -->
+    <div class="tune-row" onclick="toggle('chart-wind')">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">Wind that Shakes the Barley</div>
+        <div class="tune-sub">Sets: Reel Set 1</div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">D Major</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+    <div class="tune-chart" id="chart-wind"><span class="chart-label">Chord Chart</span>
+{2x}| D  /  /  / | G  /  /  / | Bm  /  /  / | A  /  /  / |
+{1x}| D  G  D  / | D  G  A  / | D   G  D  / | G  /  A  / |</div>
+
+    <!-- 7. Swinging on the Gate -->
+    <div class="tune-row">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">Swinging on the Gate</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">G Major</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+
+    <!-- 8. Man of the House -->
+    <div class="tune-row">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">Man of the House</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">Em Dorian</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+
+    <!-- 9. Connaughtman's Rambles -->
+    <div class="tune-row">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">Connaughtman's Rambles</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">D Major</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+
+    <!-- 10. Lilting Banshee -->
+    <div class="tune-row">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name">Lilting Banshee</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">A Dorian</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+
+    <!-- 11. Tom Billy's -->
+    <div class="tune-row">
+      <div class="type-badge type-jig">Jig</div>
+      <div class="tune-info">
+        <div class="tune-name">Tom Billy's</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">A Major</div>
+        <div class="meter">6/8</div>
+      </div>
+    </div>
+
+    <!-- 12. The Rolling Waves -->
+    <div class="tune-row">
+      <div class="type-badge type-reel">Reel</div>
+      <div class="tune-info">
+        <div class="tune-name">The Rolling Waves</div>
+        <div class="tune-sub"></div>
+      </div>
+      <div class="tune-meta">
+        <div class="key-mode">D Major</div>
+        <div class="meter">4/4</div>
+      </div>
+    </div>
+
+  </div><!-- .tune-list -->
+</section>
+
+<script>
+function toggle(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('expanded');
+}
+</script>
+
+</body>
+</html>

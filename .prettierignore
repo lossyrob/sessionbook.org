@@ -8,3 +8,4 @@ public/.gitkeep
 Sessions/**/*.md
 Sessions/**/*.pdf
 src/data/release-1/fixture-store.ts
+design-*.html
