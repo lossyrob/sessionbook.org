@@ -3,15 +3,31 @@
 import Link from "next/link";
 import { type MouseEvent, useState } from "react";
 
-import type { PublicSetView } from "@/lib/release-1/repository";
 import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
+
+type SetEntryListItem = {
+  position: number;
+  tuneSlug: string;
+  tuneName: string;
+  tuneType: string;
+  key: string;
+  mode: string;
+  meter: string;
+  chartTitle: string;
+  contentMarkdown: string;
+};
 
 type SetEntriesListProps = {
   setId: string;
-  entries: PublicSetView["entries"];
+  entries: SetEntryListItem[];
+  buildTuneHref?: (slug: string) => string;
 };
 
-export function SetEntriesList({ setId, entries }: SetEntriesListProps) {
+export function SetEntriesList({
+  setId,
+  entries,
+  buildTuneHref = (slug) => `/tunes/${slug}`,
+}: SetEntriesListProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   function stopRowToggle(event: MouseEvent<HTMLAnchorElement>) {
@@ -51,7 +67,7 @@ export function SetEntriesList({ setId, entries }: SetEntriesListProps) {
               <div className="set-entry__details">
                 <Link
                   className="set-entry__name catalog-link"
-                  href={`/tunes/${entry.tuneSlug}`}
+                  href={buildTuneHref(entry.tuneSlug)}
                   onClick={stopRowToggle}
                 >
                   {entry.tuneName}

@@ -17,6 +17,7 @@ describe("site navigation", () => {
 
   it("covers the expected owner access surfaces", () => {
     expect(ownerSections.map((section) => section.href)).toEqual([
+      "/preview",
       "/login",
       "/gigs/st-paddys-day",
     ]);
