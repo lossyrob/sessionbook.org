@@ -33,6 +33,10 @@ export type PublicTuneView = {
     contentMarkdown: string;
   };
   setNames: string[];
+  setMemberships: Array<{
+    name: string;
+    slug: string;
+  }>;
 };
 
 export type PublicSetView = {
@@ -43,10 +47,13 @@ export type PublicSetView = {
   entries: Array<{
     position: number;
     tuneName: string;
+    tuneSlug: string;
+    tuneType: string;
     chartTitle: string;
     key: string;
     mode: string;
     meter: string;
+    contentMarkdown: string;
   }>;
 };
 
@@ -69,6 +76,8 @@ export type Release1Repository = {
   getCatalogSummary: () => CatalogSummary;
   listPublicTunes: () => PublicTuneView[];
   listPublicSets: () => PublicSetView[];
+  getPublicTuneBySlug: (slug: string) => PublicTuneView | undefined;
+  getPublicSetBySlug: (slug: string) => PublicSetView | undefined;
   findPublicTuneByAlias: (term: string) => PublicTuneView | undefined;
   getPrivateGigSheetBySlug: (slug: string) => PrivateGigSheetView | undefined;
 };
@@ -261,25 +270,27 @@ function sortEntries<T extends { position: number }>(entries: T[]): T[] {
   return [...entries].sort((left, right) => left.position - right.position);
 }
 
-function createSetNamesByTune(
-  entriesBySet: SetRecord[],
-  chartsById: Map<string, ChartRecord>,
-) {
-  const namesByTuneId = new Map<string, string[]>();
+function createSetMembershipsByTune(sets: SetRecord[]) {
+  const membershipsByTuneId = new Map<
+    string,
+    Array<{
+      name: string;
+      slug: string;
+    }>
+  >();
 
-  for (const setRecord of entriesBySet) {
+  for (const setRecord of sets) {
     for (const entry of setRecord.entries) {
-      if (!chartsById.has(entry.chartId)) {
-        continue;
-      }
-
-      const setNames = namesByTuneId.get(entry.tuneId) ?? [];
-      setNames.push(setRecord.name);
-      namesByTuneId.set(entry.tuneId, setNames);
+      const memberships = membershipsByTuneId.get(entry.tuneId) ?? [];
+      memberships.push({
+        name: setRecord.name,
+        slug: setRecord.slug,
+      });
+      membershipsByTuneId.set(entry.tuneId, memberships);
     }
   }
 
-  return namesByTuneId;
+  return membershipsByTuneId;
 }
 
 function resolveSetEntry(
@@ -297,10 +308,13 @@ function resolveSetEntry(
   return {
     position: entry.position,
     tuneName: tune.name,
+    tuneSlug: tune.slug,
+    tuneType: tune.tuneType,
     chartTitle: chart.title,
     key: chart.key,
     mode: chart.mode,
     meter: chart.meter,
+    contentMarkdown: chart.contentMarkdown,
   };
 }
 
@@ -330,13 +344,14 @@ export function createRelease1Repository(
     aliasesByTuneId.set(alias.tuneId, aliases);
   }
 
-  const setNamesByTuneId = createSetNamesByTune(store.sets, chartsById);
+  const setMembershipsByTuneId = createSetMembershipsByTune(store.sets);
 
   const publicTunes = store.tunes
     .map((tune) => {
       const chart = store.charts.find(
         (candidate) => candidate.tuneId === tune.id,
       );
+      const setMemberships = setMembershipsByTuneId.get(tune.id) ?? [];
 
       if (!chart) {
         throw new Error(`Missing chart for tune ${tune.id}`);
@@ -356,7 +371,8 @@ export function createRelease1Repository(
           meter: chart.meter,
           contentMarkdown: chart.contentMarkdown,
         },
-        setNames: setNamesByTuneId.get(tune.id) ?? [],
+        setNames: setMemberships.map((setMembership) => setMembership.name),
+        setMemberships,
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));
@@ -372,6 +388,8 @@ export function createRelease1Repository(
   }));
 
   const publicTunesById = buildIdMap(publicTunes, "public tune view");
+  const publicTunesBySlug = buildSlugMap(publicTunes, "public tune view");
+  const publicSetsBySlug = buildSlugMap(publicSets, "public set view");
 
   return {
     getCatalogSummary() {
@@ -388,6 +406,12 @@ export function createRelease1Repository(
     },
     listPublicSets() {
       return publicSets;
+    },
+    getPublicTuneBySlug(slug: string) {
+      return publicTunesBySlug.get(slug);
+    },
+    getPublicSetBySlug(slug: string) {
+      return publicSetsBySlug.get(slug);
     },
     findPublicTuneByAlias(term: string) {
       const normalizedTerm = normalizeSearchTerm(term);

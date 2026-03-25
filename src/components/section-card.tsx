@@ -14,9 +14,11 @@ export function SectionCard({ section }: SectionCardProps) {
         <Link href={section.href}>{section.label}</Link>
       </h3>
       <p>{section.summary}</p>
-      <p className="section-card__issue">
-        Next planned work: {section.nextIssue}
-      </p>
+      {section.nextIssue ? (
+        <p className="section-card__issue">
+          Next planned work: {section.nextIssue}
+        </p>
+      ) : null}
     </article>
   );
 }

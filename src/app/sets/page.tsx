@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SetEntriesList } from "@/components/set-entries-list";
 import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +16,8 @@ export default async function SetsPage() {
       </div>
       <p className="index-subtitle">
         {sets.length} sets in the public catalog. Each set is an ordered group
-        of tunes.
+        of tunes. Click a tune row or the Show chart button to expand it, or
+        click the tune title to open its page.
       </p>
 
       {sets.length === 0 ? (
@@ -29,29 +31,19 @@ export default async function SetsPage() {
         <div>
           {sets.map((setRecord) => (
             <div className="set-row" key={setRecord.id}>
-              <div className="set-row__header">
+              <Link
+                className="set-row__header set-row__header--link"
+                href={`/sets/${setRecord.slug}`}
+              >
                 <span className="set-row__name">{setRecord.name}</span>
                 <span className="set-row__count">
                   {setRecord.entries.length} tunes
                 </span>
-              </div>
-              <ul className="set-row__entries">
-                {setRecord.entries.map((entry) => (
-                  <li
-                    className="set-entry"
-                    key={`${setRecord.id}-${entry.position}`}
-                  >
-                    <span className="set-entry__pos">{entry.position}</span>
-                    <span className="set-entry__badge type-badge--jig">
-                      {/* Tune type not available on set entries; omit text */}
-                    </span>
-                    <span className="set-entry__name">{entry.tuneName}</span>
-                    <span className="set-entry__key">
-                      {entry.key} {entry.mode} · {entry.meter}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              </Link>
+              <SetEntriesList
+                entries={setRecord.entries}
+                setId={setRecord.id}
+              />
             </div>
           ))}
         </div>

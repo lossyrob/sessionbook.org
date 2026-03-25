@@ -28,14 +28,15 @@ describe("site navigation", () => {
     expect(new Set(hrefs).size).toBe(hrefs.length);
   });
 
-  it("marks tune and set browse routes as the live public surfaces", () => {
+  it("marks tune and set routes as live catalog surfaces without stale roadmap labels", () => {
     expect(
-      publicSections.slice(0, 2).map((section) => section.nextIssue),
-    ).toEqual(["#7", "#8"]);
+      publicSections.slice(0, 2).every((section) => !section.nextIssue),
+    ).toBe(true);
     expect(
       publicSections
         .slice(0, 2)
-        .every((section) => section.status === "Live public browse surface"),
+        .every((section) => section.status === "Live public catalog surface"),
     ).toBe(true);
+    expect(publicSections[2]?.nextIssue).toBe("#9");
   });
 });

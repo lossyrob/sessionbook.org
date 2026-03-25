@@ -34,6 +34,45 @@ describe("release1Repository", () => {
     expect(repository.findPublicTuneByAlias("missing tune")).toBeUndefined();
   });
 
+  it("resolves public tunes and sets by slug with link-ready metadata", () => {
+    const repository = createRelease1Repository(release1FixtureStore);
+    const linkedSet = repository
+      .listPublicSets()
+      .find(
+        (setRecord) =>
+          setRecord.name === "The Green Mountain / Wind that Shakes the Barley",
+      );
+    const firstSet = repository.listPublicSets()[0];
+    const morrisonsJig = repository
+      .listPublicTunes()
+      .find((tune) => tune.name === "Morrison's Jig");
+    const tune = repository.getPublicTuneBySlug("the-green-mountain");
+    const setRecord = firstSet
+      ? repository.getPublicSetBySlug(firstSet.slug)
+      : undefined;
+
+    expect(linkedSet).toBeDefined();
+    expect(morrisonsJig).toBeDefined();
+    expect(tune).toMatchObject({
+      slug: "the-green-mountain",
+      setNames: ["The Green Mountain / Wind that Shakes the Barley"],
+      setMemberships: [
+        {
+          name: linkedSet?.name,
+          slug: linkedSet?.slug,
+        },
+      ],
+    });
+    expect(setRecord?.entries[0]).toMatchObject({
+      tuneName: morrisonsJig?.name,
+      tuneSlug: morrisonsJig?.slug,
+      tuneType: morrisonsJig?.tuneType,
+      contentMarkdown: morrisonsJig?.chart.contentMarkdown,
+    });
+    expect(repository.getPublicTuneBySlug("missing-tune")).toBeUndefined();
+    expect(repository.getPublicSetBySlug("missing-set")).toBeUndefined();
+  });
+
   it("preserves set and gig-sheet ordering", () => {
     const repository = createRelease1Repository(release1FixtureStore);
     const sets = repository.listPublicSets();
