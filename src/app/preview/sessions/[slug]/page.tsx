@@ -57,6 +57,23 @@ export default async function PreviewSessionDetailPage({
         <p className="index-subtitle">Session date: {session.date}</p>
       ) : null}
 
+      {session.notes ? (
+        <div className="callout">
+          <h2>Session Notes</h2>
+          <pre
+            style={{
+              margin: 0,
+              whiteSpace: "pre-wrap",
+              fontFamily: "inherit",
+              fontSize: "0.875rem",
+              color: "var(--muted)",
+            }}
+          >
+            {session.notes}
+          </pre>
+        </div>
+      ) : null}
+
       {session.sections.map((section) => (
         <section className="section-block" key={section.heading}>
           <h2>{section.heading}</h2>

@@ -14,7 +14,7 @@ export type PreviewTuneView = {
     meter: string;
     contentMarkdown: string;
   };
-  formStructureNotes: string;
+  notes: string;
   sourceLinks: string;
   workingNotes: string;
   setMemberships: Array<{
@@ -59,6 +59,7 @@ export type PreviewSessionView = {
   name: string;
   date?: string;
   sourcePath: string;
+  notes: string;
   sections: Array<{
     heading: string;
     sets: Array<{
@@ -136,7 +137,7 @@ export function createContentRepository(
         meter: getDisplayMeter(tune.meter),
         contentMarkdown: tune.chart,
       },
-      formStructureNotes: tune.formStructureNotes,
+      notes: tune.notes,
       sourceLinks: tune.sourceLinks,
       workingNotes: tune.workingNotes,
       setMemberships: tuneMemberships.get(tune.slug) ?? [],
@@ -223,6 +224,7 @@ export function createContentRepository(
         name: session.title,
         date: session.date,
         sourcePath: session.sourcePath,
+        notes: session.notes,
         sections: session.sections.map((section) => ({
           heading: section.heading,
           sets: section.setSlugs.map((setSlug) => {

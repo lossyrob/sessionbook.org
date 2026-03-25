@@ -16,7 +16,7 @@ export const tuneDocumentSchema = z.object({
   meter: z.string().regex(/^\d+\/\d+$/).optional(),
   visibility: contentVisibilitySchema,
   chart: z.string(),
-  formStructureNotes: z.string(),
+  notes: z.string(),
   sourceLinks: z.string(),
   workingNotes: z.string(),
   sourcePath: z.string().min(1),
@@ -42,6 +42,7 @@ export const sessionDocumentSchema = z.object({
   title: z.string().min(1),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   visibility: contentVisibilitySchema,
+  notes: z.string(),
   sections: z.array(sessionSectionSchema).min(1),
   sourcePath: z.string().min(1),
 });

@@ -207,6 +207,7 @@ function readRequiredString(
 function readOptionalString(
   data: FrontmatterRecord,
   key: string,
+  sourcePath: string,
 ): string | undefined {
   const value = data[key];
 
@@ -215,7 +216,7 @@ function readOptionalString(
   }
 
   if (typeof value !== "string") {
-    throw new Error(`Expected "${key}" to be a string.`);
+    throw new Error(`${sourcePath}: expected "${key}" to be a string.`);
   }
 
   const trimmedValue = value.trim();
@@ -253,6 +254,13 @@ function readRequiredSection(
   }
 
   return value;
+}
+
+function readOptionalSection(
+  sectionMap: Map<string, string>,
+  heading: string,
+): string {
+  return sectionMap.get(heading) ?? "";
 }
 
 function parseSlugList(content: string, sourcePath: string): string[] {
@@ -316,16 +324,14 @@ async function parseTuneDocument(absolutePath: string): Promise<TuneDocument> {
     tuneType: readRequiredString(data, "tune_type", sourcePath),
     key: readRequiredString(data, "key", sourcePath),
     mode: readRequiredString(data, "mode", sourcePath),
-    meter: readOptionalString(data, "meter"),
+    meter: readOptionalString(data, "meter", sourcePath),
     visibility: readRequiredString(data, "visibility", sourcePath),
     chart: readRequiredSection(sectionMap, "Chart", sourcePath),
-    formStructureNotes: readRequiredSection(
-      sectionMap,
-      "Form / Structure Notes",
-      sourcePath,
-    ),
-    sourceLinks: readRequiredSection(sectionMap, "Source Links", sourcePath),
-    workingNotes: readRequiredSection(sectionMap, "Working Notes", sourcePath),
+    notes:
+      readOptionalSection(sectionMap, "Notes") ||
+      readOptionalSection(sectionMap, "Form / Structure Notes"),
+    sourceLinks: readOptionalSection(sectionMap, "Source Links"),
+    workingNotes: readOptionalSection(sectionMap, "Working Notes"),
     sourcePath,
   });
 }
@@ -342,7 +348,7 @@ async function parseSetDocument(absolutePath: string): Promise<SetDocument> {
   return setDocumentSchema.parse({
     slug,
     title: readRequiredString(data, "title", sourcePath),
-    tuneType: readOptionalString(data, "tune_type"),
+    tuneType: readOptionalString(data, "tune_type", sourcePath),
     visibility: readRequiredString(data, "visibility", sourcePath),
     tuneSlugs: readStringArray(data, "tunes", sourcePath),
     notes: readRequiredSection(sectionMap, "Notes", sourcePath),
@@ -357,19 +363,24 @@ async function parseSessionDocument(
   const sourcePath = toRelativePath(absolutePath);
   const slug = getSlugFromPath(absolutePath);
   const { data, body } = parseFrontmatter(source, sourcePath);
-  const sections = parseMarkdownSections(body, sourcePath);
+  const sectionMap = buildSectionMap(parseMarkdownSections(body, sourcePath), sourcePath);
+  const notes = readOptionalSection(sectionMap, "Notes");
+  const sections = [...sectionMap.entries()]
+    .filter(([heading]) => heading !== "Notes")
+    .map(([heading, content]) => ({
+      heading,
+      setSlugs: parseSlugList(content, sourcePath),
+    }));
 
   assertAllowedKeys(data, ["title", "date", "visibility"], sourcePath);
 
   return sessionDocumentSchema.parse({
     slug,
     title: readRequiredString(data, "title", sourcePath),
-    date: readOptionalString(data, "date"),
+    date: readOptionalString(data, "date", sourcePath),
     visibility: readRequiredString(data, "visibility", sourcePath),
-    sections: sections.map((section) => ({
-      heading: section.heading,
-      setSlugs: parseSlugList(section.content, sourcePath),
-    })),
+    notes,
+    sections,
     sourcePath,
   });
 }

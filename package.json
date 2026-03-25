@@ -13,6 +13,7 @@
     "format": "prettier --write . --ignore-unknown",
     "format:check": "prettier --check . --ignore-unknown",
     "generate:release-1-data": "tsx scripts/generate-release-1-data.ts",
+    "generate:session-content": "tsx scripts/generate-session-content.ts",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"

@@ -79,6 +79,13 @@ the fixture-backed repository path for local UI work. When `DATABASE_URL` is
 configured, the public homepage and browse indexes expect to load the Release 1
 catalog from Postgres instead of silently falling back to fixtures.
 
+For the local-first session workflow, start from a checked-in session work
+document under `Sessions/*_session_work.md`. That single markdown file is the
+easy-to-edit source you use while practicing a session in running order. Run
+`npm run generate:session-content` to canonicalize it into
+`content/tunes`, `content/sets`, and `content/sessions` for preview and later
+publication.
+
 ### Available Commands
 
 | Command                           | Purpose                                                                                      |
@@ -88,6 +95,7 @@ catalog from Postgres instead of silently falling back to fixtures.
 | `npm run format`                  | Apply the repository Prettier formatting rules                                               |
 | `npm run format:check`            | Check the repository against the configured Prettier rules                                   |
 | `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
+| `npm run generate:session-content` | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions` |
 | `npm run lint`                    | Run the flat ESLint config used in CI                                                        |
 | `npm run test`                    | Run the Vitest smoke tests                                                                   |
 | `npm run typecheck`               | Run `tsc --noEmit`                                                                           |

@@ -8,5 +8,3 @@ tunes:
 ---
 
 ## Notes
-
-- Draft set seeded from the April 3 2026 session leader list.

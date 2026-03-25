@@ -7,5 +7,3 @@ tunes:
 ---
 
 ## Notes
-
-- Solo entry for the April 3 2026 session draft.

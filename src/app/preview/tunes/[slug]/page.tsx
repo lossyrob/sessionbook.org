@@ -138,22 +138,23 @@ export default async function PreviewTuneDetailPage({
       </div>
 
       <div className="callout">
-        <h2>Form / Structure Notes</h2>
-        {renderTextBlock(
-          tune.formStructureNotes,
-          "No form or structure notes yet.",
-        )}
+        <h2>Notes</h2>
+        {renderTextBlock(tune.notes, "No published tune notes yet.")}
       </div>
 
-      <div className="callout">
-        <h2>Source Links</h2>
-        {renderTextBlock(tune.sourceLinks, "No source links recorded yet.")}
-      </div>
+      {tune.sourceLinks ? (
+        <div className="callout">
+          <h2>Source Links</h2>
+          {renderTextBlock(tune.sourceLinks, "No source links recorded yet.")}
+        </div>
+      ) : null}
 
-      <div className="callout">
-        <h2>Working Notes</h2>
-        {renderTextBlock(tune.workingNotes, "No working notes yet.")}
-      </div>
+      {tune.workingNotes ? (
+        <div className="callout">
+          <h2>Working Notes</h2>
+          {renderTextBlock(tune.workingNotes, "No working notes yet.")}
+        </div>
+      ) : null}
 
       <div className="callout">
         <h2>Preview sets</h2>
