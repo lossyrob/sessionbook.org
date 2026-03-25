@@ -57,7 +57,8 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
       </h1>
       {setRecord.summary ? <p className="lead">{setRecord.summary}</p> : null}
       <p className="index-subtitle">
-        Click a tune row to expand its chord chart.
+        Click a tune row or the Show chart button to expand it, or click the
+        tune title to open its page.
       </p>
 
       <div className="set-row">

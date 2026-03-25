@@ -16,7 +16,8 @@ export default async function SetsPage() {
       </div>
       <p className="index-subtitle">
         {sets.length} sets in the public catalog. Each set is an ordered group
-        of tunes. Click a tune row to expand its chord chart.
+        of tunes. Click a tune row or the Show chart button to expand it, or
+        click the tune title to open its page.
       </p>
 
       {sets.length === 0 ? (

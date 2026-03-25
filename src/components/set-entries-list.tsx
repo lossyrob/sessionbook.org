@@ -34,31 +34,51 @@ export function SetEntriesList({ setId, entries }: SetEntriesListProps) {
     <ol className="set-row__entries">
       {entries.map((entry) => {
         const entryKey = `${setId}-${entry.position}`;
+        const chartId = `${entryKey}-chart`;
+        const isExpanded = expanded.has(entryKey);
 
         return (
           <li key={entryKey}>
             <div
               className="set-entry set-entry--interactive"
+              data-expanded={isExpanded ? "true" : undefined}
               onClick={() => toggle(entryKey)}
             >
               <span className="set-entry__pos">{entry.position}</span>
               <span className={tuneTypeBadgeClass(entry.tuneType)}>
                 {entry.tuneType.slice(0, 4)}
               </span>
-              <Link
-                className="set-entry__name catalog-link"
-                href={`/tunes/${entry.tuneSlug}`}
-                onClick={stopRowToggle}
-              >
-                {entry.tuneName}
-              </Link>
-              <span className="set-entry__key">
-                {entry.key} {entry.mode} · {entry.meter}
-              </span>
+              <div className="set-entry__details">
+                <Link
+                  className="set-entry__name catalog-link"
+                  href={`/tunes/${entry.tuneSlug}`}
+                  onClick={stopRowToggle}
+                >
+                  {entry.tuneName}
+                </Link>
+              </div>
+              <div className="set-entry__meta">
+                <span className="set-entry__key">
+                  {entry.key} {entry.mode} · {entry.meter}
+                </span>
+                <button
+                  aria-controls={chartId}
+                  aria-expanded={isExpanded}
+                  className="set-entry__toggle"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    toggle(entryKey);
+                  }}
+                  type="button"
+                >
+                  {isExpanded ? "Hide chart" : "Show chart"}
+                </button>
+              </div>
             </div>
             <div
+              id={chartId}
               className="set-entry__chart tune-chart"
-              data-expanded={expanded.has(entryKey) ? "true" : undefined}
+              data-expanded={isExpanded ? "true" : undefined}
             >
               <span className="tune-chart__label">{entry.chartTitle}</span>
               {entry.contentMarkdown}
