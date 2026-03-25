@@ -48,10 +48,12 @@ export type PublicSetView = {
     position: number;
     tuneName: string;
     tuneSlug: string;
+    tuneType: string;
     chartTitle: string;
     key: string;
     mode: string;
     meter: string;
+    contentMarkdown: string;
   }>;
 };
 
@@ -307,10 +309,12 @@ function resolveSetEntry(
     position: entry.position,
     tuneName: tune.name,
     tuneSlug: tune.slug,
+    tuneType: tune.tuneType,
     chartTitle: chart.title,
     key: chart.key,
     mode: chart.mode,
     meter: chart.meter,
+    contentMarkdown: chart.contentMarkdown,
   };
 }
 

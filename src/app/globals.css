@@ -490,6 +490,15 @@ a {
   font-size: 0.8125rem;
 }
 
+.set-entry--interactive {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.set-entry--interactive:hover {
+  background: var(--surface);
+}
+
 .set-entry__pos {
   font-size: 0.75rem;
   font-weight: 600;
@@ -518,6 +527,10 @@ a {
   font-size: 0.75rem;
   color: var(--faint);
   text-align: right;
+}
+
+.set-entry__chart {
+  margin: 0 1rem 0.75rem 4rem;
 }
 
 /* ─── Callout ─── */
@@ -693,5 +706,9 @@ a {
     grid-template-columns: 1.5rem 1.75rem 1fr auto;
     gap: 0.35rem;
     font-size: 0.75rem;
+  }
+
+  .set-entry__chart {
+    margin-left: 3.25rem;
   }
 }

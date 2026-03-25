@@ -66,6 +66,8 @@ describe("release1Repository", () => {
     expect(setRecord?.entries[0]).toMatchObject({
       tuneName: morrisonsJig?.name,
       tuneSlug: morrisonsJig?.slug,
+      tuneType: morrisonsJig?.tuneType,
+      contentMarkdown: morrisonsJig?.chart.contentMarkdown,
     });
     expect(repository.getPublicTuneBySlug("missing-tune")).toBeUndefined();
     expect(repository.getPublicSetBySlug("missing-set")).toBeUndefined();

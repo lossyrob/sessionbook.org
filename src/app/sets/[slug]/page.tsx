@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { SetEntriesList } from "@/components/set-entries-list";
 import { loadRelease1Repository } from "@/lib/release-1/load-repository";
 
 export const dynamic = "force-dynamic";
@@ -55,6 +56,9 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
         {setRecord.name}
       </h1>
       {setRecord.summary ? <p className="lead">{setRecord.summary}</p> : null}
+      <p className="index-subtitle">
+        Click a tune row to expand its chord chart.
+      </p>
 
       <div className="set-row">
         <div className="set-row__header set-row__header--static">
@@ -63,26 +67,7 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
             {setRecord.entries.length} tunes
           </span>
         </div>
-        <ol className="set-row__entries">
-          {setRecord.entries.map((entry) => (
-            <li className="set-entry" key={`${setRecord.id}-${entry.position}`}>
-              <span className="set-entry__pos">{entry.position}</span>
-              <span
-                aria-hidden="true"
-                className="set-entry__badge type-badge--jig"
-              />
-              <Link
-                className="set-entry__name catalog-link"
-                href={`/tunes/${entry.tuneSlug}`}
-              >
-                {entry.tuneName}
-              </Link>
-              <span className="set-entry__key">
-                {entry.key} {entry.mode} · {entry.meter}
-              </span>
-            </li>
-          ))}
-        </ol>
+        <SetEntriesList entries={setRecord.entries} setId={setRecord.id} />
       </div>
 
       <p className="back-link">
