@@ -38,6 +38,25 @@ describe("loadSessionbookCorpus", () => {
       mode: "Dorian",
       meter: "4/4",
       visibility: "public",
+      links: [
+        {
+          label: "The Session (setting 45009)",
+          href: "https://thesession.org/tunes/496#setting45009",
+          provider: "the-session",
+          theSessionTuneId: 496,
+          theSessionSettingId: 45009,
+        },
+      ],
+      versions: [
+        {
+          label: "Session default",
+          parts: [
+            {
+              name: "Full tune",
+            },
+          ],
+        },
+      ],
     });
 
     const woundedHussarSet = corpus.sets.find(

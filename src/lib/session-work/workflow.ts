@@ -9,6 +9,20 @@ import {
   type SetDocument,
   type TuneDocument,
 } from "@/lib/content/schema";
+import {
+  isLikelyTuneLinkHref,
+  parseTuneLinkValue,
+  renderTuneLinksBlock,
+  type TuneLink,
+} from "@/lib/content/tune-links";
+import {
+  createImplicitTuneVersion,
+  defaultTuneVersionLabel,
+  parseTuneVersionBlocks,
+  renderTuneVersionBlocks,
+  renderTuneVersionChart,
+  type TuneVersion,
+} from "@/lib/content/tune-versions";
 import { parseKeyAndMode, slugify } from "@/lib/release-1/import-source";
 
 const sessionWorkSuffix = "_session_work.md";
@@ -41,7 +55,8 @@ type ParsedSessionWorkTune = {
   aliases: string[];
   displayTitle: string;
   keyDescriptor?: string;
-  chart: string;
+  links: TuneLink[];
+  versions: TuneVersion[];
   notes: string;
   tuneType: string;
 };
@@ -146,7 +161,8 @@ export function renderSessionWorkDocument(seed: SessionWorkSeed): string {
     seed.authorComments ??
     [
       "Author-only comments start with %% and are ignored during canonicalization.",
-      "Published note markers: > tune note, >> set note, >>> session note.",
+      "Published markers: > tune note, >> set note, >>> session note, => tune link.",
+      "Structured tune blocks: = version:, = part:, = alt:.",
     ];
 
   if (authorComments.length > 0) {
@@ -174,6 +190,14 @@ export function renderSessionWorkDocument(seed: SessionWorkSeed): string {
   }
 
   return `${lines.join("\n").trimEnd()}\n`;
+}
+
+function isTuneVersionMarker(value: string): boolean {
+  return /^=\s*version:/i.test(value);
+}
+
+function isTunePartMarker(value: string): boolean {
+  return /^=\s*(?:part|alt):/i.test(value);
 }
 
 function matchesMarkedPrefix(value: string, prefix: ">" | ">>" | ">>>"): boolean {
@@ -223,6 +247,39 @@ function normalizeChart(value: string): string {
     .map((line) => line.trimEnd())
     .join("\n")
     .trim();
+}
+
+function promoteLegacySourceLinks(
+  notes: string,
+  sourcePath: string,
+): { notes: string; links: TuneLink[] } {
+  if (!notes.trim()) {
+    return {
+      notes: "",
+      links: [],
+    };
+  }
+
+  const keptLines: string[] = [];
+  const links: TuneLink[] = [];
+
+  for (const line of normalizeLineEndings(notes).split("\n")) {
+    const trimmed = line.trim();
+    const sourceMatch = trimmed.match(/^Source:\s*(.+)$/);
+    const sourceValue = sourceMatch?.[1]?.trim();
+
+    if (sourceValue && isLikelyTuneLinkHref(sourceValue)) {
+      links.push(parseTuneLinkValue(sourceValue, sourcePath));
+      continue;
+    }
+
+    keptLines.push(line.trimEnd());
+  }
+
+  return {
+    notes: normalizeBlock(keptLines.join("\n")),
+    links,
+  };
 }
 
 function parseTuneTitle(value: string): { title: string; keyDescriptor?: string } | null {
@@ -296,7 +353,9 @@ export function parseSessionWorkDocument(args: {
     | {
         displayTitle: string;
         keyDescriptor?: string;
-        chart: string;
+        legacyChart: string;
+        links: TuneLink[];
+        versionLines: string[];
         notes: string;
         tuneType: string;
       }
@@ -314,14 +373,32 @@ export function parseSessionWorkDocument(args: {
     }
 
     const { title: parsedTitle, aliases } = splitAliases(currentTune.displayTitle);
+    const promotedLinks = promoteLegacySourceLinks(currentTune.notes, args.sourcePath);
+    const links = [...currentTune.links];
+
+    for (const link of promotedLinks.links) {
+      if (links.some((existingLink) => existingLink.href === link.href)) {
+        continue;
+      }
+
+      links.push(link);
+    }
+    const versions =
+      currentTune.versionLines.length > 0
+        ? parseTuneVersionBlocks({
+            source: currentTune.versionLines.join("\n"),
+            sourcePath: `${args.sourcePath}: ${currentTune.displayTitle}`,
+          })
+        : [createImplicitTuneVersion(currentTune.legacyChart)];
 
     currentSet.tunes.push({
       title: parsedTitle,
       aliases,
       displayTitle: currentTune.displayTitle,
       keyDescriptor: currentTune.keyDescriptor,
-      chart: currentTune.chart,
-      notes: currentTune.notes,
+      links,
+      versions,
+      notes: promotedLinks.notes,
       tuneType: currentTune.tuneType,
     });
     currentTune = null;
@@ -441,6 +518,44 @@ export function parseSessionWorkDocument(args: {
       continue;
     }
 
+    if (trimmed.startsWith("=>")) {
+      if (!currentTune) {
+        throw new Error(
+          `${args.sourcePath}: tune link encountered before a tune title.`,
+        );
+      }
+
+      if (currentTune.versionLines.length > 0) {
+        currentTune.versionLines.push(trimmed);
+      } else {
+        currentTune.links.push(
+          parseTuneLinkValue(trimmed.slice(2).trim(), args.sourcePath),
+        );
+      }
+      continue;
+    }
+
+    if (isTuneVersionMarker(trimmed) || isTunePartMarker(trimmed)) {
+      if (!currentTune) {
+        throw new Error(
+          `${args.sourcePath}: tune version content encountered before a tune title.`,
+        );
+      }
+
+      if (currentTune.legacyChart) {
+        throw new Error(
+          `${args.sourcePath}: structured tune versions cannot follow a legacy chart fence in the same tune.`,
+        );
+      }
+
+      if (currentTune.versionLines.length === 0 && isTunePartMarker(trimmed)) {
+        currentTune.versionLines.push(`= version: ${defaultTuneVersionLabel}`);
+      }
+
+      currentTune.versionLines.push(trimmed);
+      continue;
+    }
+
     const tuneTitle = parseTuneTitle(trimmed);
 
     if (tuneTitle) {
@@ -450,7 +565,9 @@ export function parseSessionWorkDocument(args: {
       currentTune = {
         displayTitle: tuneTitle.title,
         keyDescriptor: tuneTitle.keyDescriptor,
-        chart: "",
+        legacyChart: "",
+        links: [],
+        versionLines: [],
         notes: "",
         tuneType: inferTuneType(section.heading),
       };
@@ -476,7 +593,14 @@ export function parseSessionWorkDocument(args: {
         chartLines.push(chartLine);
       }
 
-      currentTune.chart = normalizeChart(chartLines.join("\n"));
+      const chart = normalizeChart(chartLines.join("\n"));
+
+      if (currentTune.versionLines.length > 0) {
+        currentTune.versionLines.push("```", chart, "```");
+        continue;
+      }
+
+      currentTune.legacyChart = chart;
       continue;
     }
 
@@ -563,9 +687,10 @@ export function canonicalizeSessionWorkDocument(
           mode: keyMode.mode,
           meter: inferMeter(tune.tuneType),
           visibility: "public" as const,
-          chart: tune.chart,
+          chart: renderTuneVersionChart(tune.versions[0]!),
+          versions: tune.versions,
           notes: tune.notes,
-          sourceLinks: "",
+          links: tune.links,
           workingNotes: "",
           sourcePath: `content/tunes/${slug}.md`,
         };
@@ -693,15 +818,15 @@ export function renderTuneContentDocument(document: TuneDocument): string {
       ["meter", document.meter],
       ["visibility", document.visibility],
     ]),
-    "## Chart",
+    "## Versions",
     "",
-    document.chart,
+    renderTuneVersionBlocks(document.versions),
     "",
     "## Notes",
     "",
     document.notes,
-    document.sourceLinks
-      ? ["", "## Source Links", "", document.sourceLinks]
+    document.links.length > 0
+      ? ["", "## Links", "", renderTuneLinksBlock(document.links)]
       : [],
     document.workingNotes
       ? ["", "## Working Notes", "", document.workingNotes]

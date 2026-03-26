@@ -25,6 +25,14 @@ describe("createContentRepository", () => {
         name: "Glen of Aherlow / Merry Blacksmith",
       },
     ]);
+    expect(glenOfAherlow?.theSessionLink).toMatchObject({
+      href: "https://thesession.org/tunes/496#setting45009",
+      provider: "the-session",
+      theSessionTuneId: 496,
+      theSessionSettingId: 45009,
+    });
+    expect(glenOfAherlow?.hasStructuredVersions).toBe(false);
+    expect(glenOfAherlow?.versions[0]?.parts[0]?.name).toBe("Full tune");
 
     const aprilSession = repository.getPreviewSessionBySlug(
       "commodore-barry-club-first-friday-session-2026-04-03",
@@ -52,6 +60,77 @@ describe("createContentRepository", () => {
           notes: "",
           tuneNames: ["Willie Coleman's", "Maid on the Green"],
           tuneCount: 2,
+        },
+      ],
+    });
+  });
+
+  it("surfaces structured tune versions for preview rendering", () => {
+    const repository = createContentRepository({
+      tunes: [
+        {
+          slug: "versioned-tune",
+          title: "Versioned Tune",
+          aliases: [],
+          tuneType: "Reel",
+          key: "D",
+          mode: "Major",
+          meter: "4/4",
+          visibility: "public",
+          chart: "A:\n| D / / / |\n\nA alt (second pass):\n| Bm / / / |",
+          versions: [
+            {
+              label: "Session default",
+              links: [
+                {
+                  label: "YouTube",
+                  href: "https://youtu.be/example",
+                  provider: "youtube",
+                },
+              ],
+              parts: [
+                {
+                  name: "A",
+                  chart: "| D / / / |",
+                },
+                {
+                  name: "A",
+                  alternateLabel: "second pass",
+                  chart: "| Bm / / / |",
+                },
+              ],
+            },
+          ],
+          notes: "",
+          links: [],
+          workingNotes: "",
+          sourcePath: "content/tunes/versioned-tune.md",
+        },
+      ],
+      sets: [],
+      sessions: [],
+    });
+
+    const versionedTune = repository.getPreviewTuneBySlug("versioned-tune");
+
+    expect(versionedTune?.hasStructuredVersions).toBe(true);
+    expect(versionedTune?.versions[0]).toMatchObject({
+      label: "Session default",
+      links: [
+        {
+          href: "https://youtu.be/example",
+          provider: "youtube",
+        },
+      ],
+      parts: [
+        {
+          name: "A",
+          contentMarkdown: "| D / / / |",
+        },
+        {
+          name: "A",
+          alternateLabel: "second pass",
+          contentMarkdown: "| Bm / / / |",
         },
       ],
     });

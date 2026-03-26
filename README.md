@@ -86,6 +86,22 @@ easy-to-edit source you use while practicing a session in running order. Run
 `content/tunes`, `content/sets`, and `content/sessions` for preview and later
 publication.
 
+Tune notes use `>` lines, set notes use `>>`, session notes use `>>>`, ignored
+author comments use `%%`, and tune links use `=>` followed by either a bare
+target or `Label | target`. Links written before any version block attach to the
+tune overall; links written after `= version:` attach to that version.
+
+For structured variants, use:
+
+- `= version: Session default`
+- `= part: A`
+- `= alt: A | second pass`
+
+Each `= part:` or `= alt:` line owns the next fenced chart block. The canonical
+`content/tunes/*.md` output writes structured versions into `## Versions`,
+preserves tune-level `## Links`, and gives The Session links special treatment
+in the preview UI.
+
 ### Available Commands
 
 | Command                           | Purpose                                                                                      |

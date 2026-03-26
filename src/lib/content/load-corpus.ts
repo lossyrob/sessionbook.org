@@ -12,6 +12,12 @@ import {
   type SetDocument,
   type TuneDocument,
 } from "@/lib/content/schema";
+import { parseTuneLinksBlock } from "@/lib/content/tune-links";
+import {
+  createImplicitTuneVersion,
+  parseTuneVersionBlocks,
+  renderTuneVersionChart,
+} from "@/lib/content/tune-versions";
 
 type FrontmatterValue = string | string[];
 
@@ -310,6 +316,14 @@ async function parseTuneDocument(absolutePath: string): Promise<TuneDocument> {
   const slug = getSlugFromPath(absolutePath);
   const { data, body } = parseFrontmatter(source, sourcePath);
   const sectionMap = buildSectionMap(parseMarkdownSections(body, sourcePath), sourcePath);
+  const versionsSection = readOptionalSection(sectionMap, "Versions");
+  const versions = versionsSection
+    ? parseTuneVersionBlocks({
+        source: versionsSection,
+        sourcePath: `${sourcePath}#Versions`,
+      })
+    : [createImplicitTuneVersion(readRequiredSection(sectionMap, "Chart", sourcePath))];
+  const chart = renderTuneVersionChart(versions[0]!);
 
   assertAllowedKeys(
     data,
@@ -326,11 +340,16 @@ async function parseTuneDocument(absolutePath: string): Promise<TuneDocument> {
     mode: readRequiredString(data, "mode", sourcePath),
     meter: readOptionalString(data, "meter", sourcePath),
     visibility: readRequiredString(data, "visibility", sourcePath),
-    chart: readRequiredSection(sectionMap, "Chart", sourcePath),
+    chart,
+    versions,
     notes:
       readOptionalSection(sectionMap, "Notes") ||
       readOptionalSection(sectionMap, "Form / Structure Notes"),
-    sourceLinks: readOptionalSection(sectionMap, "Source Links"),
+    links: parseTuneLinksBlock(
+      readOptionalSection(sectionMap, "Links") ||
+        readOptionalSection(sectionMap, "Source Links"),
+      sourcePath,
+    ),
     workingNotes: readOptionalSection(sectionMap, "Working Notes"),
     sourcePath,
   });

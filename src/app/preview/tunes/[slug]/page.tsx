@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { isExternalTuneLink } from "@/lib/content/tune-links";
 import { loadContentRepository } from "@/lib/content/load-repository";
 import type { PreviewTuneView } from "@/lib/content/repository";
 import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
@@ -57,11 +58,43 @@ function renderTextBlock(content: string, emptyLabel: string) {
   );
 }
 
+function renderTuneLink(link: PreviewTuneView["links"][number]) {
+  if (isExternalTuneLink(link)) {
+    return (
+      <a href={link.href} rel="noreferrer" target="_blank">
+        {link.label}
+      </a>
+    );
+  }
+
+  if (link.label === link.href) {
+    return <code>{link.href}</code>;
+  }
+
+  return (
+    <>
+      <span>{link.label}: </span>
+      <code>{link.href}</code>
+    </>
+  );
+}
+
+function renderVersionPartLabel(part: PreviewTuneView["versions"][number]["parts"][number]) {
+  if (!part.alternateLabel) {
+    return part.name;
+  }
+
+  return `${part.name} alt (${part.alternateLabel})`;
+}
+
 export default async function PreviewTuneDetailPage({
   params,
 }: PreviewTuneDetailPageProps) {
   const { slug } = await params;
   const tune = await getPreviewTuneBySlug(slug);
+  const additionalLinks = tune.links.filter(
+    (link) => link.provider !== "the-session",
+  );
 
   return (
     <div style={{ paddingTop: "2.5rem" }}>
@@ -128,24 +161,115 @@ export default async function PreviewTuneDetailPage({
         </div>
       </div>
 
-      <div
-        className="tune-chart"
-        data-expanded="true"
-        style={{ marginTop: "1rem" }}
-      >
-        <span className="tune-chart__label">Chord Chart</span>
-        {tune.chart.contentMarkdown}
-      </div>
+      {!tune.hasStructuredVersions ? (
+        <div
+          className="tune-chart"
+          data-expanded="true"
+          style={{ marginTop: "1rem" }}
+        >
+          <span className="tune-chart__label">Chord Chart</span>
+          {tune.chart.contentMarkdown}
+        </div>
+      ) : null}
 
       <div className="callout">
         <h2>Notes</h2>
         {renderTextBlock(tune.notes, "No published tune notes yet.")}
       </div>
 
-      {tune.sourceLinks ? (
+      {tune.theSessionLink ? (
         <div className="callout">
-          <h2>Source Links</h2>
-          {renderTextBlock(tune.sourceLinks, "No source links recorded yet.")}
+          <h2>The Session</h2>
+          <p>{renderTuneLink(tune.theSessionLink)}</p>
+          {tune.theSessionLink.theSessionTuneId ? (
+            <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>
+              Tune {tune.theSessionLink.theSessionTuneId}
+              {tune.theSessionLink.theSessionSettingId
+                ? ` · setting ${tune.theSessionLink.theSessionSettingId}`
+                : ""}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
+      {additionalLinks.length > 0 ? (
+        <div className="callout">
+          <h2>Links</h2>
+          <ul className="checklist">
+            {additionalLinks.map((link) => (
+              <li key={`${link.provider}:${link.href}`}>{renderTuneLink(link)}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {tune.hasStructuredVersions ? (
+        <div className="callout" style={{ display: "grid", gap: "1rem" }}>
+          <h2>Versions</h2>
+          {tune.versions.map((version, index) => {
+            const versionLinks = version.links.filter(
+              (link) => link.provider !== "the-session",
+            );
+
+            return (
+              <div
+                key={`${version.label}-${index}`}
+                style={{
+                  display: "grid",
+                  gap: "0.75rem",
+                  paddingTop: index > 0 ? "1rem" : 0,
+                  borderTop:
+                    index > 0 ? "1px solid color-mix(in srgb, var(--border) 80%, transparent)" : "none",
+                }}
+              >
+                <div>
+                  <div className="tune-name">
+                    {version.label}
+                    {index === 0 ? " (default)" : ""}
+                  </div>
+                  <div className="tune-sub">Tune version</div>
+                </div>
+
+                {version.theSessionLink ? (
+                  <div>
+                    <div>{renderTuneLink(version.theSessionLink)}</div>
+                    {version.theSessionLink.theSessionTuneId ? (
+                      <div
+                        style={{ fontSize: "0.8125rem", color: "var(--muted)" }}
+                      >
+                        Tune {version.theSessionLink.theSessionTuneId}
+                        {version.theSessionLink.theSessionSettingId
+                          ? ` · setting ${version.theSessionLink.theSessionSettingId}`
+                          : ""}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                {versionLinks.length > 0 ? (
+                  <ul className="checklist">
+                    {versionLinks.map((link) => (
+                      <li key={`${link.provider}:${link.href}`}>{renderTuneLink(link)}</li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {version.parts.map((part, partIndex) => (
+                  <div
+                    key={`${version.label}-${part.name}-${part.alternateLabel ?? "primary"}-${partIndex}`}
+                    className="tune-chart"
+                    data-expanded="true"
+                    style={{ marginTop: 0 }}
+                  >
+                    <span className="tune-chart__label">
+                      {renderVersionPartLabel(part)}
+                    </span>
+                    {part.contentMarkdown}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
         </div>
       ) : null}
 

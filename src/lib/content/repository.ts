@@ -1,4 +1,10 @@
 import type { SessionbookCorpus } from "@/lib/content/schema";
+import type { TuneLink } from "@/lib/content/tune-links";
+import {
+  renderTuneVersionChart,
+  versionHasExplicitPartStructure,
+  type TuneVersion,
+} from "@/lib/content/tune-versions";
 
 export type PreviewTuneView = {
   id: string;
@@ -15,7 +21,20 @@ export type PreviewTuneView = {
     contentMarkdown: string;
   };
   notes: string;
-  sourceLinks: string;
+  links: TuneLink[];
+  theSessionLink?: TuneLink;
+  versions: Array<{
+    label: string;
+    links: TuneLink[];
+    theSessionLink?: TuneLink;
+    parts: Array<{
+      name: string;
+      alternateLabel?: string;
+      contentMarkdown: string;
+    }>;
+    contentMarkdown: string;
+  }>;
+  hasStructuredVersions: boolean;
   workingNotes: string;
   setMemberships: Array<{
     slug: string;
@@ -92,6 +111,24 @@ function getDisplayMeter(meter?: string): string {
   return meter ?? "TBD";
 }
 
+function buildPreviewTuneVersion(version: TuneVersion) {
+  const theSessionLink = version.links.find(
+    (link) => link.provider === "the-session",
+  );
+
+  return {
+    label: version.label,
+    links: version.links,
+    theSessionLink,
+    parts: version.parts.map((part) => ({
+      name: part.name,
+      alternateLabel: part.alternateLabel,
+      contentMarkdown: part.chart,
+    })),
+    contentMarkdown: renderTuneVersionChart(version),
+  };
+}
+
 export function createContentRepository(
   corpus: SessionbookCorpus,
 ): ContentRepository {
@@ -123,6 +160,17 @@ export function createContentRepository(
       throw new Error(`Missing tune "${slug}" while building preview view.`);
     }
 
+    const theSessionLink = tune.links.find(
+      (link) => link.provider === "the-session",
+    );
+    const versions = tune.versions.map((version) => buildPreviewTuneVersion(version));
+    const hasStructuredVersions =
+      versions.length > 1 ||
+      tune.versions.some(
+        (version) =>
+          version.links.length > 0 || versionHasExplicitPartStructure(version),
+      );
+
     return {
       id: tune.slug,
       slug: tune.slug,
@@ -138,7 +186,10 @@ export function createContentRepository(
         contentMarkdown: tune.chart,
       },
       notes: tune.notes,
-      sourceLinks: tune.sourceLinks,
+      links: tune.links,
+      theSessionLink,
+      versions,
+      hasStructuredVersions,
       workingNotes: tune.workingNotes,
       setMemberships: tuneMemberships.get(tune.slug) ?? [],
     };

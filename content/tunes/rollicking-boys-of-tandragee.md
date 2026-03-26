@@ -7,8 +7,15 @@ meter: 6/8
 visibility: public
 ---
 
-## Chart
+## Versions
 
+= version: Session default
 
+= part: Full tune
+```
+| Em / / / | D / / / | Em / / / | D / Em / |
+
+| Em / D / | D / Bm / | Em / D / | Bm / Em / |
+```
 
 ## Notes

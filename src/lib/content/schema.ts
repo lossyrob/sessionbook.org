@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { tuneLinkSchema } from "@/lib/content/tune-links";
+import { tuneVersionSchema } from "@/lib/content/tune-versions";
 import { contentVisibilitySchema } from "@/lib/release-1/schema";
 
 export const contentSlugSchema = z
@@ -16,8 +18,9 @@ export const tuneDocumentSchema = z.object({
   meter: z.string().regex(/^\d+\/\d+$/).optional(),
   visibility: contentVisibilitySchema,
   chart: z.string(),
+  versions: z.array(tuneVersionSchema).min(1),
   notes: z.string(),
-  sourceLinks: z.string(),
+  links: z.array(tuneLinkSchema),
   workingNotes: z.string(),
   sourcePath: z.string().min(1),
 });
