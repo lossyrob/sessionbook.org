@@ -10,7 +10,6 @@ visibility: public
 ## Versions
 
 = version: Session default
-=> https://thesession.org/tunes/3842#setting46053
 
 = part: A
 ```
@@ -24,3 +23,9 @@ visibility: public
 ```
 
 ## Notes
+
+
+
+## Links
+
+https://thesession.org/tunes/3842#setting46053

@@ -10,7 +10,6 @@ visibility: public
 ## Versions
 
 = version: Session default
-=> https://thesession.org/tunes/75#setting31921
 
 = part: A
 ```
@@ -26,3 +25,7 @@ visibility: public
 
 The Session comments there also call G the common Irish-session key for this
 reel.
+
+## Links
+
+https://thesession.org/tunes/75#setting31921

@@ -102,6 +102,24 @@ Each `= part:` or `= alt:` line owns the next fenced chart block. The canonical
 preserves tune-level `## Links`, and gives The Session links special treatment
 in the preview UI.
 
+To render a session-work PDF, install the lightweight Python renderer
+dependency once:
+
+```bash
+python3 -m pip install -r requirements-pdf.txt
+```
+
+Then run:
+
+```bash
+npm run render:session-pdf -- Sessions/commodore-barry-club-first-friday-session-2026-04-03_session_work.md
+```
+
+That writes a PDF under `out/session-pdfs/` by default. The print model uses the
+first/default tune version and primary parts by default; add
+`--include-alternates` to include `= alt:` parts, or `--print-large` for a
+single-column large-print layout.
+
 ### Available Commands
 
 | Command                           | Purpose                                                                                      |
@@ -112,6 +130,7 @@ in the preview UI.
 | `npm run format:check`            | Check the repository against the configured Prettier rules                                   |
 | `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
 | `npm run generate:session-content` | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions` |
+| `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/` using the repo-owned print layout |
 | `npm run lint`                    | Run the flat ESLint config used in CI                                                        |
 | `npm run test`                    | Run the Vitest smoke tests                                                                   |
 | `npm run typecheck`               | Run `tsc --noEmit`                                                                           |

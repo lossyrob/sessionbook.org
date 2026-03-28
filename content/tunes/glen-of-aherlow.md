@@ -12,7 +12,6 @@ visibility: public
 ## Versions
 
 = version: Session default
-=> https://thesession.org/tunes/496#setting45009
 
 = part: A
 ```
@@ -27,3 +26,7 @@ visibility: public
 ## Notes
 
 The Session lists `Lafferty's` as an alias for this reel.
+
+## Links
+
+https://thesession.org/tunes/496#setting45009

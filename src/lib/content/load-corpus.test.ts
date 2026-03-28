@@ -52,7 +52,10 @@ describe("loadSessionbookCorpus", () => {
           label: "Session default",
           parts: [
             {
-              name: "Full tune",
+              name: "A",
+            },
+            {
+              name: "B",
             },
           ],
         },

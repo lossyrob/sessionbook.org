@@ -10,7 +10,6 @@ visibility: public
 ## Versions
 
 = version: Session default
-=> Sessions/chyunes_mbys.md
 
 = part: A
 ```
@@ -25,3 +24,9 @@ visibility: public
 ```
 
 ## Notes
+
+
+
+## Links
+
+Sessions/chyunes_mbys.md

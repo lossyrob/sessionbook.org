@@ -10,6 +10,8 @@
 
 **The Lisnagun** (G)
 
+=> https://thesession.org/tunes/3842#setting46053
+
 = part: A
 ```
 | G / D C | / / D / | G / D C | / / D G |
@@ -21,8 +23,6 @@
 | Em / / C | / / D / | G / D C | / / D G |
 
 ```
-
-=> https://thesession.org/tunes/3842#setting46053
 
 **Rollicking Boys of Tandragee** (Edor)
 
@@ -103,6 +103,9 @@
 
 **Glen of Aherlow (Lafferty's)** (Edor)
 
+=> https://thesession.org/tunes/496#setting45009
+> The Session lists `Lafferty's` as an alias for this reel.
+
 = part: A
 ```
 | Em A D / | Em / Bm / | Em A D / |Em / Bm Em |
@@ -112,9 +115,6 @@
 ```
 | Em A D / | Em / Bm / | Em A D / |Bm / / Em |
 ```
-
-=> https://thesession.org/tunes/496#setting45009
-> The Session lists `Lafferty's` as an alias for this reel.
 
 **Merry Blacksmith** (D)
 
@@ -179,6 +179,10 @@
 
 **Miss McLeod's** (G)
 
+=> https://thesession.org/tunes/75#setting31921
+> The Session comments there also call G the common Irish-session key for this
+> reel.
+
 = part: A
 
 ```
@@ -190,10 +194,6 @@
 ```
 | G C G / | G C D C | G C G / | C / G D |
 ```
-
-=> https://thesession.org/tunes/75#setting31921
-> The Session comments there also call G the common Irish-session key for this
-> reel.
 
 ## Slip Jigs
 
@@ -245,6 +245,8 @@
 
 **The Good-Natured Man** (G)
 
+=> https://thesession.org/tunes/312#setting45001
+
 = part: A
 
 ```
@@ -259,9 +261,9 @@
 | G / / / | C G D G |
 ```
 
-=> https://thesession.org/tunes/312#setting45001
-
 **The Fairies' Hornpipe** (G)
+
+=> Sessions/chyunes_mbys.md
 
 = part: A
 
@@ -276,8 +278,6 @@
 | G / / / | Am / D / |
 | G / / / | Am D G / |
 ```
-
-=> Sessions/chyunes_mbys.md
 
 ## Polkas
 

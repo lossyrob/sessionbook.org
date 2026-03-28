@@ -31,8 +31,11 @@ describe("createContentRepository", () => {
       theSessionTuneId: 496,
       theSessionSettingId: 45009,
     });
-    expect(glenOfAherlow?.hasStructuredVersions).toBe(false);
-    expect(glenOfAherlow?.versions[0]?.parts[0]?.name).toBe("Full tune");
+    expect(glenOfAherlow?.hasStructuredVersions).toBe(true);
+    expect(glenOfAherlow?.versions[0]?.parts.map((part) => part.name)).toEqual([
+      "A",
+      "B",
+    ]);
 
     const aprilSession = repository.getPreviewSessionBySlug(
       "commodore-barry-club-first-friday-session-2026-04-03",
