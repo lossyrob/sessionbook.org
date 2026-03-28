@@ -10,21 +10,19 @@ visibility: public
 ## Versions
 
 = version: Session default
+=> https://thesession.org/tunes/75#setting31921
 
-= part: Full tune
+= part: A
 ```
-| G / / / | G / / / | G / / / | D / / / |
-| G / / / | G / / / | C / / / | D7 / / / |
+| G C G / | G C D / | G / C / | / / G D |
+```
 
-| G / / / | G / / / | G / / / | D / / / |
-| G / / / | G / / / | C / / / | D7 / / / |
+= part: B
+```
+| G C G / | G C D C | G C G / | C / G D |
 ```
 
 ## Notes
 
 The Session comments there also call G the common Irish-session key for this
 reel.
-
-## Links
-
-https://thesession.org/tunes/75#setting31921

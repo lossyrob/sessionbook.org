@@ -11,20 +11,21 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
-| Em / / / | G / / / | Em / / / | Em / D / |
-| Em / / / | G / / / | D / / / | Em / / / |
+| Em / D | C / / | / / D | Em / / |
+```
 
-| D / / / | G / / / | Em / / / | Em / / / |
-| D / / / | G / / / | D / / / | Em / / / |
+= alt: A | Eight notes
+```
+| Em / / | / / D | / / / | C / / | / / / | / / / |
+| C / / | / / D | / / / | Em / / | / / / | / / / |
+```
+
+= part: B
+```
+| G / D | C / / | / / D | Em / / |
+| G / D | C / / | / / / | D / / |
 ```
 
 ## Notes
-
-Needs review: structure-first Edorian draft inferred from the Edorian melody
-settings and comments pairing it with `Fig for a Kiss`.
-
-## Links
-
-https://thesession.org/tunes/191#setting12843

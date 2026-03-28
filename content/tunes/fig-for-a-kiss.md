@@ -11,20 +11,20 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
-| Em / / / | D / / / | Em / / / | G / D Em |
-| Em / / / | D / / / | Em / / / | G / D Em |
+| Em / / | D / / | Em / / | Bm / Em |
+```
 
-| Em / / / | D / / / | C / D Em | G / D Em |
-| Em / / / | D / / / | C / D Em | G / D Em |
+= alt: A | Sub C
+```
+| Em / / | D / / | C / / | Bm / Em |
+```
+
+= part: B
+```
+| C / / | Bm / / | Em / / | G / / |
+| C / / | Bm / / | Am  / / | C / Em   |
 ```
 
 ## Notes
-
-Needs review: the B part has multiple common variants on The Session, but the
-Edorian harmony stays close to this shape.
-
-## Links
-
-https://thesession.org/tunes/750#setting55329

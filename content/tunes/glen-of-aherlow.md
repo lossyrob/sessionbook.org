@@ -12,20 +12,18 @@ visibility: public
 ## Versions
 
 = version: Session default
+=> https://thesession.org/tunes/496#setting45009
 
-= part: Full tune
+= part: A
 ```
-| Bm / / / | Em / / / | Bm / / / | D / Em / |
-| Bm / / / | Em / / / | Bm / / / | Bm / Em / |
+| Em A D / | Em / Bm / | Em A D / |Em / Bm Em |
+```
 
-| Em / A / | Bm / / / | Em / A / | Bm / Em / |
-| Em / A / | Bm / / / | Em / D / | Bm / Em / |
+= part: B
+```
+| Em A D / | Em / Bm / | Em A D / |Bm / / Em |
 ```
 
 ## Notes
 
 The Session lists `Lafferty's` as an alias for this reel.
-
-## Links
-
-https://thesession.org/tunes/496#setting45009

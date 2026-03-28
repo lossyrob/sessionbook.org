@@ -11,20 +11,14 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
-| G / / / | G / C / | G / / / | C / D G |
-| G / / / | G / C / | G / / / | C / D G |
+| G / / / | Em / / / | G / / / | D / G / |
+```
 
-| G / Em / | D / C / | G / Em / | D / Em / |
-| G / Em / | D / C / | G / D / | D / C / |
+= part: B
+```
+| G Em D C | G Em D / | G Em D C | Bm / D Em |
 ```
 
 ## Notes
-
-Using the older G-major reel entry at tune 828 rather than the Oliver
-Schroer-composed reel at tune 13245.
-
-## Links
-
-https://thesession.org/tunes/828#setting48934

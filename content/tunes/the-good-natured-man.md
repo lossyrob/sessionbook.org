@@ -10,20 +10,18 @@ visibility: public
 ## Versions
 
 = version: Session default
+=> https://thesession.org/tunes/312#setting45001
 
-= part: Full tune
+= part: A
 ```
-| G / / / | G / / / | C / / / | D / / / |
-| G / / / | G / / / | C / D7 / | D / G / |
+| G / / / | C / D / |
+| G / / / | C G D G |
+```
 
-| G / / / | C / / / | D / G / | D / / / |
-| G / / / | G / / / | C / D7 / | D / G / |
+= part: B
+```
+| G / C Am | Em / D / |
+| G / / / | C G D G |
 ```
 
 ## Notes
-
-
-
-## Links
-
-https://thesession.org/tunes/312#setting45001

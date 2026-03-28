@@ -13,18 +13,9 @@ visibility: public
 
 = part: Full tune
 ```
-| G / / / | Em / / / | G / / / | D / / / |
-| G / / / | Em / / / | G / D / | G / / / |
+| G / / / | C G D / | G / / / | C G Am D |
 
-| G / / / | G / / / | C / / / | D / / / |
-| G / / / | G / / / | Em / / / | G / / / |
+| Em / / / | Am / C D | G / / / | C / D / |
 ```
 
 ## Notes
-
-Needs review: harmony is a first-pass inference from the G-major melody
-settings; no chord-tagged setting was visible in the retrieved JSON.
-
-## Links
-
-https://thesession.org/tunes/1831

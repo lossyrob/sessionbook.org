@@ -10,20 +10,18 @@ visibility: public
 ## Versions
 
 = version: Session default
+=> Sessions/chyunes_mbys.md
 
-= part: Full tune
+= part: A
 ```
-| G . . B/C | D F# G B | G F# E D | A B/C D / |
-| G / / / | / / / / | A/B C D C | B A G . |
+| G / D G | G  / Am D |
+| G / / / | Am D G  / |
+```
 
-| G / / / | / / / / | A / /B C | F# E D . |
-| G / / / | / / / / | A/B C D C | B A G . |
+= part: B
+```
+| G / / / | Am / D / |
+| G / / / | Am D G / |
 ```
 
 ## Notes
-
-
-
-## Links
-
-Sessions/chyunes_mbys.md

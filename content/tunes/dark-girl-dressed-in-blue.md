@@ -11,19 +11,22 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
-| D / | G D | G B7 | Em A7 |
-| D / | G D | G A7 | D / |
+| D / G D | G / A / |
+| D / G D | G A D / |
+```
 
-| D / | D / | G B7 | Em A7 |
-| D / | D / | G A7 | D / |
+= part: B
+```
+| D / / / | G / A / |
+| D / / / | G / A D |
+```
+
+= part: B
+```
+| D  / / / | G / A / |
+| Bm / / A | G / A D |
 ```
 
 ## Notes
-
-
-
-## Links
-
-https://thesession.org/tunes/1534#setting39505

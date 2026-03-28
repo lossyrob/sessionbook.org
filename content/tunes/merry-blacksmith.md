@@ -11,15 +11,19 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
+```
+| D / / / | Bm / G A | D / / / | Bm / A D |
+```
+
+= part: B
+```
+| D / / / | Bm / G A | D / / / | G / A D |
+```
+
+= part: A+B
 ```
 | D / / / | (G/Bm) / G A | D / / / | G D A D |
 ```
 
 ## Notes
-
-Needs review: local source only carries a compact first-pass chart.
-
-## Links
-
-Sessions/2026-01_first_friday_jam.md

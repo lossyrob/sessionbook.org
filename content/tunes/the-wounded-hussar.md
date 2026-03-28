@@ -12,23 +12,15 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
-| Em / / | Em / / | D / / | Bm / / |
-| C / / | C / / | Em / / | Am / / |
+| Em / | D / | G D | Bm Em |
+```
 
-| Em / / | Em / / | D / / | Bm / / |
-| Am / / | C / / | Am / / | C / D / |
-
-| Em / / | Em7 / / | D / / | Bm / / |
-| C / / | C / / | Em / / | Am / / |
+= part: B
+```
+| G / | D Bm | Em / | /-Bmaj Em |
+| G D | / /  | G  D | Bm     Em |
 ```
 
 ## Notes
-
-The Session lists both `Captain O'Kane` and `The Wounded Hussar` among the
-aliases for this air/waltz.
-
-## Links
-
-https://thesession.org/tunes/858#setting14027

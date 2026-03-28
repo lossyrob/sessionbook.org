@@ -10,9 +10,13 @@
 
 **The Lisnagun** (G)
 
+= part: A
 ```
 | G / D C | / / D / | G / D C | / / D G |
+```
 
+= part: B
+```
 | Em / / C | / / D / | Em / / C | / / D Em |
 | Em / / C | / / D / | G / D C | / / D G |
 
@@ -22,9 +26,13 @@
 
 **Rollicking Boys of Tandragee** (Edor)
 
+= part: A
 ```
 | Em / / / | D / / / | Em / / / | D / Em / |
+```
 
+= part: B
+```
 | Em / D / | D / Bm / | Em / D / | Bm / Em / |
 ```
 
@@ -32,6 +40,7 @@
 
 **Geese in the Bog** (Ador)
 
+= part: A+B
 ```
 | Am / / / | / / G / | Am / / / | G / / Am |
 
@@ -39,41 +48,54 @@
 
 **Miller's Maggot** (G)
 
+= part: A
 ```
 | G / / / | / / Em / | G / / / | / / Em / |
+```
 
+= part: B
+```
 | C / G / | Em / D Em | C / G / | Am / Em / |
-
-| C / / / | G / / / | C / / / | D / Em / |
-| C / / / | G / / / | Am / / / | Em / / / |
-
 ```
 
 ---
 
 **Willie Coleman's** (G)
 
+= part: A
 ```
 | G / / / | Am / D / | G / / / | C / D G  |
-| Em / / / | Am / / / | G/B / / / | C / D / |
+```
 
+= alt: A | Climb
+```
+| G / / / | Am / / / | G/B / / / | C / D G  |
+```
+
+= part: B
+```
+| Em / / / | Am / / / | Em / / / | C / D / |
+```
+
+= alt: B | To G
+```
+| Em / / / | G / / / | Em / / / | C / D / |
+```
+
+= alt: B | climb
+```
+| Em / / / | Am / / / | G/B / / / | C / D / |
 ```
 
 
 **Maid on the Green** (G)
 
 ```
-| G / / / | Em / / / | G / / / | D / / / |
-| G / / / | Em / / / | G / D / | G / / / |
+| G / / / | C G D / | G / / / | C G Am D |
 
-| G / / / | G / / / | C / / / | D / / / |
-| G / / / | G / / / | Em / / / | G / / / |
+| Em / / / | Am / C D | G / / / | C / D / |
 
 ```
-
-=> https://thesession.org/tunes/1831
-> Needs review: harmony is a first-pass inference from the G-major melody
-> settings; no chord-tagged setting was visible in the retrieved JSON.
 
 ## Reels
 
@@ -81,13 +103,14 @@
 
 **Glen of Aherlow (Lafferty's)** (Edor)
 
+= part: A
 ```
-| Bm / / / | Em / / / | Bm / / / | D / Em / |
-| Bm / / / | Em / / / | Bm / / / | Bm / Em / |
+| Em A D / | Em / Bm / | Em A D / |Em / Bm Em |
+```
 
-| Em / A / | Bm / / / | Em / A / | Bm / Em / |
-| Em / A / | Bm / / / | Em / D / | Bm / Em / |
-
+= part: B
+```
+| Em A D / | Em / Bm / | Em A D / |Bm / / Em |
 ```
 
 => https://thesession.org/tunes/496#setting45009
@@ -95,71 +118,77 @@
 
 **Merry Blacksmith** (D)
 
+= part: A
+```
+| D / / / | Bm / G A | D / / / | Bm / A D |
+```
+
+= part: B
+```
+| D / / / | Bm / G A | D / / / | G / A D |
+```
+
+= alt: A+B
 ```
 | D / / / | (G/Bm) / G A | D / / / | G D A D |
 ```
-
-=> Sessions/2026-01_first_friday_jam.md
-> Needs review: local source only carries a compact first-pass chart.
-
+ 
 ---
 
 **Glass of Beer** (Bmin)
 
-```
-| Bm / / / | Bm / A / | Bm / / / | G / A / |
-| Bm / / / | Bm / A / | Bm / / / | G / A Bm |
+= part: A
 
-| G / / / | D / / / | G / / / | A / Bm / |
-| G / / / | D / / / | G / / / | A / Bm / |
+```
+| Bm / / A | Bm / G A |
 
 ```
 
-=> https://thesession.org/tunes/188
-> Needs review: structure-first B-minor draft; The Session comments there say the
-> tune is really in Bm even though some tagged settings drift toward Em/Edor.
+= part: B
+
+```
+| D / / A | D / G A |
+```
 
 **Toss the Feathers** (Edor)
 
+= part: A
 ```
-| Em / / / | Em / D / | Em / / / | C / D / |
-| Em / / / | Em / D / | Em / / / | C / D / |
-
-| Em / / / | D / Bm / | Em / / / | D / Bm / |
-| Em / / / | D / / / | G / D / | C / Bm / |
-
+| Em / / D | Em / D / |
 ```
 
-=> https://thesession.org/tunes/113#setting21754
-> Needs review: this follows one chord-tagged Edorian setting; other settings on
-> The Session vary slightly in the A-part turnaround.
+= part: B
+```
+| Em / D / | Em / D  / |
+| Em / D / | En D Em D | 
+```
 
 ---
 
 **Morning Star** (G)
 
+= part: A
 ```
-| G / / / | G / C / | G / / / | C / D G |
-| G / / / | G / C / | G / / / | C / D G |
-
-| G / Em / | D / C / | G / Em / | D / Em / |
-| G / Em / | D / C / | G / D / | D / C / |
-
+| G / / / | Em / / / | G / / / | D / G / |
 ```
 
-=> https://thesession.org/tunes/828#setting48934
-> Using the older G-major reel entry at tune 828 rather than the Oliver
-> Schroer-composed reel at tune 13245.
+= part: B
+```
+| G Em D C | G Em D / | G Em D C | Bm / D Em |
+```
 
 **Miss McLeod's** (G)
 
+= part: A
+
 ```
-| G / / / | G / / / | G / / / | D / / / |
-| G / / / | G / / / | C / / / | D7 / / / |
+| G C G / | G C D / | G / C / | / / G D |
+```
 
-| G / / / | G / / / | G / / / | D / / / |
-| G / / / | G / / / | C / / / | D7 / / / |
+= part: B
 
+```
+| G C G / | G C D C | G C G / | C / G D |
 ```
 
 => https://thesession.org/tunes/75#setting31921
@@ -171,34 +200,44 @@
 ---
 
 **My Mind is Never Easy** (Edor)
+= part: A
 
 ```
-| Em / / / | G / / / | Em / / / | Em / D / |
-| Em / / / | G / / / | D / / / | Em / / / |
-
-| D / / / | G / / / | Em / / / | Em / / / |
-| D / / / | G / / / | D / / / | Em / / / |
-
+| Em / D | C / / | / / D | Em / / | 
 ```
 
-=> https://thesession.org/tunes/191#setting12843
-> Needs review: structure-first Edorian draft inferred from the Edorian melody
-> settings and comments pairing it with `Fig for a Kiss`.
+= alt: A | Eight notes
+```
+| Em / / | / / D | / / / | C / / | / / / | / / / | 
+| C / / | / / D | / / / | Em / / | / / / | / / / |
+```
+
+= part: B
+
+```
+| G / D | C / / | / / D | Em / / |
+| G / D | C / / | / / / | D / / |
+```
 
 **Fig for a Kiss** (Edor)
 
-```
-| Em / / / | D / / / | Em / / / | G / D Em |
-| Em / / / | D / / / | Em / / / | G / D Em |
-
-| Em / / / | D / / / | C / D Em | G / D Em |
-| Em / / / | D / / / | C / D Em | G / D Em |
+= part: A
 
 ```
+| Em / / | D / / | Em / / | Bm / Em |
+```
 
-=> https://thesession.org/tunes/750#setting55329
-> Needs review: the B part has multiple common variants on The Session, but the
-> Edorian harmony stays close to this shape.
+= alt: A | Sub C
+
+```
+| Em / / | D / / | C / / | Bm / Em |
+```
+
+= part: B
+```
+| C / / | Bm / / | Em / / | G / / |
+| C / / | Bm / / | Am  / / | C / Em   |
+```
 
 ## Hornpipes
 
@@ -206,25 +245,36 @@
 
 **The Good-Natured Man** (G)
 
+= part: A
+
 ```
-| G / / / | G / / / | C / / / | D / / / |
-| G / / / | G / / / | C / D7 / | D / G / |
+| G / / / | C / D / |
+| G / / / | C G D G |
+```
 
-| G / / / | C / / / | D / G / | D / / / |
-| G / / / | G / / / | C / D7 / | D / G / |
+= part: B 
 
+```
+| G / C Am | Em / D / |
+| G / / / | C G D G |
 ```
 
 => https://thesession.org/tunes/312#setting45001
 
 **The Fairies' Hornpipe** (G)
 
-```
-| G . . B/C | D F# G B | G F# E D | A B/C D / |
-| G / / / | / / / / | A/B C D C | B A G . |
+= part: A
 
-| G / / / | / / / / | A / /B C | F# E D . |
-| G / / / | / / / / | A/B C D C | B A G . |
+```
+| G / D G | G  / Am D |
+| G / / / | Am D G  / |
+```
+
+= part: B 
+
+```
+| G / / / | Am / D / |
+| G / / / | Am D G / |
 ```
 
 => Sessions/chyunes_mbys.md
@@ -235,31 +285,39 @@
 
 **Farewell to Whiskey** (G)
 
-```
-| G / | Em / | G Em | G / |
-| C G | Am / | G D | G / |
-
-| G / | C G | Bm G | C D Em |
-| C G | Am / | G D | G / |
+= part: A
 
 ```
+| G / C  / | G / / / |
+| C G Am D | G D G / |
+```
 
-=> https://thesession.org/tunes/1529#setting53577
-> Needs review: The Session notes this one can be heard as a polka or a slow air;
-> this draft keeps the Sliabh Luachra polka shape.
+= part: B
+```
+| G / Am D | G / C G |
+| C G Am D | G D G / |
+```
 
 **Dark Girl Dressed in Blue** (D)
 
-```
-| D / | G D | G B7 | Em A7 |
-| D / | G D | G A7 | D / |
-
-| D / | D / | G B7 | Em A7 |
-| D / | D / | G A7 | D / |
+= part: A
 
 ```
+| D / G D | G / A / |
+| D / G D | G A D / |
+```
 
-=> https://thesession.org/tunes/1534#setting39505
+= part: B
+```
+| D / / / | G / A / |
+| D / / / | G / A D |
+```
+
+= alt: B
+```
+| D  / / / | G / A / |
+| Bm / / A | G / A D |
+```
 
 ## O'Carolan
 
@@ -267,18 +325,14 @@
 
 **The Wounded Hussar (Captain O'Kane)** (Emin)
 
+= part: A
 ```
-| Em / / | Em / / | D / / | Bm / / |
-| C / / | C / / | Em / / | Am / / |
-
-| Em / / | Em / / | D / / | Bm / / |
-| Am / / | C / / | Am / / | C / D / |
-
-| Em / / | Em7 / / | D / / | Bm / / |
-| C / / | C / / | Em / / | Am / / |
-
+| Em / | D / | G D | Bm Em |
 ```
 
-=> https://thesession.org/tunes/858#setting14027
-> The Session lists both `Captain O'Kane` and `The Wounded Hussar` among the
-> aliases for this air/waltz.
+= part: B 
+
+```
+| G / | D Bm | Em / | /-Bmaj Em |
+| G D | / /  | G  D | Bm     Em |
+```
