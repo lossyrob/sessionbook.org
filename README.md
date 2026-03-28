@@ -120,6 +120,10 @@ first/default tune version and primary parts by default; add
 `--include-alternates` to include `= alt:` parts, or `--print-large` for a
 single-column large-print layout.
 
+The project-scoped workflow skills live under `.github/skills/`, including
+`session-work-first-pass` for drafting and `session-work-pdf` for printable
+session exports.
+
 ### Available Commands
 
 | Command                           | Purpose                                                                                      |
