@@ -117,8 +117,9 @@ npm run render:session-pdf -- Sessions/commodore-barry-club-first-friday-session
 
 That writes a PDF under `out/session-pdfs/` by default. The print model uses the
 first/default tune version and primary parts by default; add
-`--include-alternates` to include `= alt:` parts, or `--print-large` for a
-single-column large-print layout.
+`--include-alternates` to include `= alt:` parts, `--include-notes` to print
+session / set / tune notes, or `--print-large` for a single-column large-print
+layout.
 
 The project-scoped workflow skills live under `.github/skills/`, including
 `session-work-first-pass` for drafting and `session-work-pdf` for printable
@@ -134,7 +135,7 @@ session exports.
 | `npm run format:check`            | Check the repository against the configured Prettier rules                                   |
 | `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
 | `npm run generate:session-content` | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions` |
-| `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/` using the repo-owned print layout |
+| `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/`; use `--include-alternates`, `--include-notes`, or `--print-large` as needed |
 | `npm run lint`                    | Run the flat ESLint config used in CI                                                        |
 | `npm run test`                    | Run the Vitest smoke tests                                                                   |
 | `npm run typecheck`               | Run `tsc --noEmit`                                                                           |

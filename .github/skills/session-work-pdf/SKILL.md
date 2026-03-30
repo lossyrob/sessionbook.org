@@ -29,6 +29,7 @@ external chord-chart workflow.
 
 5. Add flags only when asked:
    - `--include-alternates` to include `= alt:` parts
+   - `--include-notes` to print session / set / tune notes
    - `--print-large` for a single-column large-print layout
    - a second positional path to choose the output PDF location
 
@@ -42,6 +43,7 @@ external chord-chart workflow.
 - Keep the session work doc as the source of truth.
 - Do not manually edit generated PDFs.
 - Preserve the default print model: first/default tune version only, primary
-  parts only unless `--include-alternates` is passed.
+  parts only unless `--include-alternates` is passed, and no notes unless
+  `--include-notes` is passed.
 - Use this skill after `session-work-first-pass` when the user wants a printable
   rehearsal artifact or layout feedback.

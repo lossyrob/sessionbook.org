@@ -29,6 +29,7 @@ export type PreviewTuneView = {
     theSessionLink?: TuneLink;
     parts: Array<{
       name: string;
+      isAlternate?: boolean;
       alternateLabel?: string;
       contentMarkdown: string;
     }>;
@@ -122,6 +123,7 @@ function buildPreviewTuneVersion(version: TuneVersion) {
     theSessionLink,
     parts: version.parts.map((part) => ({
       name: part.name,
+      isAlternate: part.isAlternate,
       alternateLabel: part.alternateLabel,
       contentMarkdown: part.chart,
     })),

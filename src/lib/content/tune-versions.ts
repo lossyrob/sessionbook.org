@@ -12,6 +12,7 @@ export const implicitTunePartName = "Full tune";
 
 export const tuneVersionPartSchema = z.object({
   name: z.string().min(1),
+  isAlternate: z.boolean().optional(),
   alternateLabel: z.string().min(1).optional(),
   chart: z.string(),
 });
@@ -44,12 +45,13 @@ function parseVersionLabel(value: string): string | undefined {
 
 function parsePartDefinition(
   value: string,
-): Pick<TuneVersionPart, "name" | "alternateLabel"> | undefined {
+): Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel"> | undefined {
   const partMatch = value.match(/^=\s*part:\s*(.+)$/i);
 
   if (partMatch) {
     return {
       name: partMatch[1].trim(),
+      isAlternate: false,
     };
   }
 
@@ -58,6 +60,7 @@ function parsePartDefinition(
   if (altMatch) {
     return {
       name: altMatch[1].trim(),
+      isAlternate: true,
       alternateLabel: altMatch[2]?.trim(),
     };
   }
@@ -65,16 +68,28 @@ function parsePartDefinition(
   return undefined;
 }
 
-function formatPartLabel(part: Pick<TuneVersionPart, "name" | "alternateLabel">): string {
-  if (!part.alternateLabel) {
+function formatPartLabel(
+  part: Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel">,
+): string {
+  if (!isAlternateTunePart(part)) {
     return part.name;
+  }
+
+  if (!part.alternateLabel) {
+    return `${part.name} alt`;
   }
 
   return `${part.name} alt (${part.alternateLabel})`;
 }
 
+export function isAlternateTunePart(
+  part: Pick<TuneVersionPart, "isAlternate" | "alternateLabel">,
+): boolean {
+  return part.isAlternate ?? Boolean(part.alternateLabel);
+}
+
 export function isImplicitTunePart(part: TuneVersionPart): boolean {
-  return part.name === implicitTunePartName && !part.alternateLabel;
+  return part.name === implicitTunePartName && !isAlternateTunePart(part);
 }
 
 export function versionHasExplicitPartStructure(version: TuneVersion): boolean {
@@ -111,7 +126,9 @@ export function parseTuneVersionBlocks(args: {
         parts: TuneVersionPart[];
       }
     | null = null;
-  let pendingPart: Pick<TuneVersionPart, "name" | "alternateLabel"> | null = null;
+  let pendingPart:
+    | Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel">
+    | null = null;
 
   const ensureCurrentVersion = () => {
     if (!currentVersion) {
@@ -186,6 +203,7 @@ export function parseTuneVersionBlocks(args: {
       if (pendingPart) {
         version.parts.push({
           name: pendingPart.name,
+          isAlternate: pendingPart.isAlternate,
           alternateLabel: pendingPart.alternateLabel,
           chart: normalizeChart(chartLines.join("\n")),
         });
@@ -237,8 +255,10 @@ export function renderTuneVersionBlocks(versions: TuneVersion[]): string {
     for (const part of version.parts) {
       lines.push("");
       lines.push(
-        part.alternateLabel
-          ? `= alt: ${part.name} | ${part.alternateLabel}`
+        isAlternateTunePart(part)
+          ? part.alternateLabel
+            ? `= alt: ${part.name} | ${part.alternateLabel}`
+            : `= alt: ${part.name}`
           : `= part: ${part.name}`,
       );
       lines.push("```");

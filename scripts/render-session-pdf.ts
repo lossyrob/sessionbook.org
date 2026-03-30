@@ -9,22 +9,24 @@ type CliOptions = {
   inputPath: string;
   outputPath?: string;
   includeAlternateParts: boolean;
+  includeNotes: boolean;
   printLarge: boolean;
   pythonCommand: string;
 };
 
 function printUsage(): void {
-  console.log(`Usage: npm run render:session-pdf -- <input.md> [output.pdf] [--include-alternates] [--print-large] [--python python3]
+  console.log(`Usage: npm run render:session-pdf -- <input.md> [output.pdf] [--include-alternates] [--include-notes] [--print-large] [--python python3]
 
 Examples:
   npm run render:session-pdf -- Sessions/example_session_work.md
-  npm run render:session-pdf -- Sessions/example_session_work.md out/example.pdf --include-alternates
+  npm run render:session-pdf -- Sessions/example_session_work.md out/example.pdf --include-alternates --include-notes
   npm run render:session-pdf -- Sessions/example_session_work.md --print-large`);
 }
 
 function parseArgs(argv: string[]): CliOptions {
   const positionals: string[] = [];
   let includeAlternateParts = false;
+  let includeNotes = false;
   let printLarge = false;
   let pythonCommand = process.env.PYTHON ?? "python3";
 
@@ -42,6 +44,9 @@ function parseArgs(argv: string[]): CliOptions {
         process.exit(0);
       case "--include-alternates":
         includeAlternateParts = true;
+        continue;
+      case "--include-notes":
+        includeNotes = true;
         continue;
       case "--print-large":
         printLarge = true;
@@ -75,6 +80,7 @@ function parseArgs(argv: string[]): CliOptions {
     inputPath: positionals[0]!,
     outputPath: positionals[1],
     includeAlternateParts,
+    includeNotes,
     printLarge,
     pythonCommand,
   };
@@ -144,6 +150,7 @@ async function main(): Promise<void> {
   });
   const pdfDocument = buildSessionPdfDocument(parsedDocument, {
     includeAlternateParts: options.includeAlternateParts,
+    includeNotes: options.includeNotes,
   });
 
   await mkdir(path.dirname(outputPath), { recursive: true });
@@ -158,7 +165,7 @@ async function main(): Promise<void> {
   console.log(
     `Rendered ${toDisplayPath(outputPath)} from ${toDisplayPath(inputPath)}${
       options.includeAlternateParts ? " (with alternates)" : ""
-    }.`,
+    }${options.includeNotes ? " (with notes)" : ""}.`,
   );
 }
 

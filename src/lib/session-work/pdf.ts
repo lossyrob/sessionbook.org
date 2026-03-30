@@ -1,5 +1,6 @@
 import {
   defaultTuneVersionLabel,
+  isAlternateTunePart,
   isImplicitTunePart,
   versionHasExplicitPartStructure,
   type TuneVersion,
@@ -9,6 +10,7 @@ import type { ParsedSessionWorkDocument } from "@/lib/session-work/workflow";
 
 export type SessionPdfRenderOptions = {
   includeAlternateParts?: boolean;
+  includeNotes?: boolean;
 };
 
 export type SessionPdfTunePart = {
@@ -35,9 +37,15 @@ export type SessionPdfDocument = {
   sets: SessionPdfSet[];
 };
 
-function renderPartLabel(part: Pick<TuneVersionPart, "name" | "alternateLabel">): string {
-  if (!part.alternateLabel) {
+function renderPartLabel(
+  part: Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel">,
+): string {
+  if (!isAlternateTunePart(part)) {
     return part.name;
+  }
+
+  if (!part.alternateLabel) {
+    return `${part.name} alt`;
   }
 
   return `${part.name} alt (${part.alternateLabel})`;
@@ -53,7 +61,7 @@ export function buildSessionPdfTuneParts(
 ): SessionPdfTunePart[] {
   const includeAlternateParts = options.includeAlternateParts ?? false;
   const visibleParts = version.parts.filter(
-    (part) => includeAlternateParts || !part.alternateLabel,
+    (part) => includeAlternateParts || !isAlternateTunePart(part),
   );
   const partsToRender = visibleParts.length > 0 ? visibleParts : version.parts.slice(0, 1);
   const shouldLabelParts = versionHasExplicitPartStructure(version);
@@ -69,13 +77,14 @@ export function buildSessionPdfDocument(
   document: ParsedSessionWorkDocument,
   options: SessionPdfRenderOptions = {},
 ): SessionPdfDocument {
+  const includeNotes = options.includeNotes ?? false;
   const sets: SessionPdfSet[] = [];
 
   for (const section of document.sections) {
     section.sets.forEach((setDocument, setIndex) => {
       sets.push({
         sectionHeading: setIndex === 0 ? section.heading : undefined,
-        notes: setDocument.notes,
+        notes: includeNotes ? setDocument.notes : "",
         tunes: setDocument.tunes.map((tune) => {
           const defaultVersion = tune.versions[0];
 
@@ -89,7 +98,7 @@ export function buildSessionPdfDocument(
               tune.versions.length > 1 && defaultVersion.label !== defaultTuneVersionLabel
                 ? defaultVersion.label
                 : undefined,
-            notes: tune.notes,
+            notes: includeNotes ? tune.notes : "",
             parts: buildSessionPdfTuneParts(defaultVersion, options),
           };
         }),
@@ -99,7 +108,7 @@ export function buildSessionPdfDocument(
 
   return {
     title: document.title,
-    notes: document.notes,
+    notes: includeNotes ? document.notes : "",
     sets,
   };
 }

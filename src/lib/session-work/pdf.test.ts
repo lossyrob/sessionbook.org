@@ -30,7 +30,7 @@ describe("session work PDF print model", () => {
 | D / / / |
 \`\`\`
 
-= alt: A | second pass
+= alt: A+B
 \`\`\`
 | Bm / / / |
 \`\`\`
@@ -65,15 +65,15 @@ describe("session work PDF print model", () => {
 
     expect(pdf).toMatchObject({
       title: "Example Session",
-      notes: "Bring the capo.",
+      notes: "",
       sets: [
         {
           sectionHeading: "Reels",
-          notes: "Fast opener.",
+          notes: "",
           tunes: [
             {
               title: "Versioned Tune",
-              notes: "Keep the lift in the B part.",
+              notes: "",
               parts: [
                 {
                   label: "A",
@@ -114,15 +114,24 @@ describe("session work PDF print model", () => {
       sourcePath: "Sessions/example_session_work.md",
       source: `# Example Session
 
+>>> Bring the capo.
+
 ## Jigs
 
 ---
 
 **Alt Tune** (G)
 
+> Keep the groove on the repeat.
+
 = part: A
 \`\`\`
 | G / / / |
+\`\`\`
+
+= alt: A
+\`\`\`
+| D / / / |
 \`\`\`
 
 = alt: A | second pass
@@ -145,6 +154,10 @@ describe("session work PDF print model", () => {
         chartLines: ["| G / / / |"],
       },
       {
+        label: "A alt",
+        chartLines: ["| D / / / |"],
+      },
+      {
         label: "A alt (second pass)",
         chartLines: ["| Em / / / |"],
       },
@@ -153,5 +166,13 @@ describe("session work PDF print model", () => {
         chartLines: ["| C / / / |"],
       },
     ]);
+
+    const pdf = buildSessionPdfDocument(parsed, {
+      includeAlternateParts: true,
+      includeNotes: true,
+    });
+
+    expect(pdf.notes).toBe("Bring the capo.");
+    expect(pdf.sets[0]?.tunes[0]?.notes).toBe("Keep the groove on the repeat.");
   });
 });

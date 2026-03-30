@@ -264,6 +264,7 @@ describe("session work document workflow", () => {
             },
             {
               name: "A",
+              isAlternate: true,
               alternateLabel: "second pass",
               chart: "| Bm / / / |",
             },
@@ -291,6 +292,43 @@ describe("session work document workflow", () => {
         },
       ],
     });
+  });
+
+  it("preserves unlabeled alternate parts from = alt markers", () => {
+    const parsed = parseSessionWorkDocument({
+      sourcePath: "Sessions/example_session_work.md",
+      source: `# Example Session
+
+## Reels
+
+---
+
+**Alt Tune** (D)
+
+= part: A
+\`\`\`
+| D / / / |
+\`\`\`
+
+= alt: A+B
+\`\`\`
+| G / / / |
+\`\`\`
+`,
+    });
+
+    expect(parsed.sections[0]?.sets[0]?.tunes[0]?.versions[0]?.parts).toEqual([
+      {
+        name: "A",
+        isAlternate: false,
+        chart: "| D / / / |",
+      },
+      {
+        name: "A+B",
+        isAlternate: true,
+        chart: "| G / / / |",
+      },
+    ]);
   });
 
   it("keeps the checked-in canonical content in sync with the session work docs", async () => {

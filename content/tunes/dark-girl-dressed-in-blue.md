@@ -23,7 +23,7 @@ visibility: public
 | D / / / | G / A D |
 ```
 
-= part: B
+= alt: B
 ```
 | D  / / / | G / A / |
 | Bm / / A | G / A D |

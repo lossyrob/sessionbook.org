@@ -80,8 +80,12 @@ function renderTuneLink(link: PreviewTuneView["links"][number]) {
 }
 
 function renderVersionPartLabel(part: PreviewTuneView["versions"][number]["parts"][number]) {
-  if (!part.alternateLabel) {
+  if (!part.isAlternate && !part.alternateLabel) {
     return part.name;
+  }
+
+  if (!part.alternateLabel) {
+    return `${part.name} alt`;
   }
 
   return `${part.name} alt (${part.alternateLabel})`;

@@ -11,10 +11,13 @@ visibility: public
 
 = version: Session default
 
-= part: Full tune
+= part: A
 ```
 | G / / / | C G D / | G / / / | C G Am D |
+```
 
+= part: B
+```
 | Em / / / | Am / C D | G / / / | C / D / |
 ```
 
