@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SetEntriesList } from "@/components/set-entries-list";
-import { loadRelease1Repository } from "@/lib/release-1/load-repository";
+import { loadContentRepository } from "@/lib/content/load-repository";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ type SetDetailPageProps = {
 };
 
 async function getSetRecord(slug: string) {
-  const { repository } = await loadRelease1Repository();
+  const { repository } = await loadContentRepository();
   const setRecord = repository.getPublicSetBySlug(slug);
 
   if (!setRecord) {

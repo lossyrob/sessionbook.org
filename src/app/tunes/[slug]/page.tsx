@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { loadRelease1Repository } from "@/lib/release-1/load-repository";
-import type { PublicTuneView } from "@/lib/release-1/repository";
+import { loadContentRepository } from "@/lib/content/load-repository";
+import type { PublicTuneView } from "@/lib/content/repository";
 import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +35,7 @@ function buildTuneDescription({
 }
 
 async function getTuneBySlug(slug: string): Promise<PublicTuneView> {
-  const { repository } = await loadRelease1Repository();
+  const { repository } = await loadContentRepository();
   const tune = repository.getPublicTuneBySlug(slug);
 
   if (!tune) {

@@ -5,13 +5,13 @@ import { describe, expect, it } from "vitest";
 import { loadSessionbookCorpus } from "@/lib/content/load-corpus";
 
 describe("loadSessionbookCorpus", () => {
-  it("loads the upcoming session draft corpus from content/", async () => {
+  it("loads the merged publishable corpus from content/", async () => {
     const corpus = await loadSessionbookCorpus({
       contentRoot: path.join(process.cwd(), "content"),
     });
 
-    expect(corpus.tunes).toHaveLength(19);
-    expect(corpus.sets).toHaveLength(10);
+    expect(corpus.tunes).toHaveLength(52);
+    expect(corpus.sets).toHaveLength(24);
     expect(corpus.sessions).toHaveLength(1);
 
     const session = corpus.sessions[0];
@@ -66,5 +66,15 @@ describe("loadSessionbookCorpus", () => {
       (setDocument) => setDocument.slug === "the-wounded-hussar",
     );
     expect(woundedHussarSet?.tuneSlugs).toEqual(["the-wounded-hussar"]);
+
+    const morrisonsJig = corpus.tunes.find(
+      (tune) => tune.slug === "morrisons-jig",
+    );
+    expect(morrisonsJig).toMatchObject({
+      title: "Morrison's Jig",
+      tuneType: "Jig",
+      visibility: "public",
+      notes: "Imported from Sessions/chyunes_mbys.md.",
+    });
   });
 });
