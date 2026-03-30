@@ -3,14 +3,37 @@
 import Link from "next/link";
 import { Fragment, type MouseEvent, useState } from "react";
 
-import type { PublicTuneView } from "@/lib/release-1/repository";
 import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
 
-type TuneListProps = {
-  tunes: PublicTuneView[];
+type TuneListItem = {
+  id: string;
+  slug: string;
+  name: string;
+  aliases: string[];
+  tuneType: string;
+  setMemberships: Array<{
+    slug: string;
+    name: string;
+  }>;
+  chart: {
+    key: string;
+    mode: string;
+    meter: string;
+    contentMarkdown: string;
+  };
 };
 
-export function TuneList({ tunes }: TuneListProps) {
+type TuneListProps = {
+  tunes: TuneListItem[];
+  buildTuneHref?: (slug: string) => string;
+  buildSetHref?: (slug: string) => string;
+};
+
+export function TuneList({
+  tunes,
+  buildTuneHref = (slug) => `/tunes/${slug}`,
+  buildSetHref = (slug) => `/sets/${slug}`,
+}: TuneListProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   function stopRowToggle(event: MouseEvent<HTMLAnchorElement>) {
@@ -40,7 +63,7 @@ export function TuneList({ tunes }: TuneListProps) {
             <div>
               <Link
                 className="tune-name catalog-link"
-                href={`/tunes/${tune.slug}`}
+                href={buildTuneHref(tune.slug)}
                 onClick={stopRowToggle}
               >
                 {tune.name}
@@ -58,7 +81,7 @@ export function TuneList({ tunes }: TuneListProps) {
                         {index > 0 ? ", " : null}
                         <Link
                           className="catalog-link"
-                          href={`/sets/${setMembership.slug}`}
+                          href={buildSetHref(setMembership.slug)}
                           onClick={stopRowToggle}
                         >
                           {setMembership.name}

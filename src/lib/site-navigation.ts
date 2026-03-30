@@ -37,6 +37,14 @@ export const publicSections: SiteSection[] = [
 
 export const ownerSections: SiteSection[] = [
   {
+    href: "/preview",
+    label: "Draft previews",
+    summary:
+      "Preview tune, set, and session pages backed by the shared markdown corpus before hosted publication switches over.",
+    status: "Live draft preview surface",
+    showInHeader: true,
+  },
+  {
     href: "/login",
     label: "Owner sign in",
     summary:
