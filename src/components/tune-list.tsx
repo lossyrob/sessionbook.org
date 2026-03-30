@@ -61,11 +61,11 @@ export function TuneList({
               {tune.tuneType.slice(0, 4)}
             </div>
             <div>
-                <Link
-                  className="tune-name catalog-link"
-                  href={buildTuneHref(tune.slug)}
-                  onClick={stopRowToggle}
-                >
+              <Link
+                className="tune-name catalog-link"
+                href={buildTuneHref(tune.slug)}
+                onClick={stopRowToggle}
+              >
                 {tune.name}
               </Link>
               <div className="tune-sub">

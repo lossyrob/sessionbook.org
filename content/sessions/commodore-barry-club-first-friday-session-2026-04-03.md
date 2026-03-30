@@ -6,8 +6,6 @@ visibility: public
 
 ## Notes
 
-
-
 ## Jigs
 
 - the-lisnagun-rollicking-boys-of-tandragee

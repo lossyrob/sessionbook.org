@@ -25,7 +25,7 @@ by hand-editing `content/`; that is generated output.
    needs multiple chart versions or alternate passes.
 7. Use `%%` only for author-only scratch comments.
 8. Run `npm run generate:session-content` after edits to regenerate canonical
-    content.
+   content.
 9. Hand off to `session-work-pdf` if the user wants a printable rehearsal PDF.
 10. Run verification before finishing.
 

@@ -43,19 +43,25 @@ versions:
 ```markdown
 => https://example.com/chart
 => https://thesession.org/tunes/43#setting55355
+
 > Needs review: source disagrees on the B part turnaround
 
 = version: Recording variant
 => https://open.spotify.com/track/example
 = part: A
 ```
+
 | G / / / |
+
 ```
 
 = alt: A | third pass
 ```
+
 | Em / / / |
+
 ```
+
 ```
 
 Use `%%` only for temporary scratch notes that should not survive.

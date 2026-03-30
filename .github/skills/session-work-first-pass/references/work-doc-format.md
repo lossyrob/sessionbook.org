@@ -27,7 +27,9 @@ Use `##` headings for ordered sections from the leader list:
 
 ```markdown
 ## Jigs
+
 ## Reels
+
 ## Slip Jigs
 ```
 
@@ -39,6 +41,7 @@ Use `---` to separate sets. Tunes inside the same set stay adjacent.
 ---
 **Tune One** (G)
 ...
+
 **Tune Two** (Edor)
 ...
 ```
@@ -62,10 +65,12 @@ Each tune owns one fenced code block:
 
 ```markdown
 **The Lisnagun** (G)
+```
+
+| G / / / | D / / / |
 
 ```
-| G / / / | D / / / |
-```
+
 ```
 
 Blank code fences are valid during initialization.
@@ -86,8 +91,8 @@ Use `>` for notes that should survive into the canonical tune document.
 Use `>>` for notes that should survive into the canonical set document.
 
 ```markdown
->> Let the first tune settle
->> before the pickup into the second
+> > Let the first tune settle
+> > before the pickup into the second
 ```
 
 ### Published session notes
@@ -95,8 +100,8 @@ Use `>>` for notes that should survive into the canonical set document.
 Use `>>>` for notes that should survive into the canonical session document.
 
 ```markdown
->>> Session Notes
->>> also can be multiline
+> > > Session Notes
+> > > also can be multiline
 ```
 
 ### Ignored author comments
@@ -141,18 +146,25 @@ of that part. Each marker owns the next fenced chart block.
 => https://youtu.be/example
 = part: A
 ```
+
 | G / / / |
+
 ```
 
 = alt: A | second pass
 ```
+
 | Em / / / |
+
 ```
 
 = part: B
 ```
+
 | D / / / |
+
 ```
+
 ```
 
 ## Multiline behavior

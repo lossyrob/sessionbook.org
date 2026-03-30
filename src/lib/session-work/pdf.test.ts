@@ -148,7 +148,9 @@ describe("session work PDF print model", () => {
     const version = parsed.sections[0]?.sets[0]?.tunes[0]?.versions[0];
 
     expect(version).toBeDefined();
-    expect(buildSessionPdfTuneParts(version!, { includeAlternateParts: true })).toEqual([
+    expect(
+      buildSessionPdfTuneParts(version!, { includeAlternateParts: true }),
+    ).toEqual([
       {
         label: "A",
         chartLines: ["| G / / / |"],

@@ -135,7 +135,9 @@ export function createContentRepository(
   corpus: SessionbookCorpus,
 ): ContentRepository {
   const tunesBySlug = new Map(corpus.tunes.map((tune) => [tune.slug, tune]));
-  const setsBySlug = new Map(corpus.sets.map((setDocument) => [setDocument.slug, setDocument]));
+  const setsBySlug = new Map(
+    corpus.sets.map((setDocument) => [setDocument.slug, setDocument]),
+  );
   const tuneMemberships = new Map<
     string,
     Array<{
@@ -165,7 +167,9 @@ export function createContentRepository(
     const theSessionLink = tune.links.find(
       (link) => link.provider === "the-session",
     );
-    const versions = tune.versions.map((version) => buildPreviewTuneVersion(version));
+    const versions = tune.versions.map((version) =>
+      buildPreviewTuneVersion(version),
+    );
     const hasStructuredVersions =
       versions.length > 1 ||
       tune.versions.some(
@@ -235,7 +239,9 @@ export function createContentRepository(
     };
   }
 
-  const previewTunes = corpus.tunes.map((tune) => buildPreviewTuneView(tune.slug));
+  const previewTunes = corpus.tunes.map((tune) =>
+    buildPreviewTuneView(tune.slug),
+  );
   const previewSets = corpus.sets.map((setDocument) =>
     buildPreviewSetView(setDocument.slug),
   );
@@ -262,10 +268,13 @@ export function createContentRepository(
     getPreviewTuneBySlug: (slug) =>
       previewTunes.find((tune) => tune.slug === slug),
     listPreviewSets: () => previewSets,
-    getPreviewSetBySlug: (slug) => previewSets.find((setView) => setView.slug === slug),
+    getPreviewSetBySlug: (slug) =>
+      previewSets.find((setView) => setView.slug === slug),
     listPreviewSessions: () => previewSessions,
     getPreviewSessionBySlug: (slug) => {
-      const session = corpus.sessions.find((candidate) => candidate.slug === slug);
+      const session = corpus.sessions.find(
+        (candidate) => candidate.slug === slug,
+      );
 
       if (!session) {
         return undefined;

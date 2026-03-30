@@ -107,7 +107,10 @@ export function isExternalTuneLink(link: Pick<TuneLink, "href">): boolean {
   return isExternalHref(link.href);
 }
 
-export function parseTuneLinkValue(value: string, sourcePath: string): TuneLink {
+export function parseTuneLinkValue(
+  value: string,
+  sourcePath: string,
+): TuneLink {
   const trimmed = value.trim();
 
   if (!trimmed) {

@@ -40,7 +40,9 @@ export default async function PreviewSessionsPage() {
                 {session.setCount} sets across {session.sectionCount} sections.
               </p>
               <p className="section-card__issue">
-                {session.date ? `Session date: ${session.date}` : session.sourcePath}
+                {session.date
+                  ? `Session date: ${session.date}`
+                  : session.sourcePath}
               </p>
             </article>
           ))}

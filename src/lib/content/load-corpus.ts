@@ -104,7 +104,10 @@ function parseFrontmatter(
 
   return {
     data,
-    body: lines.slice(closingIndex + 1).join("\n").replace(/^\n+/, ""),
+    body: lines
+      .slice(closingIndex + 1)
+      .join("\n")
+      .replace(/^\n+/, ""),
   };
 }
 
@@ -204,7 +207,9 @@ function readRequiredString(
   const value = data[key];
 
   if (typeof value !== "string" || !value.trim()) {
-    throw new Error(`${sourcePath}: expected "${key}" to be a non-empty string.`);
+    throw new Error(
+      `${sourcePath}: expected "${key}" to be a non-empty string.`,
+    );
   }
 
   return value.trim();
@@ -315,14 +320,21 @@ async function parseTuneDocument(absolutePath: string): Promise<TuneDocument> {
   const sourcePath = toRelativePath(absolutePath);
   const slug = getSlugFromPath(absolutePath);
   const { data, body } = parseFrontmatter(source, sourcePath);
-  const sectionMap = buildSectionMap(parseMarkdownSections(body, sourcePath), sourcePath);
+  const sectionMap = buildSectionMap(
+    parseMarkdownSections(body, sourcePath),
+    sourcePath,
+  );
   const versionsSection = readOptionalSection(sectionMap, "Versions");
   const versions = versionsSection
     ? parseTuneVersionBlocks({
         source: versionsSection,
         sourcePath: `${sourcePath}#Versions`,
       })
-    : [createImplicitTuneVersion(readRequiredSection(sectionMap, "Chart", sourcePath))];
+    : [
+        createImplicitTuneVersion(
+          readRequiredSection(sectionMap, "Chart", sourcePath),
+        ),
+      ];
   const chart = renderTuneVersionChart(versions[0]!);
 
   assertAllowedKeys(
@@ -360,9 +372,16 @@ async function parseSetDocument(absolutePath: string): Promise<SetDocument> {
   const sourcePath = toRelativePath(absolutePath);
   const slug = getSlugFromPath(absolutePath);
   const { data, body } = parseFrontmatter(source, sourcePath);
-  const sectionMap = buildSectionMap(parseMarkdownSections(body, sourcePath), sourcePath);
+  const sectionMap = buildSectionMap(
+    parseMarkdownSections(body, sourcePath),
+    sourcePath,
+  );
 
-  assertAllowedKeys(data, ["title", "tune_type", "visibility", "tunes"], sourcePath);
+  assertAllowedKeys(
+    data,
+    ["title", "tune_type", "visibility", "tunes"],
+    sourcePath,
+  );
 
   return setDocumentSchema.parse({
     slug,
@@ -382,7 +401,10 @@ async function parseSessionDocument(
   const sourcePath = toRelativePath(absolutePath);
   const slug = getSlugFromPath(absolutePath);
   const { data, body } = parseFrontmatter(source, sourcePath);
-  const sectionMap = buildSectionMap(parseMarkdownSections(body, sourcePath), sourcePath);
+  const sectionMap = buildSectionMap(
+    parseMarkdownSections(body, sourcePath),
+    sourcePath,
+  );
   const notes = readOptionalSection(sectionMap, "Notes");
   const sections = [...sectionMap.entries()]
     .filter(([heading]) => heading !== "Notes")
@@ -463,7 +485,9 @@ export async function loadSessionbookCorpus(options?: {
   const [tunes, sets, sessions] = await Promise.all([
     Promise.all(tunePaths.map((tunePath) => parseTuneDocument(tunePath))),
     Promise.all(setPaths.map((setPath) => parseSetDocument(setPath))),
-    Promise.all(sessionPaths.map((sessionPath) => parseSessionDocument(sessionPath))),
+    Promise.all(
+      sessionPaths.map((sessionPath) => parseSessionDocument(sessionPath)),
+    ),
   ]);
 
   assertUniqueSlugs("tunes", tunes);

@@ -45,7 +45,9 @@ function parseVersionLabel(value: string): string | undefined {
 
 function parsePartDefinition(
   value: string,
-): Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel"> | undefined {
+):
+  | Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel">
+  | undefined {
   const partMatch = value.match(/^=\s*part:\s*(.+)$/i);
 
   if (partMatch) {
@@ -119,20 +121,21 @@ export function parseTuneVersionBlocks(args: {
     links: TuneLink[];
     parts: TuneVersionPart[];
   }> = [];
-  let currentVersion:
-    | {
-        label: string;
-        links: TuneLink[];
-        parts: TuneVersionPart[];
-      }
-    | null = null;
-  let pendingPart:
-    | Pick<TuneVersionPart, "name" | "isAlternate" | "alternateLabel">
-    | null = null;
+  let currentVersion: {
+    label: string;
+    links: TuneLink[];
+    parts: TuneVersionPart[];
+  } | null = null;
+  let pendingPart: Pick<
+    TuneVersionPart,
+    "name" | "isAlternate" | "alternateLabel"
+  > | null = null;
 
   const ensureCurrentVersion = () => {
     if (!currentVersion) {
-      throw new Error(`${args.sourcePath}: expected "= version:" before version content.`);
+      throw new Error(
+        `${args.sourcePath}: expected "= version:" before version content.`,
+      );
     }
 
     return currentVersion;
@@ -249,7 +252,9 @@ export function renderTuneVersionBlocks(versions: TuneVersion[]): string {
     lines.push(`= version: ${version.label}`);
 
     if (version.links.length > 0) {
-      lines.push(...version.links.map((link) => `=> ${renderTuneLinkValue(link)}`));
+      lines.push(
+        ...version.links.map((link) => `=> ${renderTuneLinkValue(link)}`),
+      );
     }
 
     for (const part of version.parts) {

@@ -73,7 +73,9 @@ function parseArgs(argv: string[]): CliOptions {
 
   if (positionals.length === 0 || positionals.length > 2) {
     printUsage();
-    throw new Error("Expected an input session-work path and at most one output PDF path.");
+    throw new Error(
+      "Expected an input session-work path and at most one output PDF path.",
+    );
   }
 
   return {
@@ -92,13 +94,20 @@ function getDefaultOutputPath(inputPath: string): string {
     ? basename.slice(0, -"_session_work".length)
     : basename;
 
-  return path.join(process.cwd(), "out", "session-pdfs", `${outputBasename}.pdf`);
+  return path.join(
+    process.cwd(),
+    "out",
+    "session-pdfs",
+    `${outputBasename}.pdf`,
+  );
 }
 
 function toDisplayPath(absolutePath: string): string {
   const relativePath = path.relative(process.cwd(), absolutePath);
 
-  return relativePath && !relativePath.startsWith("..") ? relativePath : absolutePath;
+  return relativePath && !relativePath.startsWith("..")
+    ? relativePath
+    : absolutePath;
 }
 
 async function runRenderer(args: {
@@ -142,7 +151,11 @@ async function main(): Promise<void> {
     process.cwd(),
     options.outputPath ?? getDefaultOutputPath(inputPath),
   );
-  const rendererPath = path.join(process.cwd(), "scripts", "render-session-pdf.py");
+  const rendererPath = path.join(
+    process.cwd(),
+    "scripts",
+    "render-session-pdf.py",
+  );
   const source = await readFile(inputPath, "utf8");
   const parsedDocument = parseSessionWorkDocument({
     source,

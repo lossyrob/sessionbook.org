@@ -12,11 +12,13 @@ visibility: public
 = version: Session default
 
 = part: A
+
 ```
 | G C G / | G C D / | G / C / | / / G D |
 ```
 
 = part: B
+
 ```
 | G C G / | G C D C | G C G / | C / G D |
 ```

@@ -63,12 +63,15 @@ export function buildSessionPdfTuneParts(
   const visibleParts = version.parts.filter(
     (part) => includeAlternateParts || !isAlternateTunePart(part),
   );
-  const partsToRender = visibleParts.length > 0 ? visibleParts : version.parts.slice(0, 1);
+  const partsToRender =
+    visibleParts.length > 0 ? visibleParts : version.parts.slice(0, 1);
   const shouldLabelParts = versionHasExplicitPartStructure(version);
 
   return partsToRender.map((part) => ({
     label:
-      shouldLabelParts && !isImplicitTunePart(part) ? renderPartLabel(part) : undefined,
+      shouldLabelParts && !isImplicitTunePart(part)
+        ? renderPartLabel(part)
+        : undefined,
     chartLines: splitChartLines(part.chart),
   }));
 }
@@ -89,13 +92,16 @@ export function buildSessionPdfDocument(
           const defaultVersion = tune.versions[0];
 
           if (!defaultVersion) {
-            throw new Error(`Missing default version for tune "${tune.displayTitle}".`);
+            throw new Error(
+              `Missing default version for tune "${tune.displayTitle}".`,
+            );
           }
 
           return {
             title: tune.displayTitle,
             versionLabel:
-              tune.versions.length > 1 && defaultVersion.label !== defaultTuneVersionLabel
+              tune.versions.length > 1 &&
+              defaultVersion.label !== defaultTuneVersionLabel
                 ? defaultVersion.label
                 : undefined,
             notes: includeNotes ? tune.notes : "",

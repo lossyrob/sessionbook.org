@@ -157,13 +157,11 @@ function renderTitleLine(tune: SessionWorkSeedTune): string {
 
 export function renderSessionWorkDocument(seed: SessionWorkSeed): string {
   const lines: string[] = [`# ${seed.title}`, ""];
-  const authorComments =
-    seed.authorComments ??
-    [
-      "Author-only comments start with %% and are ignored during canonicalization.",
-      "Published markers: > tune note, >> set note, >>> session note, => tune link.",
-      "Structured tune blocks: = version:, = part:, = alt:.",
-    ];
+  const authorComments = seed.authorComments ?? [
+    "Author-only comments start with %% and are ignored during canonicalization.",
+    "Published markers: > tune note, >> set note, >>> session note, => tune link.",
+    "Structured tune blocks: = version:, = part:, = alt:.",
+  ];
 
   if (authorComments.length > 0) {
     lines.push(...renderMarkedLines("%%", authorComments), "");
@@ -200,7 +198,10 @@ function isTunePartMarker(value: string): boolean {
   return /^=\s*(?:part|alt):/i.test(value);
 }
 
-function matchesMarkedPrefix(value: string, prefix: ">" | ">>" | ">>>"): boolean {
+function matchesMarkedPrefix(
+  value: string,
+  prefix: ">" | ">>" | ">>>",
+): boolean {
   if (prefix === ">>>") {
     return value.startsWith(">>>");
   }
@@ -282,7 +283,9 @@ function promoteLegacySourceLinks(
   };
 }
 
-function parseTuneTitle(value: string): { title: string; keyDescriptor?: string } | null {
+function parseTuneTitle(
+  value: string,
+): { title: string; keyDescriptor?: string } | null {
   const match = value.match(/^\*\*(.+?)\*\*\s*(?:\(([^)]+)\))?\s*$/);
 
   if (!match) {
@@ -349,17 +352,15 @@ export function parseSessionWorkDocument(args: {
   let title: string | null = null;
   let currentSection: ParsedSessionWorkSection | null = null;
   let currentSet: ParsedSessionWorkSet | null = null;
-  let currentTune:
-    | {
-        displayTitle: string;
-        keyDescriptor?: string;
-        legacyChart: string;
-        links: TuneLink[];
-        versionLines: string[];
-        notes: string;
-        tuneType: string;
-      }
-    | null = null;
+  let currentTune: {
+    displayTitle: string;
+    keyDescriptor?: string;
+    legacyChart: string;
+    links: TuneLink[];
+    versionLines: string[];
+    notes: string;
+    tuneType: string;
+  } | null = null;
 
   const finalizeTune = () => {
     if (!currentTune) {
@@ -372,8 +373,13 @@ export function parseSessionWorkDocument(args: {
       );
     }
 
-    const { title: parsedTitle, aliases } = splitAliases(currentTune.displayTitle);
-    const promotedLinks = promoteLegacySourceLinks(currentTune.notes, args.sourcePath);
+    const { title: parsedTitle, aliases } = splitAliases(
+      currentTune.displayTitle,
+    );
+    const promotedLinks = promoteLegacySourceLinks(
+      currentTune.notes,
+      args.sourcePath,
+    );
     const links = [...currentTune.links];
 
     for (const link of promotedLinks.links) {
@@ -616,11 +622,15 @@ export function parseSessionWorkDocument(args: {
   }
 
   if (!title) {
-    throw new Error(`${args.sourcePath}: expected a top-level "# " session title.`);
+    throw new Error(
+      `${args.sourcePath}: expected a top-level "# " session title.`,
+    );
   }
 
   if (sessionSections.length === 0) {
-    throw new Error(`${args.sourcePath}: expected at least one session section.`);
+    throw new Error(
+      `${args.sourcePath}: expected at least one session section.`,
+    );
   }
 
   return {
@@ -735,12 +745,15 @@ export function canonicalizeSessionWorkDocument(
   });
 }
 
-async function loadSessionWorkFilePaths(sessionsRoot: string): Promise<string[]> {
+async function loadSessionWorkFilePaths(
+  sessionsRoot: string,
+): Promise<string[]> {
   const entries = await readdir(sessionsRoot, { withFileTypes: true });
 
   return entries
     .filter(
-      (entry) => entry.isFile() && entry.name.toLowerCase().endsWith(sessionWorkSuffix),
+      (entry) =>
+        entry.isFile() && entry.name.toLowerCase().endsWith(sessionWorkSuffix),
     )
     .map((entry) => path.join(sessionsRoot, entry.name))
     .sort((left, right) => left.localeCompare(right));
@@ -857,7 +870,9 @@ export function renderSetContentDocument(document: SetDocument): string {
     .concat("\n");
 }
 
-export function renderSessionContentDocument(document: SessionDocument): string {
+export function renderSessionContentDocument(
+  document: SessionDocument,
+): string {
   const lines = [
     ...renderFrontmatterLines([
       ["title", document.title],

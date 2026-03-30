@@ -32,7 +32,9 @@ describe("session work document workflow", () => {
     expect(rendered).toContain("%% Author-only comments start with %%");
     expect(rendered).toContain("**Tune One** (G)");
     expect(rendered).toContain("**Tune Two** (Edor)");
-    expect(rendered).toContain("Structured tune blocks: = version:, = part:, = alt:.");
+    expect(rendered).toContain(
+      "Structured tune blocks: = version:, = part:, = alt:.",
+    );
     expect(rendered).toContain("```");
   });
 

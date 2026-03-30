@@ -79,7 +79,9 @@ function renderTuneLink(link: PreviewTuneView["links"][number]) {
   );
 }
 
-function renderVersionPartLabel(part: PreviewTuneView["versions"][number]["parts"][number]) {
+function renderVersionPartLabel(
+  part: PreviewTuneView["versions"][number]["parts"][number],
+) {
   if (!part.isAlternate && !part.alternateLabel) {
     return part.name;
   }
@@ -201,7 +203,9 @@ export default async function PreviewTuneDetailPage({
           <h2>Links</h2>
           <ul className="checklist">
             {additionalLinks.map((link) => (
-              <li key={`${link.provider}:${link.href}`}>{renderTuneLink(link)}</li>
+              <li key={`${link.provider}:${link.href}`}>
+                {renderTuneLink(link)}
+              </li>
             ))}
           </ul>
         </div>
@@ -223,7 +227,9 @@ export default async function PreviewTuneDetailPage({
                   gap: "0.75rem",
                   paddingTop: index > 0 ? "1rem" : 0,
                   borderTop:
-                    index > 0 ? "1px solid color-mix(in srgb, var(--border) 80%, transparent)" : "none",
+                    index > 0
+                      ? "1px solid color-mix(in srgb, var(--border) 80%, transparent)"
+                      : "none",
                 }}
               >
                 <div>
@@ -253,7 +259,9 @@ export default async function PreviewTuneDetailPage({
                 {versionLinks.length > 0 ? (
                   <ul className="checklist">
                     {versionLinks.map((link) => (
-                      <li key={`${link.provider}:${link.href}`}>{renderTuneLink(link)}</li>
+                      <li key={`${link.provider}:${link.href}`}>
+                        {renderTuneLink(link)}
+                      </li>
                     ))}
                   </ul>
                 ) : null}

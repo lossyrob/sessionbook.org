@@ -12,17 +12,20 @@ visibility: public
 = version: Session default
 
 = part: A
+
 ```
 | Em / D | C / / | / / D | Em / / |
 ```
 
 = alt: A | Eight notes
+
 ```
 | Em / / | / / D | / / / | C / / | / / / | / / / |
 | C / / | / / D | / / / | Em / / | / / / | / / / |
 ```
 
 = part: B
+
 ```
 | G / D | C / / | / / D | Em / / |
 | G / D | C / / | / / / | D / / |

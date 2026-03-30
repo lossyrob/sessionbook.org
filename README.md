@@ -127,19 +127,19 @@ session exports.
 
 ### Available Commands
 
-| Command                           | Purpose                                                                                      |
-| --------------------------------- | -------------------------------------------------------------------------------------------- |
-| `npm run dev`                     | Start the local Next.js development server                                                   |
-| `npm run db:setup`                | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set    |
-| `npm run format`                  | Apply the repository Prettier formatting rules                                               |
-| `npm run format:check`            | Check the repository against the configured Prettier rules                                   |
-| `npm run generate:release-1-data` | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets |
-| `npm run generate:session-content` | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions` |
+| Command                                                         | Purpose                                                                                                                       |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                                                   | Start the local Next.js development server                                                                                    |
+| `npm run db:setup`                                              | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set                                     |
+| `npm run format`                                                | Apply the repository Prettier formatting rules                                                                                |
+| `npm run format:check`                                          | Check the repository against the configured Prettier rules                                                                    |
+| `npm run generate:release-1-data`                               | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets                                  |
+| `npm run generate:session-content`                              | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions`       |
 | `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/`; use `--include-alternates`, `--include-notes`, or `--print-large` as needed |
-| `npm run lint`                    | Run the flat ESLint config used in CI                                                        |
-| `npm run test`                    | Run the Vitest smoke tests                                                                   |
-| `npm run typecheck`               | Run `tsc --noEmit`                                                                           |
-| `npm run build`                   | Build the Next.js runtime app (including the standalone Cloud Run bundle)                    |
+| `npm run lint`                                                  | Run the flat ESLint config used in CI                                                                                         |
+| `npm run test`                                                  | Run the Vitest smoke tests                                                                                                    |
+| `npm run typecheck`                                             | Run `tsc --noEmit`                                                                                                            |
+| `npm run build`                                                 | Build the Next.js runtime app (including the standalone Cloud Run bundle)                                                     |
 
 ## Current Runtime Notes
 
