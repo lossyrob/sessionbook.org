@@ -36,9 +36,8 @@ export const publicSections: SiteSection[] = [
     href: "/search",
     label: "Search",
     summary:
-      "Keep the search entry point visible while later issues add ranking and interactions on top of the alias-backed repository.",
-    nextIssue: "#9",
-    status: "Upcoming public search surface",
+      "Search the public tune catalog by name or alias and jump straight to tune detail pages.",
+    status: "Live public search surface",
     showInHeader: true,
   },
 ];
