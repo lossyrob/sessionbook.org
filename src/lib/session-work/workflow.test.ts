@@ -3,6 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { loadSessionbookCorpus } from "@/lib/content/load-corpus";
+import { buildPublishableCorpus } from "@/lib/content/publishable-corpus";
 import {
   buildSessionWorkCorpus,
   parseSessionWorkDocument,
@@ -333,8 +334,8 @@ describe("session work document workflow", () => {
     ]);
   });
 
-  it("keeps the checked-in canonical content in sync with the session work docs", async () => {
-    const builtCorpus = await buildSessionWorkCorpus({
+  it("keeps the checked-in canonical content in sync with the publishable corpus generator", async () => {
+    const builtCorpus = await buildPublishableCorpus({
       sessionsRoot: path.join(process.cwd(), "Sessions"),
     });
     const loadedCorpus = await loadSessionbookCorpus({

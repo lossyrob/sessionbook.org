@@ -53,10 +53,11 @@ needs clean chord charts for sessions and gigs.
 
 Early development — the repo now includes a Next.js app, local tooling,
 Firebase Hosting + Cloud Run deployment hooks, a validated Release 1 schema,
-and the first runtime-backed public catalog for the homepage plus the tune/set
-indexes. The checked-in Release 1 catalog is imported from the canonical
-`Sessions/*` source assets; tune detail pages, auth enforcement, and richer
-search/private behavior still land in later issues.
+and a shared-corpus-backed public catalog for the homepage plus the public tune,
+set, and session pages. The checked-in publishable corpus is generated from the
+canonical `Sessions/*` source assets plus the local-first session-work files, so
+preview surfaces and hosted publication now share the same content model. Auth
+enforcement and richer search/private behavior still land in later issues.
 
 ## Local Development
 
@@ -75,16 +76,18 @@ If you need local project or deploy configuration, copy `.env.template` to
 `.env`. When `DATABASE_URL` is configured, `npm run db:setup` creates the
 Release 1 schema and seeds it from the checked-in imported store. Without
 `DATABASE_URL`, the app can still fall back to the same imported catalog through
-the fixture-backed repository path for local UI work. When `DATABASE_URL` is
-configured, the public homepage and browse indexes expect to load the Release 1
-catalog from Postgres instead of silently falling back to fixtures.
+the fixture-backed repository path for the remaining Release 1-backed private
+gig route. The public homepage and browse pages now publish directly from the
+checked-in shared markdown corpus under `content/`, so they do not depend on the
+database-backed Release 1 repository path.
 
 For the local-first session workflow, start from a checked-in session work
 document under `Sessions/*_session_work.md`. That single markdown file is the
 easy-to-edit source you use while practicing a session in running order. Run
-`npm run generate:session-content` to canonicalize it into
-`content/tunes`, `content/sets`, and `content/sessions` for preview and later
-publication.
+`npm run generate:session-content` to rebuild the publishable shared corpus in
+`content/tunes`, `content/sets`, and `content/sessions`. That generator merges
+the session-work-derived documents with shared-corpus backfill docs for the
+existing public catalog so preview and hosted publication stay aligned.
 
 Tune notes use `>` lines, set notes use `>>`, session notes use `>>>`, ignored
 author comments use `%%`, and tune links use `=>` followed by either a bare
@@ -127,27 +130,30 @@ session exports.
 
 ### Available Commands
 
-| Command                                                         | Purpose                                                                                                                       |
-| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                                                   | Start the local Next.js development server                                                                                    |
-| `npm run db:setup`                                              | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set                                     |
-| `npm run format`                                                | Apply the repository Prettier formatting rules                                                                                |
-| `npm run format:check`                                          | Check the repository against the configured Prettier rules                                                                    |
-| `npm run generate:release-1-data`                               | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets                                  |
-| `npm run generate:session-content`                              | Canonicalize checked-in `Sessions/*_session_work.md` files into `content/tunes`, `content/sets`, and `content/sessions`       |
-| `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/`; use `--include-alternates`, `--include-notes`, or `--print-large` as needed |
-| `npm run lint`                                                  | Run the flat ESLint config used in CI                                                                                         |
-| `npm run test`                                                  | Run the Vitest smoke tests                                                                                                    |
-| `npm run typecheck`                                             | Run `tsc --noEmit`                                                                                                            |
-| `npm run build`                                                 | Build the Next.js runtime app (including the standalone Cloud Run bundle)                                                     |
+| Command                                                         | Purpose                                                                                                                                      |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                                                   | Start the local Next.js development server                                                                                                   |
+| `npm run db:setup`                                              | Create migrations and seed the Release 1 catalog into Postgres when `DATABASE_URL` is set                                                    |
+| `npm run format`                                                | Apply the repository Prettier formatting rules                                                                                               |
+| `npm run format:check`                                          | Check the repository against the configured Prettier rules                                                                                   |
+| `npm run generate:release-1-data`                               | Rebuild the checked-in Release 1 fixture store from the canonical `Sessions/*` source assets                                                 |
+| `npm run generate:session-content`                              | Rebuild the shared publishable corpus in `content/*` by merging Release 1 catalog backfill with checked-in `Sessions/*_session_work.md` docs |
+| `npm run render:session-pdf -- Sessions/<name>_session_work.md` | Render a session-work PDF to `out/session-pdfs/`; use `--include-alternates`, `--include-notes`, or `--print-large` as needed                |
+| `npm run lint`                                                  | Run the flat ESLint config used in CI                                                                                                        |
+| `npm run test`                                                  | Run the Vitest smoke tests                                                                                                                   |
+| `npm run typecheck`                                             | Run `tsc --noEmit`                                                                                                                           |
+| `npm run build`                                                 | Build the Next.js runtime app (including the standalone Cloud Run bundle)                                                                    |
 
 ## Current Runtime Notes
 
-- The public homepage, `/tunes`, and `/sets` are request-time rendered routes
-  on the app runtime, so deployed environments are expected to read from
-  Postgres when `DATABASE_URL` is configured.
+- The public homepage, `/tunes`, `/sets`, and `/sessions` are request-time
+  rendered routes on the app runtime and now publish from the checked-in shared
+  corpus under `content/`.
+- The preview routes read from that same shared corpus but keep draft-oriented
+  copy and intentionally avoid the public visibility filter.
 - The Release 1 repository still uses the checked-in fixture store for local
-  work when `DATABASE_URL` is absent.
+  work when `DATABASE_URL` is absent and remains in place for the private
+  St. Paddy's Day gig route.
 - The checked-in Release 1 fixture store is generated from the canonical
   `Sessions/*` source assets rather than hand-authored demo data.
 - Firebase Hosting is the front door, but the public app now runs behind

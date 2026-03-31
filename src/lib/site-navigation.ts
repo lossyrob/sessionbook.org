@@ -25,6 +25,14 @@ export const publicSections: SiteSection[] = [
     showInHeader: true,
   },
   {
+    href: "/sessions",
+    label: "Sessions",
+    summary:
+      "Browse public session pages built from the shared corpus and jump into the ordered sets prepared for each session.",
+    status: "Live public catalog surface",
+    showInHeader: true,
+  },
+  {
     href: "/search",
     label: "Search",
     summary:
@@ -40,7 +48,7 @@ export const ownerSections: SiteSection[] = [
     href: "/preview",
     label: "Draft previews",
     summary:
-      "Preview tune, set, and session pages backed by the shared markdown corpus before hosted publication switches over.",
+      "Preview tune, set, and session pages backed by the shared markdown corpus while draft authoring stays distinct from the live public catalog.",
     status: "Live draft preview surface",
     showInHeader: true,
   },

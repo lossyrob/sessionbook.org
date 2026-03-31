@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 import { SetEntriesList } from "@/components/set-entries-list";
-import { loadRelease1Repository } from "@/lib/release-1/load-repository";
+import { loadContentRepository } from "@/lib/content/load-repository";
 
 export const dynamic = "force-dynamic";
 
 export default async function SetsPage() {
-  const { repository } = await loadRelease1Repository();
+  const { repository } = await loadContentRepository();
   const sets = repository.listPublicSets();
 
   return (
@@ -24,7 +24,7 @@ export default async function SetsPage() {
         <div className="callout">
           <h2>No public sets</h2>
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>
-            The imported catalog is empty in this environment.
+            The shared-corpus catalog is empty in this environment.
           </p>
         </div>
       ) : (

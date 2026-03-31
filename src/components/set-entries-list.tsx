@@ -21,14 +21,30 @@ type SetEntriesListProps = {
   setId: string;
   entries: SetEntryListItem[];
   buildTuneHref?: (slug: string) => string;
+  defaultExpanded?: boolean;
 };
+
+function createExpandedEntrySet(
+  setId: string,
+  entries: SetEntryListItem[],
+  defaultExpanded: boolean,
+): Set<string> {
+  if (!defaultExpanded) {
+    return new Set();
+  }
+
+  return new Set(entries.map((entry) => `${setId}-${entry.position}`));
+}
 
 export function SetEntriesList({
   setId,
   entries,
   buildTuneHref = (slug) => `/tunes/${slug}`,
+  defaultExpanded = false,
 }: SetEntriesListProps) {
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [expanded, setExpanded] = useState<Set<string>>(() =>
+    createExpandedEntrySet(setId, entries, defaultExpanded),
+  );
 
   function stopRowToggle(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -96,7 +112,6 @@ export function SetEntriesList({
               className="set-entry__chart tune-chart"
               data-expanded={isExpanded ? "true" : undefined}
             >
-              <span className="tune-chart__label">{entry.chartTitle}</span>
               {entry.contentMarkdown}
             </div>
           </li>

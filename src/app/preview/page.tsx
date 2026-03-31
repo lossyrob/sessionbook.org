@@ -55,12 +55,14 @@ export default async function PreviewIndexPage() {
         <h2>How to use this</h2>
         <div className="callout">
           <p className="lead" style={{ marginBottom: "0.75rem" }}>
-            These routes are the local-first preview surfaces for issue #20.
+            These routes are the author-facing preview surfaces for the shared
+            corpus.
           </p>
           <p style={{ fontSize: "0.875rem", color: "var(--muted)" }}>
-            The existing public catalog remains on the Release 1 fixture-backed
-            routes while the later hosted-bridge phase swaps publication over to
-            the shared markdown corpus.
+            The live public tunes, sets, and sessions now publish from the same
+            shared markdown corpus. These preview routes stay useful because
+            they expose the broader corpus without the public-route visibility
+            filter.
           </p>
         </div>
       </section>

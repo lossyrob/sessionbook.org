@@ -11,6 +11,7 @@ describe("site navigation", () => {
     expect(publicSections.map((section) => section.href)).toEqual([
       "/tunes",
       "/sets",
+      "/sessions",
       "/search",
     ]);
   });
@@ -31,13 +32,13 @@ describe("site navigation", () => {
 
   it("marks tune and set routes as live catalog surfaces without stale roadmap labels", () => {
     expect(
-      publicSections.slice(0, 2).every((section) => !section.nextIssue),
+      publicSections.slice(0, 3).every((section) => !section.nextIssue),
     ).toBe(true);
     expect(
       publicSections
-        .slice(0, 2)
+        .slice(0, 3)
         .every((section) => section.status === "Live public catalog surface"),
     ).toBe(true);
-    expect(publicSections[2]?.nextIssue).toBe("#9");
+    expect(publicSections[3]?.nextIssue).toBe("#9");
   });
 });

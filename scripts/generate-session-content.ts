@@ -2,11 +2,11 @@ import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import {
-  buildSessionWorkCorpus,
   renderSessionContentDocument,
   renderSetContentDocument,
   renderTuneContentDocument,
 } from "@/lib/session-work/workflow";
+import { buildPublishableCorpus } from "@/lib/content/publishable-corpus";
 
 async function removeMarkdownFiles(directoryPath: string): Promise<void> {
   const entries = await readdir(directoryPath, { withFileTypes: true });
@@ -36,7 +36,7 @@ async function main() {
     removeMarkdownFiles(sessionsRoot),
   ]);
 
-  const corpus = await buildSessionWorkCorpus();
+  const corpus = await buildPublishableCorpus();
 
   await Promise.all([
     ...corpus.tunes.map((tune) =>

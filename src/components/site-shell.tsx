@@ -40,7 +40,7 @@ export function SiteShell({ children }: SiteShellProps) {
       <main className="site-main">{children}</main>
 
       <footer className="site-footer">
-        <p>SessionBook · Release 1 catalog and draft corpus previews</p>
+        <p>SessionBook · Shared-corpus public catalog and draft previews</p>
       </footer>
     </div>
   );

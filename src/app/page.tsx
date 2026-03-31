@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 import { SectionCard } from "@/components/section-card";
-import { loadRelease1Repository } from "@/lib/release-1/load-repository";
+import { loadContentRepository } from "@/lib/content/load-repository";
 import { ownerSections, publicSections } from "@/lib/site-navigation";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const { repository } = await loadRelease1Repository();
-  const summary = repository.getCatalogSummary();
+  const { repository } = await loadContentRepository();
+  const summary = repository.getPublicCatalogSummary();
 
   return (
     <div className="hero">
@@ -39,6 +39,9 @@ export default async function HomePage() {
         <span>
           <strong>{summary.chartCount}</strong> charts
         </span>
+        <span>
+          <strong>{summary.publicSessionCount}</strong> sessions
+        </span>
       </div>
 
       <div className="quick-links">
@@ -47,6 +50,9 @@ export default async function HomePage() {
         </Link>
         <Link className="quick-link" href="/sets">
           Sets
+        </Link>
+        <Link className="quick-link" href="/sessions">
+          Sessions
         </Link>
         <Link className="quick-link" href="/search">
           Search
