@@ -19,6 +19,19 @@ export type SearchResult<T> = {
   rank: MatchRank;
 };
 
+/**
+ * Returns true if any of the given texts contain the query as a substring
+ * after normalization (accent folding, lowercasing, punctuation removal).
+ */
+export function matchesSearch(query: string, texts: string[]): boolean {
+  const normalizedQuery = normalizeSearchTerm(query);
+  if (normalizedQuery.length === 0) return false;
+
+  return texts.some((text) =>
+    normalizeSearchTerm(text).includes(normalizedQuery),
+  );
+}
+
 export function searchTunes<T extends Searchable>(
   query: string,
   tunes: T[],

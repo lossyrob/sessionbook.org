@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SessionList } from "@/components/session-list";
 import { loadContentRepository } from "@/lib/content/load-repository";
 
 export const dynamic = "force-dynamic";
@@ -26,24 +27,7 @@ export default async function SessionsPage() {
           </p>
         </div>
       ) : (
-        <div className="section-grid">
-          {sessions.map((session) => (
-            <article className="section-card" key={session.id}>
-              <p className="section-card__status">Live public session</p>
-              <h3>
-                <Link href={`/sessions/${session.slug}`}>{session.name}</Link>
-              </h3>
-              <p>
-                {session.setCount} sets across {session.sectionCount} sections.
-              </p>
-              <p className="section-card__issue">
-                {session.date
-                  ? `Session date: ${session.date}`
-                  : "Shared corpus"}
-              </p>
-            </article>
-          ))}
-        </div>
+        <SessionList sessions={sessions} />
       )}
 
       <p className="back-link">

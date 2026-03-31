@@ -27,7 +27,7 @@ export default async function TunesPage() {
           </p>
         </div>
       ) : (
-        <TuneList tunes={tunes} />
+        <TuneList tunes={tunes} searchable />
       )}
 
       <p className="back-link">

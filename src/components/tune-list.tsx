@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Fragment, type MouseEvent, useState } from "react";
 
+import { searchTunes } from "@/lib/search/search-tunes";
 import { tuneTypeBadgeClass } from "@/lib/tune-type-badge";
 
 type TuneListItem = {
@@ -25,16 +26,24 @@ type TuneListItem = {
 
 type TuneListProps = {
   tunes: TuneListItem[];
+  searchable?: boolean;
   buildTuneHref?: (slug: string) => string;
   buildSetHref?: (slug: string) => string;
 };
 
 export function TuneList({
   tunes,
+  searchable = false,
   buildTuneHref = (slug) => `/tunes/${slug}`,
   buildSetHref = (slug) => `/sets/${slug}`,
 }: TuneListProps) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [query, setQuery] = useState("");
+
+  const displayTunes =
+    searchable && query.trim().length > 0
+      ? searchTunes(query, tunes).map((result) => result.item)
+      : tunes;
 
   function stopRowToggle(event: MouseEvent<HTMLAnchorElement>) {
     event.stopPropagation();
@@ -54,7 +63,22 @@ export function TuneList({
 
   return (
     <div className="tune-list">
-      {tunes.map((tune) => (
+      {searchable ? (
+        <input
+          className="search-input"
+          type="search"
+          placeholder="Filter tunes…"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          autoFocus
+        />
+      ) : null}
+      {searchable && query.trim().length > 0 && displayTunes.length === 0 ? (
+        <p className="search-empty">
+          No tunes match &ldquo;{query.trim()}&rdquo;
+        </p>
+      ) : null}
+      {displayTunes.map((tune) => (
         <div key={tune.id}>
           <div className="tune-row" onClick={() => toggle(tune.id)}>
             <div className={tuneTypeBadgeClass(tune.tuneType)}>

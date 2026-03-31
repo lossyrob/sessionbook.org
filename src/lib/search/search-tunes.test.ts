@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { normalizeSearchTerm } from "@/lib/search/normalize";
-import { searchTunes } from "@/lib/search/search-tunes";
+import { matchesSearch, searchTunes } from "@/lib/search/search-tunes";
 
 const testTunes = [
   { name: "The Kesh Jig", aliases: [], tuneType: "Jig" },
@@ -121,5 +121,28 @@ describe("searchTunes", () => {
     const results = searchTunes("kesh", testTunes);
     expect(results).toHaveLength(1);
     expect(results[0]?.item.name).toBe("The Kesh Jig");
+  });
+});
+
+describe("matchesSearch", () => {
+  it("returns false for empty query", () => {
+    expect(matchesSearch("", ["hello"])).toBe(false);
+    expect(matchesSearch("   ", ["hello"])).toBe(false);
+  });
+
+  it("returns true when any text matches", () => {
+    expect(matchesSearch("kesh", ["The Kesh Jig", "Other"])).toBe(true);
+  });
+
+  it("returns false when no text matches", () => {
+    expect(matchesSearch("zzz", ["The Kesh Jig", "Morning Star"])).toBe(false);
+  });
+
+  it("normalizes accented characters", () => {
+    expect(matchesSearch("lamh", ["Tabhair Dom Do Lámh"])).toBe(true);
+  });
+
+  it("is case insensitive", () => {
+    expect(matchesSearch("KESH", ["the kesh jig"])).toBe(true);
   });
 });
