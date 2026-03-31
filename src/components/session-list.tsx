@@ -49,9 +49,7 @@ export function SessionList({ sessions }: SessionListProps) {
           {displaySessions.map((session) => (
             <article className="section-card" key={session.id}>
               {session.date ? (
-                <p className="section-card__status">
-                  {session.date}
-                </p>
+                <p className="section-card__status">{session.date}</p>
               ) : null}
               <h3>
                 <Link href={`/sessions/${session.slug}`}>{session.name}</Link>

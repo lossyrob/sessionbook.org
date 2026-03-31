@@ -15,9 +15,9 @@ export default async function SetsPage() {
         <h1>Sets</h1>
       </div>
       <p className="index-subtitle">
-        {sets.length} sets in the catalog. Each set is an ordered group
-        of tunes. Click a tune row or the Show chart button to expand it, or
-        click the tune title to open its page.
+        {sets.length} sets in the catalog. Each set is an ordered group of
+        tunes. Click a tune row or the Show chart button to expand it, or click
+        the tune title to open its page.
       </p>
 
       {sets.length === 0 ? (
