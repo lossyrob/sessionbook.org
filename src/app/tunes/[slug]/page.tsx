@@ -28,8 +28,8 @@ function buildTuneDescription({
   const setCount = setMemberships.length;
   const setSummary =
     setCount === 0
-      ? "No linked public sets yet."
-      : `Appears in ${setCount} public ${setCount === 1 ? "set" : "sets"}.`;
+      ? "No linked sets yet."
+      : `Appears in ${setCount} ${setCount === 1 ? "set" : "sets"}.`;
 
   return `${name} is a ${tuneType.toLowerCase()} chord chart in ${chart.key} ${chart.mode} (${chart.meter}). ${setSummary}`;
 }
@@ -146,7 +146,7 @@ export default async function TuneDetailPage({ params }: TuneDetailPageProps) {
           </ul>
         ) : (
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>
-            This tune is not linked from a public set yet.
+            This tune is not part of any set yet.
           </p>
         )}
       </div>

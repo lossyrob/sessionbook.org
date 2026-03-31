@@ -15,15 +15,14 @@ export default async function SessionsPage() {
         <h1>Sessions</h1>
       </div>
       <p className="index-subtitle">
-        {sessions.length} public session pages in the shared catalog.
+        {sessions.length} session pages in the catalog.
       </p>
 
       {sessions.length === 0 ? (
         <div className="callout">
-          <h2>No public sessions</h2>
+          <h2>No sessions yet</h2>
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>
-            Add public session documents under <code>content/sessions</code> to
-            publish them here.
+            No session documents have been published yet.
           </p>
         </div>
       ) : (

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { SectionCard } from "@/components/section-card";
 import { loadContentRepository } from "@/lib/content/load-repository";
-import { ownerSections, publicSections } from "@/lib/site-navigation";
+import { sections } from "@/lib/site-navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -60,18 +60,9 @@ export default async function HomePage() {
       </div>
 
       <section className="section-block">
-        <h2>Public catalog</h2>
+        <h2>Browse</h2>
         <div className="section-grid">
-          {publicSections.map((section) => (
-            <SectionCard key={section.href} section={section} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <h2>Owner access</h2>
-        <div className="section-grid">
-          {ownerSections.map((section) => (
+          {sections.map((section) => (
             <SectionCard key={section.href} section={section} />
           ))}
         </div>

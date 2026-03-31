@@ -586,12 +586,6 @@ a {
   line-height: 1.65;
 }
 
-/* ─── Placeholder Page ─── */
-
-.placeholder-page {
-  padding: 2.5rem 0 0;
-}
-
 /* ─── Search ─── */
 
 .search-page {
@@ -624,13 +618,6 @@ a {
   font-size: 0.8125rem;
   color: var(--muted);
   padding: 1.5rem 0;
-}
-
-.placeholder-page h1 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin-bottom: 0.25rem;
 }
 
 .eyebrow {

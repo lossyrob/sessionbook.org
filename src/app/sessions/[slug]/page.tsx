@@ -35,7 +35,7 @@ export async function generateMetadata({
     title: session.name,
     description:
       session.notes ||
-      `Public session page for ${session.name} from the shared markdown corpus.`,
+      `Session page for ${session.name} — sets and chord charts for the session.`,
   };
 }
 
@@ -47,7 +47,7 @@ export default async function SessionDetailPage({
 
   return (
     <div style={{ paddingTop: "2.5rem" }}>
-      <p className="eyebrow">Public session</p>
+      <p className="eyebrow">Session</p>
       <div className="index-header" style={{ marginBottom: "0.5rem" }}>
         <h1>{session.name}</h1>
       </div>
