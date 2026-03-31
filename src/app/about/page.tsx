@@ -15,8 +15,7 @@ export default function AboutPage() {
       <p>
         SessionBook started as a personal project — a way to write down chord
         progressions for Irish traditional tunes in a concise, readable format
-        and share them with the people I play with. Other guitarists and
-        bouzouki players (and even some melody players) found the format useful,
+        and share them with the people I play with. Other guitarists (and even some melody players) found the format useful,
         so I decided to put it on the web.
       </p>
 
@@ -37,27 +36,12 @@ export default function AboutPage() {
         contribute chord charts, suggest sets of tunes that work well together,
         and build their own session pages — whether for a weekly pub session or
         a one-off gig. Think of it as a shared resource for the accompaniment
-        side of Irish trad.
+        side of Irish trad. The app may expand in other ways, depending on what
+        the community finds useful!
       </p>
 
-      <h2>
-        Relationship to{" "}
-        <a href="https://thesession.org" target="_blank" rel="noreferrer">
-          thesession.org
-        </a>
-      </h2>
-
       <p>
-        <a href="https://thesession.org" target="_blank" rel="noreferrer">
-          The Session
-        </a>{" "}
-        is an incredible community resource for Irish traditional music. It
-        focuses primarily on melody — sheet music, ABC notation, tune
-        discussions, and session listings. SessionBook isn&rsquo;t trying to
-        replace any of that. It&rsquo;s a complementary project focused on chord
-        charts and accompaniment. Where relevant, tune pages link back to The
-        Session so you can find recordings, discussions, and notation for the
-        same tunes.
+        Development is happening <a href="https://github.com/robincornish/sessionbook" target="_blank" rel="noreferrer">on GitHub</a> - submit issues if you have feature requests!
       </p>
 
       <p className="back-link">
