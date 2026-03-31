@@ -32,6 +32,7 @@ type SessionSectionSetView = {
   slug: string;
   name: string;
   notes: string;
+  entries: SetEntryView[];
   tuneNames: string[];
   tuneCount: number;
 };
@@ -270,6 +271,7 @@ function buildSessionSectionSets(
       slug: setView.slug,
       name: setView.name,
       notes: setView.notes,
+      entries: setView.entries,
       tuneNames: setView.entries.map((entry) => entry.tuneName),
       tuneCount: setView.entries.length,
     };

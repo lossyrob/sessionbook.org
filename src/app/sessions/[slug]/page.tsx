@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { SessionSetSections } from "@/components/session-set-sections";
 import { loadContentRepository } from "@/lib/content/load-repository";
 import type { PublicSessionView } from "@/lib/content/repository";
 
@@ -53,6 +54,11 @@ export default async function SessionDetailPage({
       {session.date ? (
         <p className="index-subtitle">Session date: {session.date}</p>
       ) : null}
+      <p className="index-subtitle">
+        This session opens with every chart expanded so it can double as a
+        play-from-the-screen set list. Use Expand all or Collapse all to reset
+        every tune chart at once.
+      </p>
 
       {session.notes ? (
         <div className="callout">
@@ -71,56 +77,7 @@ export default async function SessionDetailPage({
         </div>
       ) : null}
 
-      {session.sections.map((section) => (
-        <section className="section-block" key={section.heading}>
-          <h2>{section.heading}</h2>
-          <div
-            style={{
-              display: "grid",
-              gap: "1rem",
-            }}
-          >
-            {section.sets.map((setRecord) => (
-              <div className="callout" key={setRecord.slug}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "1rem",
-                    alignItems: "baseline",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Link
-                    className="catalog-link"
-                    href={`/sets/${setRecord.slug}`}
-                  >
-                    {setRecord.name}
-                  </Link>
-                  <span className="tune-sub">
-                    {setRecord.tuneCount}{" "}
-                    {setRecord.tuneCount === 1 ? "tune" : "tunes"}
-                  </span>
-                </div>
-                <p className="index-subtitle" style={{ marginTop: "0.5rem" }}>
-                  {setRecord.tuneNames.join(" / ")}
-                </p>
-                <pre
-                  style={{
-                    margin: 0,
-                    whiteSpace: "pre-wrap",
-                    fontFamily: "inherit",
-                    fontSize: "0.875rem",
-                    color: "var(--muted)",
-                  }}
-                >
-                  {setRecord.notes || "No set notes yet."}
-                </pre>
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
+      <SessionSetSections sections={session.sections} />
 
       <p className="back-link">
         <Link href="/sessions">← Back to sessions</Link>

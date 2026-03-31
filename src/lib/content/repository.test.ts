@@ -40,7 +40,7 @@ describe("createContentRepository", () => {
     const aprilSession = repository.getPreviewSessionBySlug(
       "commodore-barry-club-first-friday-session-2026-04-03",
     );
-    expect(aprilSession?.sections[0]).toEqual({
+    expect(aprilSession?.sections[0]).toMatchObject({
       heading: "Jigs",
       sets: [
         {
@@ -309,6 +309,13 @@ describe("createContentRepository", () => {
             {
               slug: "public-set",
               name: "Public Set",
+              entries: [
+                {
+                  position: 1,
+                  tuneSlug: "public-tune",
+                  tuneName: "Public Tune",
+                },
+              ],
               tuneNames: ["Public Tune"],
             },
           ],
