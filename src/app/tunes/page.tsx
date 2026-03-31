@@ -15,13 +15,13 @@ export default async function TunesPage() {
         <h1>Tunes</h1>
       </div>
       <p className="index-subtitle">
-        {tunes.length} tunes in the public catalog. Click a row to expand its
-        chord chart, or follow tune and set links for detail pages.
+        {tunes.length} tunes in the catalog. Click a row to expand its chord
+        chart, or follow tune and set links for detail pages.
       </p>
 
       {tunes.length === 0 ? (
         <div className="callout">
-          <h2>No public tunes</h2>
+          <h2>No tunes yet</h2>
           <p style={{ fontSize: "0.8125rem", color: "var(--muted)" }}>
             The shared-corpus catalog is empty in this environment.
           </p>

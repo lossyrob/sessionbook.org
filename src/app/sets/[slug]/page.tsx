@@ -44,7 +44,7 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
 
   return (
     <div style={{ paddingTop: "2.5rem" }}>
-      <p className="eyebrow">Public set</p>
+      <p className="eyebrow">Set</p>
       <h1
         style={{
           fontSize: "1.35rem",

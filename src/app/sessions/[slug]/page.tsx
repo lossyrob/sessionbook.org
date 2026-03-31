@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -13,6 +16,11 @@ type SessionDetailPageProps = {
     slug: string;
   }>;
 };
+
+function getSessionPdfPath(slug: string): string | null {
+  const pdfPath = join(process.cwd(), "public", "session-pdfs", `${slug}.pdf`);
+  return existsSync(pdfPath) ? `/session-pdfs/${slug}.pdf` : null;
+}
 
 async function getSessionBySlug(slug: string): Promise<PublicSessionView> {
   const { repository } = await loadContentRepository();
@@ -35,7 +43,7 @@ export async function generateMetadata({
     title: session.name,
     description:
       session.notes ||
-      `Public session page for ${session.name} from the shared markdown corpus.`,
+      `Session page for ${session.name} — sets and chord charts for the session.`,
   };
 }
 
@@ -44,21 +52,17 @@ export default async function SessionDetailPage({
 }: SessionDetailPageProps) {
   const { slug } = await params;
   const session = await getSessionBySlug(slug);
+  const pdfHref = getSessionPdfPath(slug);
 
   return (
     <div style={{ paddingTop: "2.5rem" }}>
-      <p className="eyebrow">Public session</p>
+      <p className="eyebrow">Session</p>
       <div className="index-header" style={{ marginBottom: "0.5rem" }}>
         <h1>{session.name}</h1>
       </div>
       {session.date ? (
         <p className="index-subtitle">Session date: {session.date}</p>
       ) : null}
-      <p className="index-subtitle">
-        This session opens with every chart expanded so it can double as a
-        play-from-the-screen set list. Use Expand all or Collapse all to reset
-        every tune chart at once.
-      </p>
 
       {session.notes ? (
         <div className="callout">
@@ -77,7 +81,7 @@ export default async function SessionDetailPage({
         </div>
       ) : null}
 
-      <SessionSetSections sections={session.sections} />
+      <SessionSetSections pdfHref={pdfHref} sections={session.sections} />
 
       <p className="back-link">
         <Link href="/sessions">← Back to sessions</Link>

@@ -1,15 +1,13 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { ownerSections, publicSections } from "@/lib/site-navigation";
+import { sections } from "@/lib/site-navigation";
 
 type SiteShellProps = {
   children: ReactNode;
 };
 
-const headerLinks = [...publicSections, ...ownerSections].filter(
-  (section) => section.showInHeader,
-);
+const headerLinks = sections.filter((section) => section.showInHeader);
 
 export function SiteShell({ children }: SiteShellProps) {
   return (
@@ -40,7 +38,7 @@ export function SiteShell({ children }: SiteShellProps) {
       <main className="site-main">{children}</main>
 
       <footer className="site-footer">
-        <p>SessionBook · Shared-corpus public catalog and draft previews</p>
+        <p>SessionBook · Irish trad chord charts</p>
       </footer>
     </div>
   );

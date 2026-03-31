@@ -586,12 +586,6 @@ a {
   line-height: 1.65;
 }
 
-/* ─── Placeholder Page ─── */
-
-.placeholder-page {
-  padding: 2.5rem 0 0;
-}
-
 /* ─── Search ─── */
 
 .search-page {
@@ -626,13 +620,6 @@ a {
   padding: 1.5rem 0;
 }
 
-.placeholder-page h1 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin-bottom: 0.25rem;
-}
-
 .eyebrow {
   font-size: 0.6875rem;
   font-weight: 700;
@@ -646,6 +633,45 @@ a {
   font-size: 0.9375rem;
   color: var(--muted);
   max-width: 40rem;
+}
+
+/* ─── About Page ─── */
+
+.about-page {
+  padding: 2.5rem 0 0;
+  max-width: 38rem;
+}
+
+.about-page h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 1rem;
+}
+
+.about-page h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-page p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.about-page a:not(.back-link a) {
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.about-page a:not(.back-link a):hover {
+  color: var(--muted);
 }
 
 /* ─── Misc ─── */
