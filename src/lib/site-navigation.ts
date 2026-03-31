@@ -34,6 +34,13 @@ export const sections: SiteSection[] = [
       "Search the tune catalog by name or alias and jump straight to tune detail pages.",
     showInHeader: true,
   },
+  {
+    href: "/about",
+    label: "About",
+    summary:
+      "What SessionBook is, where it's headed, and how it relates to thesession.org.",
+    showInHeader: true,
+  },
 ];
 
 export function getSectionByPath(pathname: string): SiteSection {

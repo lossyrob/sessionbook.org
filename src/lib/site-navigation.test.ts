@@ -9,6 +9,7 @@ describe("site navigation", () => {
       "/sets",
       "/sessions",
       "/search",
+      "/about",
     ]);
   });
 
