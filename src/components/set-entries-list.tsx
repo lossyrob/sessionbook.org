@@ -112,7 +112,6 @@ export function SetEntriesList({
               className="set-entry__chart tune-chart"
               data-expanded={isExpanded ? "true" : undefined}
             >
-              <span className="tune-chart__label">{entry.chartTitle}</span>
               {entry.contentMarkdown}
             </div>
           </li>
