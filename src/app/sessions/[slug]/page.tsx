@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -13,6 +16,11 @@ type SessionDetailPageProps = {
     slug: string;
   }>;
 };
+
+function getSessionPdfPath(slug: string): string | null {
+  const pdfPath = join(process.cwd(), "public", "session-pdfs", `${slug}.pdf`);
+  return existsSync(pdfPath) ? `/session-pdfs/${slug}.pdf` : null;
+}
 
 async function getSessionBySlug(slug: string): Promise<PublicSessionView> {
   const { repository } = await loadContentRepository();
@@ -44,6 +52,7 @@ export default async function SessionDetailPage({
 }: SessionDetailPageProps) {
   const { slug } = await params;
   const session = await getSessionBySlug(slug);
+  const pdfHref = getSessionPdfPath(slug);
 
   return (
     <div style={{ paddingTop: "2.5rem" }}>
@@ -58,6 +67,16 @@ export default async function SessionDetailPage({
         This session opens with every chart expanded so it can double as a
         play-from-the-screen set list. Use Expand all or Collapse all to reset
         every tune chart at once.
+        {pdfHref ? (
+          <>
+            {" "}
+            You can also{" "}
+            <a href={pdfHref} download>
+              download the PDF
+            </a>{" "}
+            for printing.
+          </>
+        ) : null}
       </p>
 
       {session.notes ? (
