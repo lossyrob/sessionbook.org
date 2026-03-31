@@ -63,21 +63,6 @@ export default async function SessionDetailPage({
       {session.date ? (
         <p className="index-subtitle">Session date: {session.date}</p>
       ) : null}
-      <p className="index-subtitle">
-        This session opens with every chart expanded so it can double as a
-        play-from-the-screen set list. Use Expand all or Collapse all to reset
-        every tune chart at once.
-        {pdfHref ? (
-          <>
-            {" "}
-            You can also{" "}
-            <a href={pdfHref} download>
-              download the PDF
-            </a>{" "}
-            for printing.
-          </>
-        ) : null}
-      </p>
 
       {session.notes ? (
         <div className="callout">
@@ -96,7 +81,7 @@ export default async function SessionDetailPage({
         </div>
       ) : null}
 
-      <SessionSetSections sections={session.sections} />
+      <SessionSetSections pdfHref={pdfHref} sections={session.sections} />
 
       <p className="back-link">
         <Link href="/sessions">← Back to sessions</Link>

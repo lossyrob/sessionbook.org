@@ -8,9 +8,13 @@ import type { PublicSessionView } from "@/lib/content/repository";
 
 type SessionSetSectionsProps = {
   sections: PublicSessionView["sections"];
+  pdfHref?: string | null;
 };
 
-export function SessionSetSections({ sections }: SessionSetSectionsProps) {
+export function SessionSetSections({
+  sections,
+  pdfHref,
+}: SessionSetSectionsProps) {
   const [expandAll, setExpandAll] = useState(true);
   const [resetVersion, setResetVersion] = useState(0);
 
@@ -43,6 +47,16 @@ export function SessionSetSections({ sections }: SessionSetSectionsProps) {
         >
           Collapse all
         </button>
+        {pdfHref ? (
+          <a
+            className="btn btn-secondary"
+            href={pdfHref}
+            download
+            style={{ marginLeft: "auto" }}
+          >
+            Download PDF
+          </a>
+        ) : null}
       </div>
 
       {sections.map((section) => (
