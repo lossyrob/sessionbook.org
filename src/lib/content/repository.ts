@@ -126,6 +126,7 @@ export type PublicSessionListItem = {
   date?: string;
   sectionCount: number;
   setCount: number;
+  tuneNames: string[];
 };
 
 export type PreviewSessionView = {
@@ -510,6 +511,9 @@ export function createContentRepository(
     setCount: session.sections.reduce(
       (count, section) => count + section.sets.length,
       0,
+    ),
+    tuneNames: session.sections.flatMap((section) =>
+      section.sets.flatMap((set) => set.tuneNames),
     ),
   }));
 

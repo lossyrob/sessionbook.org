@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { SetEntriesList } from "@/components/set-entries-list";
+import { SetList } from "@/components/set-list";
 import { loadContentRepository } from "@/lib/content/load-repository";
 
 export const dynamic = "force-dynamic";
@@ -28,25 +28,7 @@ export default async function SetsPage() {
           </p>
         </div>
       ) : (
-        <div>
-          {sets.map((setRecord) => (
-            <div className="set-row" key={setRecord.id}>
-              <Link
-                className="set-row__header set-row__header--link"
-                href={`/sets/${setRecord.slug}`}
-              >
-                <span className="set-row__name">{setRecord.name}</span>
-                <span className="set-row__count">
-                  {setRecord.entries.length} tunes
-                </span>
-              </Link>
-              <SetEntriesList
-                entries={setRecord.entries}
-                setId={setRecord.id}
-              />
-            </div>
-          ))}
-        </div>
+        <SetList sets={sets} />
       )}
 
       <p className="back-link">

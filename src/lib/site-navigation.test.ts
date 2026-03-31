@@ -30,15 +30,12 @@ describe("site navigation", () => {
     expect(new Set(hrefs).size).toBe(hrefs.length);
   });
 
-  it("marks tune and set routes as live catalog surfaces without stale roadmap labels", () => {
+  it("marks all public routes as live catalog surfaces without stale roadmap labels", () => {
+    expect(publicSections.every((section) => !section.nextIssue)).toBe(true);
     expect(
-      publicSections.slice(0, 3).every((section) => !section.nextIssue),
+      publicSections.every((section) =>
+        section.status.startsWith("Live public"),
+      ),
     ).toBe(true);
-    expect(
-      publicSections
-        .slice(0, 3)
-        .every((section) => section.status === "Live public catalog surface"),
-    ).toBe(true);
-    expect(publicSections[3]?.nextIssue).toBe("#9");
   });
 });
