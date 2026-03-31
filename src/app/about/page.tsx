@@ -15,8 +15,9 @@ export default function AboutPage() {
       <p>
         SessionBook started as a personal project — a way to write down chord
         progressions for Irish traditional tunes in a concise, readable format
-        and share them with the people I play with. Other guitarists (and even some melody players) found the format useful,
-        so I decided to put it on the web.
+        and share them with the people I play with. Other guitarists (and even
+        some melody players) found the format useful, so I decided to put it on
+        the web.
       </p>
 
       <h2>What it is today</h2>
@@ -41,7 +42,15 @@ export default function AboutPage() {
       </p>
 
       <p>
-        Development is happening <a href="https://github.com/robincornish/sessionbook" target="_blank" rel="noreferrer">on GitHub</a> - submit issues if you have feature requests!
+        Development is happening{" "}
+        <a
+          href="https://github.com/robincornish/sessionbook"
+          target="_blank"
+          rel="noreferrer"
+        >
+          on GitHub
+        </a>{" "}
+        - submit issues if you have feature requests!
       </p>
 
       <p className="back-link">
