@@ -24,10 +24,3 @@ visibility: public
 ```
 
 ## Notes
-
-The Session comments there also call G the common Irish-session key for this
-reel.
-
-## Links
-
-https://thesession.org/tunes/75#setting31921

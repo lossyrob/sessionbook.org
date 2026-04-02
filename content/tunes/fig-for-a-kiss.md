@@ -14,10 +14,10 @@ visibility: public
 = part: A
 
 ```
-| Em / / | D / / | Em / / | Bm / Em |
+| Em / / | Bm / / | Em / / | Bm / Em |
 ```
 
-= alt: A | Sub C
+= alt: A | Sub D Sub C
 
 ```
 | Em / / | D / / | C / / | Bm / Em |
@@ -27,7 +27,7 @@ visibility: public
 
 ```
 | C / / | Bm / / | Em / / | G / / |
-| C / / | Bm / / | Am  / / | C / Em   |
+| C / / | Bm / / | Am  / / | C / Em |
 ```
 
 ## Notes
