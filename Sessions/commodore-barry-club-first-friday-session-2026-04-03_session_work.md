@@ -293,20 +293,13 @@
 = part: A
 
 ```
-| D / G D | G / A / |
-| D / G D | G A D / |
+| D / / / | G  / Em A | D / /  / | G A .D / |
 ```
 
 = part: B
 ```
-| D / / / | G / A / |
-| D / / / | G / A D |
-```
-
-= alt: B
-```
-| D  / / / | G / A / |
-| Bm / / A | G / A D |
+| D / Bm / | G / A / |
+| D / Bm / | G / A <D |
 ```
 
 ## O'Carolan
