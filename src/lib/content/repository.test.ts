@@ -25,12 +25,7 @@ describe("createContentRepository", () => {
         name: "Glen of Aherlow / Merry Blacksmith",
       },
     ]);
-    expect(glenOfAherlow?.theSessionLink).toMatchObject({
-      href: "https://thesession.org/tunes/496#setting45009",
-      provider: "the-session",
-      theSessionTuneId: 496,
-      theSessionSettingId: 45009,
-    });
+    expect(glenOfAherlow?.theSessionLink).toBeUndefined();
     expect(glenOfAherlow?.hasStructuredVersions).toBe(true);
     expect(glenOfAherlow?.versions[0]?.parts.map((part) => part.name)).toEqual([
       "A",

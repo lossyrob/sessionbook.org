@@ -26,7 +26,3 @@ visibility: public
 ```
 
 ## Notes
-
-## Links
-
-Sessions/chyunes_mbys.md

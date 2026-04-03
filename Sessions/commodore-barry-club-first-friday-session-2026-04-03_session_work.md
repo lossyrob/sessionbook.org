@@ -10,8 +10,6 @@
 
 **The Lisnagun** (G)
 
-=> https://thesession.org/tunes/3842#setting46053
-
 = part: A
 ```
 | G / D C | / / D / | G / D C | / / D G |
@@ -106,9 +104,6 @@
 
 **Glen of Aherlow (Lafferty's)** (Edor)
 
-=> https://thesession.org/tunes/496#setting45009
-> The Session lists `Lafferty's` as an alias for this reel.
-
 = part: A
 ```
 | Em A D / | Em / Bm / | Em A D / |Em / Bm Em |
@@ -182,10 +177,6 @@
 
 **Miss McLeod's** (G)
 
-=> https://thesession.org/tunes/75#setting31921
-> The Session comments there also call G the common Irish-session key for this
-> reel.
-
 = part: A
 
 ```
@@ -227,10 +218,10 @@
 = part: A
 
 ```
-| Em / / | D / / | Em / / | Bm / Em |
+| Em / / | Bm / / | Em / / | Bm / Em |
 ```
 
-= alt: A | Sub C
+= alt: A | Sub D Sub C
 
 ```
 | Em / / | D / / | C / / | Bm / Em |
@@ -239,7 +230,7 @@
 = part: B
 ```
 | C / / | Bm / / | Em / / | G / / |
-| C / / | Bm / / | Am  / / | C / Em   |
+| C / / | Bm / / | Am  / / | C / Em |
 ```
 
 ## Hornpipes
@@ -247,8 +238,6 @@
 ---
 
 **The Good-Natured Man** (G)
-
-=> https://thesession.org/tunes/312#setting45001
 
 = part: A
 
@@ -265,8 +254,6 @@
 ```
 
 **The Fairies' Hornpipe** (G)
-
-=> Sessions/chyunes_mbys.md
 
 = part: A
 
@@ -306,20 +293,13 @@
 = part: A
 
 ```
-| D / G D | G / A / |
-| D / G D | G A D / |
+| D / / / | G  / Em A | D / /  / | G A .D / |
 ```
 
 = part: B
 ```
-| D / / / | G / A / |
-| D / / / | G / A D |
-```
-
-= alt: B
-```
-| D  / / / | G / A / |
-| Bm / / A | G / A D |
+| D / Bm / | G / A / |
+| D / Bm / | G / A <D |
 ```
 
 ## O'Carolan
